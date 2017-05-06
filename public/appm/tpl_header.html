@@ -1,0 +1,18 @@
+{/*
+    日期： 2017年5月6日 星期六
+    名称:  移动端公共头部
+    作者： Joshua Conero
+*/}
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="shortcut icon" href="/aurora/public/aurora-appm.ico"/>
+    <link rel="shortcut icon" href="/aurora/public/aurora-appm.ico"/>
+    <title>{$app.title|default="Aurora - mobile"}</title>
+    {// 引用公共前端脚本}
+    {load href="/aurora/public/appm/zepto.min.js,/aurora/public/appm/weui.min.js,/aurora/public/appm/weui.min.css,/aurora/public/appm/wap.css" /}
+    {// 前端脚本}
+    {$app.web_front|default=""}
+</head>
