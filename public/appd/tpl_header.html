@@ -1,0 +1,20 @@
+{/*
+    日期： 2017年5月7日 星期日
+    名称:  Web公共头部
+    作者： Joshua Conero
+*/}
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="shortcut icon" href="/aurora/public/aurora.ico"/>
+    <link rel="shortcut icon" href="/aurora/public/aurora.ico"/>
+    <title>{$app.title|default="Aurora - Web"}</title>
+    
+    {// 引用公共前端脚本}
+    {js href="/aurora/public/appd/jquery.min-2.2.4.js" /}
+
+    {// 前端脚本}
+    {$app.web_front|default=""}
+</head>

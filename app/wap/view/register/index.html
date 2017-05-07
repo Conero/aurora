@@ -3,45 +3,81 @@
 <div class="weui-tab container">
     <div class="page__hd">
         <h1 class="page__title">
-            <a href="{:url('index/index');}">
+            <a href="{:urlBuild('!.');}">
                 <img src="/aurora/public/aurora-appm.png" alt="Aurora" height="50px">
             </a>
             用户注册
         </h1>
     </div>
-    <div class="weui-cells__title">用户注册</div>
-    <div class="weui-cells weui-cells_form">
-        <div class="weui-cell">
-            <div class="weui-cell__hd"><label class="weui-label">账号</label></div>
-            <div class="weui-cell__bd">
-                <input class="weui-input" type="text" placeholder="设置账号"/>
+    <form action="" method="post">
+        <div class="weui-cells__title">基本账号设置</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">账号</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="account" type="text" placeholder="设置账号" required="required"/>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">设置密码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="pswd" type="password" placeholder="设置密码" required="required"/>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">确认密码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="pswdck" type="password" placeholder="确认密码" required="required"/>
+                </div>
             </div>
         </div>
-        <div class="weui-cell">
-            <div class="weui-cell__hd"><label class="weui-label">设置密码</label></div>
-            <div class="weui-cell__bd">
-                <input class="weui-input" type="password" placeholder="设置密码"/>
+        <div class="weui-cells__title">用户信息设置</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="name" placeholder="设置姓名" required="required"/>
+                </div>
             </div>
         </div>
-        <div class="weui-cell">
-            <div class="weui-cell__hd"><label class="weui-label">确认密码</label></div>
-            <div class="weui-cell__bd">
-                <input class="weui-input" type="password" placeholder="确认密码"/>
+        <div class="weui-cells__title">性别</div>
+        <div class="weui-cells weui-cells_radio">
+            <label class="weui-cell weui-check__label" for="gender1">
+                <div class="weui-cell__bd">
+                    <p>男</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <input type="radio" class="weui-check" name="gender" value="M" id="gender1" checked="checked">
+                    <span class="weui-icon-checked"></span>
+                </div>
+            </label>
+            <label class="weui-cell weui-check__label" for="gender2">
+                <div class="weui-cell__bd">
+                    <p>女</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <input type="radio" name="gender" class="weui-check" value="F" id="gender2">
+                    <span class="weui-icon-checked"></span>
+                </div>
+            </label>
+        </div>
+        <div class="weui-cells__title">其他</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell weui-cell_vcode">
+                <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="code" type="number" placeholder="请输入验证码" required="required"/>
+                </div>
+                <div class="weui-cell__ft">
+                    <a href="javascript:;" id="recode_lnk"><img class="weui-vcode-img" src="{:captcha_src()}" /></a>
+                </div>
             </div>
         </div>
-        <div class="weui-cell weui-cell_vcode">
-            <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
-            <div class="weui-cell__bd">
-                <input class="weui-input" type="number" placeholder="请输入验证码"/>
-            </div>
-            <div class="weui-cell__ft">
-                <img class="weui-vcode-img" src="/aurora/public/appm/images/vcode.jpg" />
-            </div>
+        <div class="weui-btn-area">
+            <!--<a class="weui-btn weui-btn_primary" href="javascript:" id="submit_lnk">注册</a>-->
+            <button class="weui-btn weui-btn_primary" href="javascript:" id="submit_lnk" type="submit">注册</button>
         </div>
-    </div>
-    <div class="weui-btn-area">
-        <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">注册</a>
-    </div>
+    </form>
 </div>
 </body>
 </html>
