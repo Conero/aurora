@@ -12,6 +12,9 @@ class Index extends Wap
 {
     public function index()
     {
+        $page = [];
+        $page['count'] = $this->getVisitCount();
+        $this->assign('page',$page);
         return $this->fetch();
     }
 }

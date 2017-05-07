@@ -237,6 +237,8 @@ create table sys_user
    uid                  int not null auto_increment,
    account              varchar(30) not null,
    certificate          varchar(100) not null,
+   name                 varchar(100) not null,
+   gender               varchar(1),
    register_time        datetime not null default current_timestamp,
    last_time            datetime,
    last_ip              varchar(15),
