@@ -12,9 +12,16 @@ class Index extends Wap
 {
     public function index()
     {
+        $this->loadScript([
+            'js'    => ['index/index']
+        ]);
         $page = [];
         $page['count'] = $this->getVisitCount();
+        $user = $this->getUserInfo('user');
+        if($user) $page['user'] = $user;
+        $page['isLogin'] = $user? 'Y':'N';
         $this->assign('page',$page);
+//        debugOut($this->getUserInfo());
         return $this->fetch();
     }
 }

@@ -9,6 +9,8 @@
 namespace app\common\traits;
 
 use think\Config;
+use think\Session;
+
 trait Controller
 {
     //  加载前端工具 2016年9月21日 星期三   {auth: 权限标识,afterAuthFn:function 授权完成以后自定义脚本,title:页面标题,require:利用 FrontBuild 加载脚本, beforeLoadFront:string/function 加载前端脚本以前,js:js 脚本,css: css 脚本,afterLoadFront: string/function 加载前端页面以后,more:headplus,bootstrap: true 开启}
@@ -55,5 +57,20 @@ trait Controller
         if($script) $AppAssignData['web_front'] = $script;
         if($feek) return $AppAssignData;//生成 HTML
         $this->assign('app',$AppAssignData);
+    }
+    /**
+     * 获取用户信息数据
+     * @param null $key
+     * @return array|mixed|string
+     */
+    public function getUserInfo($key=null){
+        $skey = Config::get('setting.session_user_key');
+        $data = [];
+        if(Session::has($skey)){
+            $data = Session::get($skey);
+            $data = is_array($data)? $data:[];
+            if($key && array_key_exists($key,$data)) return $data[$key];
+        }
+        return $key? "":$data;
     }
 }
