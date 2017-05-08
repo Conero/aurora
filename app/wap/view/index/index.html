@@ -1,7 +1,8 @@
 {include file="public/appm/tpl_header.html" /}
 <body>
     <div class="weui-tab container">
-        <div class="weui-tab__panel">
+        <!--首页-->
+        <div class="weui-tab__panel" id="home">
             <!--内容页面            -->
             <div class="page__hd">
                 <h1 class="page__title">
@@ -32,6 +33,8 @@
                         注册，成我社区用户
                     </div>
                 </a>
+                {// 系统登录显隐}
+                {eq name="page.isLogin" value="N"}
                 <a class="weui-cell weui-cell_access" href="{:url('login/index')}">
                     <div class="weui-cell__bd">
                         <p>登录系统</p>
@@ -40,6 +43,7 @@
                         登录系统开始使用服务吧！
                     </div>
                 </a>
+                {/eq}
                 <a class="weui-cell weui-cell_access" href="javascript:;">
                     <div class="weui-cell__bd">
                         <p>出谋划策</p>
@@ -71,8 +75,30 @@
                 <p class="weui-footer__text">Copyright &copy; 2008-2016 Coenro</p>
             </div>
         </div>
+        <!--关于-->
+        <div class="weui-tab__panel" id="about">
+            <div class="weui-panel weui-panel_access">
+                <div class="weui-panel__hd">基本信息</div>
+                <div class="weui-panel__bd">
+                    <div class="weui-media-box weui-media-box_text">
+                        <h4 class="weui-media-box__title">作者</h4>
+                        <p class="weui-media-box__desc">古丞秋!!</p>
+                    </div>
+                    <div class="weui-media-box weui-media-box_text">
+                        <h4 class="weui-media-box__title">版本号</h4>
+                        <p class="weui-media-box__desc">V1.0.3(2017年5月8日 星期一)</p>
+                    </div>
+                </div>
+                <div class="weui-panel__ft">
+                    <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link">
+                        <div class="weui-cell__bd">查看更多</div>
+                        <span class="weui-cell__ft"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="weui-tabbar">
-            <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
+            <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on" data-url="home">
                 <img src="/aurora/public/appm/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
                 <p class="weui-tabbar__label">首页</p>
             </a>
@@ -84,10 +110,17 @@
                 <img src="/aurora/public/appm/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
                 <p class="weui-tabbar__label">发现</p>
             </a>
-            <a href="javascript:;" class="weui-tabbar__item">
+            {if condition="$page.isLogin eq 'Y'"}
+            <a href="javascript:;" class="weui-tabbar__item" data-url="user">
                 <img src="/aurora/public/appm/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
-                <p class="weui-tabbar__label">我</p>
+                <p class="weui-tabbar__label">{$page.user}</p>
             </a>
+            {else}
+            <a href="javascript:;" class="weui-tabbar__item" data-url="about">
+                <img src="/aurora/public/appm/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
+                <p class="weui-tabbar__label">关于</p>
+            </a>
+            {/if}
         </div>
     </div>
 </body>

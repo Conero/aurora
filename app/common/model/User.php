@@ -13,4 +13,14 @@ class User extends Model
 {
     protected $table = 'sys_user';
     protected $pk = 'uid';
+
+    /**
+     * @param $account
+     * @return bool
+     */
+    public function AccountExist($account){
+        $count = $this->db()->where('account',$account)->count();
+        if($count > 0) return true;
+        return false;
+    }
 }

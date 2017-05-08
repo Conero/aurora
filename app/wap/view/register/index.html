@@ -15,7 +15,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">账号</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" name="account" type="text" placeholder="设置账号" required="required"/>
+                    <input class="weui-input" name="account" id="account_contrl" type="text" placeholder="包括数字、英文或下划线" required="required"/>
                 </div>
             </div>
             <div class="weui-cell">
@@ -66,7 +66,7 @@
             <div class="weui-cell weui-cell_vcode">
                 <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" name="code" type="number" placeholder="请输入验证码" required="required"/>
+                    <input class="weui-input" name="code" type="text" placeholder="请输入验证码" required="required"/>
                 </div>
                 <div class="weui-cell__ft">
                     <a href="javascript:;" id="recode_lnk"><img class="weui-vcode-img" src="{:captcha_src()}" /></a>

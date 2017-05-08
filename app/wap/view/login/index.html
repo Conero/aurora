@@ -1,5 +1,5 @@
 {include file="public/appm/tpl_header.html" /}
-<body>
+<body xmlns="http://www.w3.org/1999/html">
     <div class="weui-tab container">
         <div class="page__hd">
             <h1 class="page__title">
@@ -9,32 +9,36 @@
                  用户登录
             </h1>
         </div>
-        <div class="weui-cells__title">登录用户</div>
-        <div class="weui-cells weui-cells_form">
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">账号</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入qq号"/>
+        <div class="js__form">
+            <div class="weui-cells__title">登录用户</div>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">账号</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" id="account_contrl" name="account" type="text" required emptyTips="请输入账号" placeholder="输入账号"/>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">密码</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="password" name="pswd" required emptyTips="请输入密码" placeholder="输入密码"/>
+                    </div>
                 </div>
             </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">密码</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="password" pattern="[0-9]*" placeholder="请输入qq号"/>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell weui-cell_vcode">
+                    <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" name="code" type="text" required emptyTips="请输入密码" placeholder="请输入验证码"/>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <a href="javascript:;" id="recode_lnk"><img class="weui-vcode-img" src="{:captcha_src()}" /></a>
+                    </div>
                 </div>
             </div>
-            <div class="weui-cell weui-cell_vcode">
-                <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" placeholder="请输入验证码"/>
-                </div>
-                <div class="weui-cell__ft">
-                    <img class="weui-vcode-img" src="/aurora/public/appm/images/vcode.jpg" />
-                </div>
+            <div class="weui-btn-area">
+                <a class="weui-btn weui-btn_primary" href="javascript:" id="save_lnk">登录</a>
             </div>
-        </div>
-        <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">登录</a>
         </div>
     </div>
 </body>
