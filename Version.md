@@ -1,4 +1,17 @@
 # 更改版本记录
+## V 1.0.7  2017年5月9日 星期二
+- 系统架构层面优化， 后台程序采用接口处理，方便 web/mobile/Android app 等同应用访问。
+- 接口计划： 需要采用一种基本安全权限控制处理
+- [移动版建设]
+    - 引入微信处理库 [netputer/wechat-php-sdk](https://github.com/netputer/wechat-php-sdk) ， 可以选择其他可选sdk [wechat-php-sdk](https://github.com/dodgepudding/wechat-php-sdk)。 由于订阅号的限制，暂时使用前者
+    - 原后台数据支持转移到 api 中，仅仅做 UI 层
+    - 新增系统反馈页面： 用户建议，问题，留言等操作， 任何用户。 带数据表单
+    - 计划项： 数据模块与后台数据映射
+- [桌面版建设]
+    - 尝试引入 bootstrap v4.0.0 alpha-6 做主界面程序
+    - 头部模板更新等
+- 其他： 本次更改较大，版本号迭代2小版本后
+    
 
 ## V 1.0.4  2017年5月8日 星期一
 - [移动版建设]

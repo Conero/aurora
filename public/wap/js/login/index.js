@@ -19,7 +19,7 @@ $(function () {
         weui.form.validate('.js__form', function (error) {
             if (!error) {
                 var loading = weui.loading('提交中...');
-                $.post(Wap._baseurl+'wap/login/auth',Wap.formJson('.js__form'),function (data) {
+                $.post(Wap._baseurl+'api/login/auth',Wap.formJson('.js__form'),function (data) {
                     loading.hide();
                     if(data.code == -1){
                         weui.alert(data.msg);

@@ -27,7 +27,7 @@ $(function () {
                 weui.alert(text);
                 return;
             }
-            $.post(Wap._baseurl+'wap/register/check',{value:account,type:'account'},function (data) {
+            $.post(Wap._baseurl+'api/register/check',{value:account,type:'account'},function (data) {
                 if(data.code == -1){
                     accountInvalid = true;
                     Wap.CellWarning(dom);
@@ -47,7 +47,7 @@ $(function () {
         var sel = 'form';
         var savedate = Wap.formJson(sel);
         if(!Wap.IsRequired(sel)){
-            $.post(Wap._baseurl+'wap/register/save',savedate,function (data) {
+            $.post(Wap._baseurl+'api/register/save',savedate,function (data) {
                 if(data.code == 1){
                     alert(data.msg);
                     location.href = Wap._homeUrl;

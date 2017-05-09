@@ -25,7 +25,15 @@
             </div>
             <div class="weui-cells__title">我们在一起</div>
             <div class="weui-cells">
-                <a class="weui-cell weui-cell_access" href="{:url('register/index')}">
+                <a class="weui-cell weui-cell_access" href="{:urlBuild('!.feekback')}">
+                    <div class="weui-cell__bd">
+                        <p>系统反馈</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                        反馈系统问题，建议,留言等
+                    </div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="{:urlBuild('!.register')}">
                     <div class="weui-cell__bd">
                         <p>加入我们</p>
                     </div>
@@ -35,7 +43,7 @@
                 </a>
                 {// 系统登录显隐}
                 {eq name="page.isLogin" value="N"}
-                <a class="weui-cell weui-cell_access" href="{:url('login/index')}">
+                <a class="weui-cell weui-cell_access" href="{:urlBuild('!.login')}">
                     <div class="weui-cell__bd">
                         <p>登录系统</p>
                     </div>
@@ -44,14 +52,6 @@
                     </div>
                 </a>
                 {/eq}
-                <a class="weui-cell weui-cell_access" href="javascript:;">
-                    <div class="weui-cell__bd">
-                        <p>出谋划策</p>
-                    </div>
-                    <div class="weui-cell__ft">
-                        建设更好的系统
-                    </div>
-                </a>
                 <a class="weui-cell weui-cell_access" href="javascript:;">
                     <div class="weui-cell__bd">
                         <p>捐赠</p>
