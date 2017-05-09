@@ -8,7 +8,8 @@
 return [
     'session_visit_key' => 'aurora_vkey',           // 访问记录session 键值
     'session_user_key' => 'aurora_ukey',           // 登录用户session 键值
-    'sconst_skey'   => '5400',  // 系统常量键值，相关session记录
+    'gzh_code'      => '5400',  // 公众号
+    'gzh_code_debug'=> 1,       // 公众号是否开启调试
     // 前端设置
     'static_pref'=>'/aurora/public/',
     'debug_dir' => '/runtime/'

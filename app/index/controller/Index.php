@@ -11,6 +11,7 @@ class Index extends Web
 {
     public function index()
     {
+        /*
         return '
             <!doctype html>
             <head>
@@ -28,5 +29,7 @@ class Index extends Web
             </body>
             </html>
         ';
+        */
+        return $this->fetch();
     }
 }
