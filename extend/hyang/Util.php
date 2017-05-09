@@ -397,4 +397,19 @@ class Util{
          }
          return $data;
      }
+
+    /**
+     * 获取GET/POST 请求的值
+     * @param null $key 键值
+     * @param string $ref   默认值
+     * @return array|mixed|string
+     */
+    public static function RequestData($key=null,$ref=''){
+        $data = array_merge($_GET,$_POST);
+        $data = is_array($data)? $data:[];
+        if($key){
+            return array_key_exists($key,$data)? $data[$key]:$ref;
+        }
+        return $data;
+    }
 }

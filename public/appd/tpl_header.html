@@ -7,13 +7,16 @@
 <html lang="zh-cmn-Hans">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="/aurora/public/aurora.ico"/>
     <link rel="shortcut icon" href="/aurora/public/aurora.ico"/>
     <title>{$app.title|default="Aurora - Web"}</title>
     
     {// 引用公共前端脚本}
-    {js href="/aurora/public/appd/jquery.min-2.2.4.js" /}
+    {css href="/aurora/public/bootstrap-v4-alpha-6/css/bootstrap.min.css" /}
+    {js href="/aurora/public/bootstrap-v4-alpha-6/jquery.slim.min.js" /}
+    {js href="/aurora/public/bootstrap-v4-alpha-6/tether.min.js" /}
+    {js href="/aurora/public/bootstrap-v4-alpha-6/js/bootstrap.min.js" /}
 
     {// 前端脚本}
     {$app.web_front|default=""}
