@@ -1,0 +1,55 @@
+{include file="public/appm/tpl_header.html" /}
+<body>
+<div class="weui-tab container">
+    <div class="page__hd">
+        <h1 class="page__title">
+            <a href="{:urlBuild('!.');}">
+                <img src="/aurora/public/aurora-appm.png" alt="Aurora" height="50px">
+            </a>
+            系统反馈
+        </h1>
+        <p class="page__desc">不愿再孤军奋战了，朋友们！你们这些有才华的家伙，不要埋没了；如果我们能与你们一道，我们的社区会越来越美好。无论有什么请直接告诉我们，让我们的世界更美好！ Alright, buddy?
+        </p>
+    </div>
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell-hd">
+                <a href="javascript:;" title="喜欢我们就支持我们" id="fk_like_lnk">
+                    <img src="/aurora/public/img/star-2.png" style="height: 38px;">
+                </a>
+            </div>
+            <div class="weui-cell__bd"> 支持</div>
+            <div class="weui-cell__ft" style="font-size: 0">
+                <span style="vertical-align:middle; font-size: 17px;">喜欢,加油吧</span>
+                <span class="weui-badge" style="margin-left: 5px;">0</span>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell-hd">
+                <a href="javascript:;" title="算了吧，很差劲的说" id="fk_hate_lnk">
+                    <img src="/aurora/public/img/sad.png" style="height: 35px;">
+                </a>
+            </div>
+            <div class="weui-cell__bd"> 失败</div>
+            <div class="weui-cell__ft" style="font-size: 0">
+                <span style="vertical-align:middle; font-size: 17px;">无可奉告</span>
+                <span class="weui-badge" style="margin-left: 5px; background-color:blue;">0</span>
+            </div>
+        </div>
+        <div class="flex">打分</div>
+        <div class="weui-slider-box">
+            <div class="weui-slider">
+                <div id="sliderInner" class="weui-slider__inner">
+                    <div id="sliderTrack" style="width: 87%;" class="weui-slider__track"></div>
+                    <div id="sliderHandler" style="left: 87%;" class="weui-slider__handler"></div>
+                </div>
+            </div>
+            <div id="sliderValue" class="weui-slider-box__value">87</div>
+        </div>
+        <div class="flex">反馈记录</div>
+        <div class="flex" style="height: 25px;"></div>
+        <a href="javascript:;" class="weui-btn weui-btn_default">建议，问题等反馈</a>
+    </div>
+</div>
+</body>
+</html>
