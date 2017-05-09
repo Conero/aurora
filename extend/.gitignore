@@ -1,2 +1,2 @@
-*
-!.gitignore
+hyang/__cache
+wechat-php-sdk/src/config.php
