@@ -44,4 +44,11 @@ class Login extends Api
         }
         return $msg? ['code'=>-1,'msg'=>$msg]:['code'=>1,'msg'=>''];
     }
+    // 开发者 不再加入到访问统计
+    public function developer(){
+//        $data = request()->param();
+        // 令牌
+        $token = request()->param('token');
+        println($token);
+    }
 }
