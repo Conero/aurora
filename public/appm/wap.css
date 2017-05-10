@@ -29,10 +29,31 @@
     font-size: 20px;
     font-weight: 400;
 }
-
+/*
+  页面描述
+*/
 .page__desc {
     margin-top: 5px;
     color: #888;
     text-align: left;
     font-size: 14px;
 }
+
+/****************************************
+  来自 bootstrap 框架 begin
+*****************************************/
+.text-left {
+  text-align: left !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+/****************************************
+  来自 bootstrap 框架 end
+*****************************************/

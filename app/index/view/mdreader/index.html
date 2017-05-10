@@ -1,0 +1,36 @@
+{include file="public/appd/tpl_header.html" /}
+<body>
+<nav class="navbar navbar-light bg-faded" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="{:urlBuild('!.')}">
+        <img src="/aurora/public/aurora.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        Conero/Aurora
+    </a>
+</nav>
+<!--主容器-->
+<div class="container">
+    {// 支持标题}
+    {if condition="isset($page.title)"}
+    <blockquote class="blockquote blockquote-reverse" style="margin-top: 20px;">
+        <p class="mb-0">{$page.title}.</p>
+        {if condition="isset($page.subtitle)"}
+        <footer class="blockquote-footer">{$page.subtitle}</footer>
+        {/if}
+    </blockquote>
+    {/if}
+    <div class="card" style="margin-top: 20px;">
+        <div class="card-block">
+            <div class="card-text">{$page.content}</div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-block">
+            <p class="card-text text-center" style="font-size: 0.64em;">
+                <br> 页面更新: 2017年5月10日 星期三
+                <br> 版本号: v{$Think.config.setting.version}({$Think.config.setting.build})
+                <br> Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

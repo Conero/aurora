@@ -1,0 +1,33 @@
+{include file="public/appm/tpl_header.html" /}
+<body>
+<div class="weui-tab container">
+    <div class="page msg_warn js_show">
+        <div class="weui-msg">
+            <div class="weui-msg__icon-area"><i class="weui-icon-warn weui-icon_msg"></i></div>
+            <div class="weui-msg__text-area">
+                <h2 class="weui-msg__title">页面请求失败！</h2>
+                <p class="weui-msg__desc text-left">消息： {$page.msg|default="Buddy, you're doing so wrong! "}</p>
+                <p class="weui-msg__desc text-left">时间： {:date('Y-m-d H:m:s')}</p>
+            </div>
+            <div class="weui-msg__opr-area">
+                <p class="weui-btn-area">
+                    <a href="{:urlBuild('!.')}" class="weui-btn weui-btn_primary">返回首页</a>
+                    <a href="javascript:;" class="weui-btn weui-btn_default">稍后重试</a>
+                </p>
+            </div>
+            <div class="weui-msg__extra-area">
+                <div class="weui-footer">
+                    <p class="weui-footer__links">
+                        <a href="javascript:void(0);" class="weui-footer__link">页面更新: 2017年5月10日 星期三</a>
+                    </p>
+                    <p class="weui-footer__links">
+                        <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
+                    </p>
+                    <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
