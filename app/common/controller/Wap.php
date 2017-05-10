@@ -19,13 +19,4 @@ class Wap extends Controller
         $this->init();
     }
     public function init(){}    // 应用初始化接口
-
-    /**
-     * 获取访问次数
-     * @return number
-     */
-    public function getVisitCount(){
-        $data = $this->autoRecordVisitRecord();
-        return (isset($data['mcount'])? $data['mcount']:1);
-    }
 }
