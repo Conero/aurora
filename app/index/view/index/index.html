@@ -5,22 +5,82 @@
     <nav class="navbar">
         <ul class="nav">
             <li class="nav-item">
+                <a class="nav-link active" href="#">
+                    <img src="/aurora/public/aurora.png">
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link active" href="#">Aurora</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">首页</a>
+                <a class="nav-link" href="#">Please</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="#">Not</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Disabled</a>
+                <a class="nav-link" href="#">Left Me</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">AnyWay</a>
             </li>
         </ul>
     </nav>
     <div class="container">
+        <blockquote class="blockquote blockquote-reverse">
+            <p class="mb-0">欢饮您的到访，朋友！Aurora 是一座美丽的城堡，优美似美人；一座铜墙铁壁之城，您的到来我们感受到了无限的力量.如若有您，我们无限可能。有您的帮助我们，Aurora 还会昙花一现，去他的， Buddy!</p>
+            <p class="mb-0">
+                <a href="{:urlBuild('!.mdreader','?fmd=README&title=项目说明')}" class="btn btn-default" target="_blank">项目说明</a>
+                <a href="{:urlBuild('!.mdreader','?fmd=Version&title=版本更新日志')}" class="btn btn-default" target="_blank">版本日志</a>
+            </p>
+            <footer class="blockquote-footer">于 2017年5月10日 星期三 @By <cite title="Source Title"> Joshua Conero</cite></footer>
+        </blockquote>
+        <div class="card">
+            <div class="card-block">
+                <p class="lead">
+                    目前网站正在快速的建设中……我们计划先建设手机端的应用，如若您已经准备好去这座美丽的城堡.
+                    <br> Just do it, Boys and Girls.
+                </p>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <img src="{:url('api/erwma/wapurl')}" class="rounded float-left" alt="..." style="width: 200px; height: 200px;">
+                </div>
+                <div class="col">
+                    <img src="{php}echo urlBuild('!api:erwma','?code='.base64_encode('Y love it and I love it').'&type=b64'){/php}" class="rounded float-right" alt="..." style="width: 200px; height: 200px;">
+                </div>
+                <div class="col">
+                    <img src="{php}echo urlBuild('!api:erwma','?code='.base64_encode('some jokes for you').'&type=b64'){/php}" class="rounded float-right" alt="..." style="width: 200px; height: 200px;">
+                </div>
+            </div>
+            <div class="card-block">
+                <p class="lead">
+                    三个与一个是真实的 buddy, 猜猜看.
+                </p>
+                <blockquote class="blockquote">
+                    <p>我们看一看当前的应用的统计量吧，结果如下所示.</p>
+                </blockquote>
+                <p class="lead text-right">手机访问量</p>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: {$page.rate_mctt}%;" aria-valuenow="$page.rate_mctt}" aria-valuemin="0" aria-valuemax="100">{$page.rate_mctt}%</div>
+                </div>
+                <p class="lead text-right">桌面问量</p>
+                <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {$page.rate_wctt}%;" aria-valuenow="{$page.rate_wctt}" aria-valuemin="0" aria-valuemax="100">{$page.rate_wctt}%</div>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- Content here -->
+    <div class="card" style="bottom: 0px;left: 0px;right: 0px;padding: 0px;">
+        <div class="card-block">
+            <p class="card-text text-center" style="font-size: 0.64em;">
+                <br> 累计访问量： {$page.count}
+                <br> 页面更新: 2017年5月10日 星期三
+                <br> 版本号: v{$Think.config.setting.version}({$Think.config.setting.build})
+                <br> Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}
+            </p>
+        </div>
+    </div>
 </div>
 </body>
 </html>

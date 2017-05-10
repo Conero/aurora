@@ -13,6 +13,7 @@
 //  获取用户信息- 2016年9月20日 星期二
 use think\Config;
 use think\Loader;
+use think\Db;
 
 //  输出调试信息 $print == die 时中断程序 -2016年9月20日 星期二
 function debugOut($data=null,$print=false){
@@ -499,3 +500,17 @@ function model_feek($md,$callback){
          }
      }catch(Exception $e){}
  }
+
+/**
+ * 数据表主键
+ * @param $name 主键名名称
+ * @param $key 键名
+ * @return mixed
+ */
+function getPkValue($name,$key=null){
+    $skey = $key? $key:'pk';
+    $data = Db::query("select get_skey(?) as `$skey`",[$name]);
+    $data = is_array($data)? $data[0]:$data;
+    if($key) return $data;
+    return (is_array($data)? $data[$skey]:$data);
+}

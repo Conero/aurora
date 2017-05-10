@@ -13,6 +13,7 @@ use think\Session;
 
 trait Controller
 {
+    use Util;
     //  加载前端工具 2016年9月21日 星期三   {auth: 权限标识,afterAuthFn:function 授权完成以后自定义脚本,title:页面标题,require:利用 FrontBuild 加载脚本, beforeLoadFront:string/function 加载前端脚本以前,js:js 脚本,css: css 脚本,afterLoadFront: string/function 加载前端页面以后,more:headplus,bootstrap: true 开启}
     // 回调函数时自动传入 $this 对象
     public function loadScript($opt,$feek=false){

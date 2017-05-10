@@ -6,30 +6,22 @@
  */
 namespace app\index\controller;
 use app\common\controller\Web;
+use app\common\model\Visit;
 
 class Index extends Web
 {
     public function index()
     {
-        /*
-        return '
-            <!doctype html>
-            <head>
-                <title>Aurora - Joshua Coneoro</title>
-                <link rel="shortcut icon" href="/aurora/public/aurora.ico"/>
-                <link rel="shortcut icon" href="/aurora/public/aurora.ico"/>
-            </head>
-            <body>
-                <div style="margin-left:5%;margin-right:5%;">
-                    <h4>Aurora 个人应用！ </h4>
-                    <p>Author: Joshua Coenro</p>
-                    <p>Date: 2017年5月5日 星期五</p>
-                    <p>Todate: '.date('Y-m-d H:i:s').'</p>
-                </div>
-            </body>
-            </html>
-        ';
-        */
+        $page = [];
+        $this->autoRecordVisitRecord();
+        // 访问分布
+        $rdata = (new Visit())->getVisitCount();
+        $page['rate_wctt'] = ceil(($rdata['wcount']/$rdata['count'])*100);
+        $page['rate_mctt'] = ceil(($rdata['mcount']/$rdata['count'])*100);
+        // 全部统计量
+        $page['count'] = $rdata['count'];
+
+        $this->assign('page',$page);
         return $this->fetch();
     }
 }

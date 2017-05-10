@@ -8,10 +8,12 @@
 
 namespace app\common\controller;
 use app\common\traits\DbUtil;
+use app\common\traits\Util;
 use think\Controller;
 
 class Api extends Controller
 {
-    use DbUtil;
+    use DbUtil; // 数据库助手
+    use Util;   // 公共方法， Web, Api, Wap
     //
 }

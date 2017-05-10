@@ -7,6 +7,7 @@
  */
 
 namespace app\api\controller;
+use app\common\model\Token;
 use think\Session;
 use think\Config;
 use think\Db;
@@ -44,11 +45,36 @@ class Login extends Api
         }
         return $msg? ['code'=>-1,'msg'=>$msg]:['code'=>1,'msg'=>''];
     }
-    // 开发者 不再加入到访问统计
+    /**
+     * 开发者首页统计过滤
+     * 参数： token * , url 自动跳转
+     */
     public function developer(){
-//        $data = request()->param();
         // 令牌
         $token = request()->param('token');
-        println($token);
+        $url = request()->param('url');
+        $msg = '';
+        $badMsg = '开发者登入网站时，令牌无效！如果无令牌请向网站申请，且该权限只向开发者开放！';
+        if($token){
+            $isValid = (new Token())
+                ->TokenIsValid($token);
+            if($isValid){
+                $this->autoRecordVisitRecord(false);
+                // 跳转到首页
+                if($url && 'home'== $url){
+                    $this->redirect($this->getHomeUrl(true));
+                }
+                elseif($url) $this->redirect($url);
+            }
+            else $msg = $badMsg;
+        }
+        else $msg = $badMsg;
+        if($url){
+            $this->getErrorUrl($msg);
+        }
+        return json([
+            'code'=>($msg? -1: 1),
+            'msg' => $msg? $msg:'认证成功！'
+        ]);
     }
 }
