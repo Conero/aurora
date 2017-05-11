@@ -8,6 +8,7 @@
 
 namespace app\wap\controller;
 use app\common\controller\Wap;
+use app\common\model\Visit;
 class Index extends Wap
 {
     public function index()
