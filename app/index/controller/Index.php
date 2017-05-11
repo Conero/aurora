@@ -12,6 +12,9 @@ class Index extends Web
 {
     public function index()
     {
+        $this->loadScript([
+            'js' => ['/echart/echarts.min','index/index']
+        ]);
         $page = [];
         $this->autoRecordVisitRecord();
         // 访问分布

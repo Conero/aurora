@@ -8,7 +8,7 @@
                 <h1 class="page__title">
                     <img src="/aurora/public/aurora-appm.png" alt="Aurora" height="50px"> Aurora
                 </h1>
-                <p class="page__desc">欢饮使用Aurora系统，该系统致力于管理个人，以及轻量级社区管理！项目筹建时间 2017年5月5日，依托原来的本地文本版应用，可更好的扩展系统。 </p>
+                <p class="page__desc">欢饮使用Aurora系统，该系统致力于管理个人，以及轻量级社区管理！项目筹建时间 2017年5月5日，依托原来的本地文本版应用，可更好的扩展系统。访问<a href="{:urlBuild('!index:')}">web版</a> 系统！ </p>
             </div>
             <div class="weui-panel">
                 <div class="weui-panel__hd">信息中心</div>
@@ -69,10 +69,9 @@
             </div>
             <div class="weui-footer">
                 <p class="weui-footer__links">
-                    <a href="javascript:void(0);" class="weui-footer__link">底部链接</a>
-                    <a href="javascript:void(0);" class="weui-footer__link">底部链接</a>
+                    <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
                 </p>
-                <p class="weui-footer__text">Copyright &copy; 2014-{:date('Y');} Coenro</p>
+                <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
             </div>
         </div>
         <!--关于-->

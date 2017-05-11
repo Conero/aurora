@@ -8,14 +8,15 @@
 return [
     'session_visit_key' => 'aurora_vkey',           // 访问记录session 键值
     'session_user_key' => 'aurora_ukey',           // 登录用户session 键值
+    'session_scounter_key' => 'aurora_sct_key',    // 系统计数器session值
     'gzh_code'      => '5400',  // 公众号
     'gzh_code_debug'=> 1,       // 公众号是否开启调试
 
     // 用于底部版权
     'organization' => 'Coenro',    // 机构组织， 用于底部才菜单
     'start'         => '2014',    // 起始时间
-    'version'       => '1.0.9',          // 版本号
-    'build'         => '20170510',       // 更新时间
+    'version'       => '0.0.10',          // 版本号
+    'build'         => '20170512',       // 更新时间
 
     // 发布般相关设置
     'p_wapurl' => 'http://www.conero.cn/aurora/wap.html',

@@ -18,8 +18,6 @@ class Index extends Wap
         ]);
         $page = [];
         // 访问分布
-        $this->autoRecordVisitRecord();
-        // 访问分布
         $rdata = (new Visit())->getVisitCount();
         $page['count'] = $rdata['count'];
         $user = $this->getUserInfo('user');

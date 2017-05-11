@@ -15,5 +15,18 @@ class Api extends Controller
 {
     use DbUtil; // 数据库助手
     use Util;   // 公共方法， Web, Api, Wap
-    //
+
+    /**
+     * 信息反馈
+     * @param $msg
+     * @param null $code 默认为 失败
+     * @return \think\response\Json
+     */
+    protected function FeekMsg($msg,$code=null){
+        $data = [
+            'code'=>($code? $code: -1),
+            'msg' => $msg
+        ];
+        return json($data);
+    }
 }
