@@ -14,6 +14,7 @@
 use think\Config;
 use think\Loader;
 use think\Db;
+use think\Session;
 
 //  输出调试信息 $print == die 时中断程序 -2016年9月20日 星期二
 function debugOut($data=null,$print=false){
@@ -509,8 +510,52 @@ function model_feek($md,$callback){
  */
 function getPkValue($name,$key=null){
     $skey = $key? $key:'pk';
-    $data = Db::query("select get_skey(?) as `$skey`",[$name]);
+    Db::startTrans();
+    $data = [];
+    try{
+        $data = Db::query("select get_skey(?) as `$skey`",[$name]);
+        // 提交事务
+        Db::commit();
+    }catch (Exception $e){
+        // 回滚事务
+        Db::rollback();
+        if($key) return "";
+    }
     $data = is_array($data)? $data[0]:$data;
     if($key) return $data;
     return (is_array($data)? $data[$skey]:$data);
+}
+/**
+ * 获取用户信息
+ * @param null $key
+ * @return array|mixed|string
+ */
+function getUserInfo($key=null){
+    $skey = Config::get('setting.session_user_key');
+    $data = [];
+    if(Session::has($skey)){
+        $data = Session::get($skey);
+        $data = is_array($data)? $data:[];
+        if($key && array_key_exists($key,$data)) return $data[$key];
+    }
+    return $key? "":$data;
+}
+
+/**
+ * 系统计数器session值处理
+ * @param $key
+ * @param null $value
+ * @return bool|mixed|string
+ */
+function sysCounter($key,$value=null){
+    $skey = Config::get('setting.session_scounter_key');
+    $data = Session::get($skey);
+    $data = $data? bsjson($data):[];
+    if($value){ // 设置或更新值
+        $data[$key] = $value;
+        Session::set($skey,bsjson($data));
+        return true;
+    }
+    // 返回设置值
+    return array_key_exists($key,$data)? $data[$key]:"";
 }

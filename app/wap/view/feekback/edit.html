@@ -1,0 +1,71 @@
+{include file="public/appm/tpl_header.html" /}
+<body>
+<div class="weui-tab container">
+    <div class="weui-flex">
+        <div class="weui-flex__item">
+            <div class="placeholder">
+            <a href="{:urlBuild('!.feekback')}">
+                <img src="{$Think.config.setting.static_pref}img/return.png" style="height: 30px;">
+                系统反馈
+            </a>
+            /建议，问题反馈</div>
+        </div>
+        <!--<div class="weui-flex__item"></div>-->
+    </div>
+    <div class="weui-flex" style="height: 40px;"><div class="weui-flex__item"></div></div>
+    <div class="js__form">
+        <div class="weui-cells__title">简介</div>
+        <div class="weui-cells">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" placeholder="请输入简介">
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells__title">内容</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea" placeholder="请输入内容" rows="3"></textarea>
+                    <div class="weui-textarea-counter"><span>0</span>/200</div>
+                </div>
+            </div>
+        </div>
+        <a href="javascript:;" id="type_picker" class="weui-btn weui-btn_default">类型</a>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请输入姓名号">
+            </div>
+        </div>
+        <div class="weui-cells__title">备注</div>
+        <div class="weui-cells">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" placeholder="请输入备注">
+                </div>
+            </div>
+        </div>
+        <div class="weui-cell weui-cell_switch">
+            <div class="weui-cell__bd">是否公开信息</div>
+            <div class="weui-cell__ft">
+                <label for="switchCP" class="weui-switch-cp">
+                    <input id="switchCP" class="weui-switch-cp__input" type="checkbox" checked="checked">
+                    <div class="weui-switch-cp__box"></div>
+                </label>
+            </div>
+        </div>
+        <div class="weui-cell weui-cell_vcode">
+            <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" name="code" type="text" required emptyTips="请输入密码" placeholder="请输入验证码"/>
+            </div>
+            <div class="weui-cell__ft">
+                <a href="javascript:;" id="recode_lnk"><img class="weui-vcode-img" src="{:captcha_src()}" /></a>
+            </div>
+        </div>
+        <a href="javascript:;" class="weui-btn weui-btn_primary">保存数据</a>
+    </div>
+</div>
+</body>
+</html>

@@ -9,6 +9,7 @@
 namespace app\common\model;
 
 
+use think\Db;
 use think\Model;
 
 class Visit extends Model
@@ -28,5 +29,30 @@ class Visit extends Model
             'mcount'=> $mctt,
             'wcount'=> $wctt
         ];
+    }
+
+    /**
+     * 获取最近的统计量
+     * @return array
+     */
+    public function getVisitCountData(){
+        // 全部统计量
+        $sql = 'select count(*) as `ctt`,date_format(mtime,\'%Y-%m-%d\') as `date` from sys_visit group by date_format(mtime,\'%Y-%m-%d\') order by date_format(mtime,\'%Y-%m-%d\') asc';
+        $data = Db::query($sql);
+        // 手机端访问量
+        $sql2 = 'select count(*) as `ctt`,date_format(mtime,\'%Y-%m-%d\') as `date` from sys_visit where is_mobile=\'Y\' group by date_format(mtime,\'%Y-%m-%d\') order by date_format(mtime,\'%Y-%m-%d\') asc';
+        $data2 = Db::query($sql2);
+        $xAxis = [];$series = [];$tmpDt = [];
+        foreach ($data as $v){
+            $xAxis[] = $v['date'];
+            $tmpDt[] = $v['ctt'];
+        }
+        $series[] = $tmpDt;$tmpDt = [];
+        foreach ($data2 as $v){
+            $tmpDt[] = $v['ctt'];
+        }
+        $series[] = $tmpDt;
+        $retVal = ['xAxis'=>$xAxis,'series'=>$series];
+        return $retVal;
     }
 }

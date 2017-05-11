@@ -14,6 +14,7 @@ use think\Session;
 trait Controller
 {
     use Util;
+    //  js/css 第一个 "/" 开头时不自动加载模块名
     //  加载前端工具 2016年9月21日 星期三   {auth: 权限标识,afterAuthFn:function 授权完成以后自定义脚本,title:页面标题,require:利用 FrontBuild 加载脚本, beforeLoadFront:string/function 加载前端脚本以前,js:js 脚本,css: css 脚本,afterLoadFront: string/function 加载前端页面以后,more:headplus,bootstrap: true 开启}
     // 回调函数时自动传入 $this 对象
     public function loadScript($opt,$feek=false){
@@ -35,20 +36,25 @@ trait Controller
         if(isset($opt['beforeLoadFront'])){
             $script .= ($opt['beforeLoadFront'] instanceof \Closure)? call_user_func($opt['beforeLoadFront'],$this) : $opt['beforeLoadFront'];
         }
+        $Pref = Config::get('setting.static_pref');
         //  js
         if(isset($opt['js']) && $opt['js']){
-            $dir = Config::get('setting.static_pref').request()->module().'/js/';
+            $dir = $Pref.request()->module().'/js/';
             $js = is_array($opt['js'])? $opt['js']:array($opt['js']);
             foreach($js as $v){
-                $script .= '<script src="'.$dir.$v.'.js"></script>';
+                if(strpos($v,'/') === 0) $jsSrc = $Pref.substr($v,1);
+                else $jsSrc = $dir.$v;
+                $script .= '<script src="'.$jsSrc.'.js"></script>';
             }
         }
         //  css
         if(isset($opt['css']) && $opt['css']){
-            $dir = Config::get('setting.static_pref').request()->module().'/css/';
+            $dir = $Pref.request()->module().'/css/';
             $js = is_array($opt['css'])? $opt['css']:array($opt['css']);
             foreach($js as $v){
-                $script .= '<link rel="stylesheet" href="'.$dir.$v.'.css" />';
+                if(strpos($v,'/') === 0) $cssHref = $Pref.substr($v,1);
+                else $cssHref = $dir.$v;
+                $script .= '<link rel="stylesheet" href="'.$cssHref.'.css" />';
             }
         }
         // 自定义脚本 - 前端载入以后
@@ -65,13 +71,6 @@ trait Controller
      * @return array|mixed|string
      */
     public function getUserInfo($key=null){
-        $skey = Config::get('setting.session_user_key');
-        $data = [];
-        if(Session::has($skey)){
-            $data = Session::get($skey);
-            $data = is_array($data)? $data:[];
-            if($key && array_key_exists($key,$data)) return $data[$key];
-        }
-        return $key? "":$data;
+        return getUserInfo($key);
     }
 }

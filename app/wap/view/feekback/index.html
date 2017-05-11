@@ -14,41 +14,49 @@
     <div class="weui-cells">
         <div class="weui-cell">
             <div class="weui-cell-hd">
-                <a href="javascript:;" title="喜欢我们就支持我们" id="fk_like_lnk">
+                <a href="javascript:;" title="喜欢我们就支持我们" class="js__fk_lnk" data-value="support">
                     <img src="/aurora/public/img/star-2.png" style="height: 38px;">
                 </a>
             </div>
             <div class="weui-cell__bd"> 支持</div>
             <div class="weui-cell__ft" style="font-size: 0">
                 <span style="vertical-align:middle; font-size: 17px;">喜欢,加油吧</span>
-                <span class="weui-badge" style="margin-left: 5px;">0</span>
+                <span class="weui-badge" style="margin-left: 5px;">{$page.support|default="0"}</span>
             </div>
         </div>
         <div class="weui-cell">
             <div class="weui-cell-hd">
-                <a href="javascript:;" title="算了吧，很差劲的说" id="fk_hate_lnk">
+                <a href="javascript:;" title="算了吧，很差劲的说" class="js__fk_lnk" data-value="opposed">
                     <img src="/aurora/public/img/sad.png" style="height: 35px;">
                 </a>
             </div>
             <div class="weui-cell__bd"> 失败</div>
             <div class="weui-cell__ft" style="font-size: 0">
                 <span style="vertical-align:middle; font-size: 17px;">无可奉告</span>
-                <span class="weui-badge" style="margin-left: 5px; background-color:blue;">0</span>
+                <span class="weui-badge" style="margin-left: 5px; background-color:blue;">{$page.opposed|default="0"}</span>
             </div>
         </div>
         <div class="flex">打分</div>
         <div class="weui-slider-box">
-            <div class="weui-slider">
+            <div class="weui-slider" id="score_slider">
                 <div id="sliderInner" class="weui-slider__inner">
-                    <div id="sliderTrack" style="width: 87%;" class="weui-slider__track"></div>
-                    <div id="sliderHandler" style="left: 87%;" class="weui-slider__handler"></div>
+                    <div id="sliderTrack" style="width: 0%;" class="weui-slider__track"></div>
+                    <div id="sliderHandler" style="left: 0%;" class="weui-slider__handler"></div>
                 </div>
             </div>
-            <div id="sliderValue" class="weui-slider-box__value">87</div>
+            <div id="sliderValue" class="weui-slider-box__value">0</div>
         </div>
         <div class="flex">反馈记录</div>
         <div class="flex" style="height: 25px;"></div>
-        <a href="javascript:;" class="weui-btn weui-btn_default">建议，问题等反馈</a>
+        <a href="{:url('edit')}" class="weui-btn weui-btn_default">建议，问题等反馈</a>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
+                </p>
+                <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
+            </div>
+        </div>
     </div>
 </div>
 </body>
