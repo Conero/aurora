@@ -15,10 +15,13 @@ $(function () {
                 itemSize: 25,
                 top: 55,
                 feature: {
+                    mark : {show: true},
+                    dataView : {show: true, readOnly: false},
                     dataZoom: {
                         yAxisIndex: 'none'
                     },
-                    restore: {}
+                    restore: {},
+                    saveAsImage : {show: true}
                 }
             },
             yAxis: {
@@ -40,7 +43,7 @@ $(function () {
             },
             series: [
                 {
-                    name: '销量',
+                    name: '全部',
                     smooth: true,
                     symbol: 'circle',
                     symbolSize: 5,
@@ -54,7 +57,7 @@ $(function () {
                     data: rdata.series[0]
                 },
                 {
-                    name: '移动端访问量',
+                    name: '移动端',
                     smooth: true,
                     symbol: 'circle',
                     symbolSize: 5,

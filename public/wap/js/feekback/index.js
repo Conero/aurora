@@ -6,14 +6,18 @@ $(function () {
     var son_key = 'feek_unlike_or';
     // 喜欢与不喜欢反馈
     $('.js__fk_lnk').click(function () {
+        /*
         var has = Wap.storage().session(son_key);
         if(has != ""){
             weui.alert("谢谢您的反馈，请不要重复统计！");
             return;
         }
+        */
         var value = $(this).attr("data-value");
+        var dom = $(this);
         Wap.ApiRequest('feek/survey',{'data':value,'type':'support_or_not'},function (data) {
            if(data.code == 1){
+               dom.parents('div.weui-cell').find('div.weui-cell__ft > span.weui-badge').val(data.msg);
                weui.toast("谢谢您的反馈");
                return;
            }
