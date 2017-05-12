@@ -375,6 +375,21 @@ function Aurora() {
         var url = this._baseurl + 'api/'+url;
         $.post(url,data,func);
     };
+    // PHP+js+Base64
+    var _jsVar;
+    fn.getJsVar = function(key){
+		if(typeof AuroarJs == 'undefined') return '';// undefind 函数无效
+		if(this.empty(AuroarJs)) return '';
+        if(this.is_string(AuroarJs) && !this.is_object(_jsVar)){
+            _jsVar = JSON.parse(Base64.decode(AuroarJs));
+        }
+        if(this.is_object(_jsVar)){
+			if(this.undefind(key)) return _jsVar;
+            if(this.empty(_jsVar[key])) return '';
+            return _jsVar[key];
+        }
+		return '';
+    };
 /**************************** 系统级私有函数(end) **************************************/
     return new aurora();
 }

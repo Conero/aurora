@@ -27,7 +27,7 @@ trait DbUtil
         }
         // 单个值获取
         if($key){
-            $retVal = Db::table('sys_const')->where(['scope'=>$scope,'const_value'=>$key])->value('const_value');
+            $retVal = Db::table('sys_const')->where(['scope'=>$scope,'const_key'=>$key])->value('const_value');
             $retVal = $retVal? $retVal:'';
         }else {
             $data = Db::table('sys_const')->where('scope', $scope)->select();

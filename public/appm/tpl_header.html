@@ -17,6 +17,9 @@
     <title>{$app.title|default="Aurora"}</title>
     {// 引用公共前端脚本}
     {//load href="/aurora/public/appm/zepto.min.js,/aurora/public/appm/weui.min.js,/aurora/public/appm/weui.min.css,/aurora/public/appm/wap.css" /}
+    
+    {// 前端脚本}
+    {$app_head_script|default=""}
 
     {js href="/aurora/public/appm/zepto.min.js" /}
     {js href="/aurora/public/appm/weui.min.js" /}

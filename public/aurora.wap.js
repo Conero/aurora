@@ -21,3 +21,15 @@ Wap.CellWarning = function (dom,clear) {
         }
     }
 };
+/**
+ * 操作成功是返回信息
+ * @param msg
+ * @param title 标题 可选
+ * @param url 返回地址可选, 服从 urlBuild生成规则
+ */
+Wap.msg_success = function (msg,title,url) {
+    var jsondata = {desc:msg};
+    if(title) jsondata.title = title;
+    if(url) jsondata.url = url;
+    this.post(this._baseurl+'wap/msg/succs.html',jsondata);
+};
