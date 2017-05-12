@@ -15,8 +15,8 @@ return [
     // 用于底部版权
     'organization' => 'Coenro',    // 机构组织， 用于底部才菜单
     'start'         => '2014',    // 起始时间
-    'version'       => '0.0.10',          // 版本号
-    'build'         => '20170512',       // 更新时间
+    'version'       => '0.0.11',          // 版本号
+    'build'         => '20170513',       // 更新时间
 
     // 发布般相关设置
     'p_wapurl' => 'http://www.conero.cn/aurora/wap.html',

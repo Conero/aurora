@@ -1,0 +1,28 @@
+{include file="public/appm/tpl_header.html" /}
+<body>
+    <div class="container">
+        <div class="weui-msg">
+            <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+            <div class="weui-msg__text-area">
+                <h2 class="weui-msg__title">{$page.title|default="操作成功"}</h2>
+                <p class="weui-msg__desc">信息： {$page.desc|default="传递相关描述信息，可以是html文档"}</p>
+                <p class="weui-msg__desc">时间： {:sysdate()}</p>
+            </div>
+            <div class="weui-msg__opr-area">
+                <p class="weui-btn-area">
+                    <a href="{$page.url|default='javascript:history.back();'}" class="weui-btn weui-btn_primary">返回上一页</a>
+                    <a href="{:urlBuild('!wap:')}" class="weui-btn weui-btn_default">返回首页</a>
+                </p>
+            </div>
+            <div class="weui-msg__extra-area">
+                <div class="weui-footer">
+                    <p class="weui-footer__links">
+                        <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
+                    </p>
+                    <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

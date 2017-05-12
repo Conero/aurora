@@ -46,17 +46,31 @@
             </div>
             <div id="sliderValue" class="weui-slider-box__value">0</div>
         </div>
-        <div class="flex">反馈记录</div>
+        <div class="weui-panel">
+            <div class="weui-panel__hd">反馈记录</div>
+            {foreach $page.list as $vo}
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_text">
+                    <h4 class="weui-media-box__title">[{$vo.type}] {$vo.descrip}</h4>
+                    <p class="weui-media-box__desc">{$vo.content}</p>
+                    <ul class="weui-media-box__info">
+                        <li class="weui-media-box__info__meta">时间</li>
+                        <li class="weui-media-box__info__meta">{$vo.mtime}</li>
+                        <!--<li class="weui-media-box__info__meta weui-media-box__info__meta_extra"><a href="{php}echo url('feekback/read',$vo['listid']){/php}">查看更多</a></li>-->
+                        <li class="weui-media-box__info__meta weui-media-box__info__meta_extra"><a href="{$vo.listid|url='feekback/read',###}">查看更多</a></li>
+                    </ul>
+                </div>
+            </div>
+            {/foreach}
+        </div>
         <div class="flex" style="height: 25px;"></div>
         <a href="{:url('edit')}" class="weui-btn weui-btn_default">建议，问题等反馈</a>
-        <div class="weui-msg__extra-area">
-            <div class="weui-footer">
-                <p class="weui-footer__links">
-                    <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
-                </p>
-                <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
-            </div>
-        </div>
+    </div>
+    <div class="weui-footer aurora-footer">
+        <p class="weui-footer__links">
+            <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
+        </p>
+        <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
     </div>
 </div>
 </body>

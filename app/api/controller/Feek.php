@@ -10,6 +10,7 @@ namespace app\api\controller;
 
 
 use app\common\controller\Api;
+use app\common\model\Report;
 use think\Db;
 
 class Feek extends Api
@@ -29,5 +30,29 @@ class Feek extends Api
             else return $this->FeekMsg($msg,1);
         }
         return $this->FeekMsg($msg);
+    }
+
+    /**
+     * 系统报告数据提交保存
+     * $param:  itemid -> listid(非真实id名称)
+     * @return \think\response\Json
+     */
+    public function report(){
+        $data = request()->param();
+        if(!captcha_check($data['code'])) return $this->FeekMsg('验证码无效！');
+        unset($data['code']);
+        $itemId = isset($data['itemid'])? $data['itemid']:'';
+        $report = new Report();
+        if($itemId){
+            $uid = getUserInfo('uid');
+            if($uid) $data['uid'] = $data;
+            $data['uip'] = request()->ip();
+            if($report->where('listid',$itemId)->update($data)) return $this->FeekMsg('数据修改成功!',1);
+        }
+        else{
+            $data['listid'] = getPkValue('pk_sys_report__listid');
+            if($report->insert($data)) return $this->FeekMsg('数据提交成功!',1);
+        }
+        return $this->FeekMsg('数据维护失败!');
     }
 }
