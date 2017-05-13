@@ -24,10 +24,12 @@ class Visit extends Model
         $ctt = $this->db()->count();
         $mctt = $this->db()->where('is_mobile','Y')->count();
         $wctt = $ctt - $mctt;
+        $dcct = $this->db()->where('date_format(mtime,\'%Y-%m-%d\')=\''.date('Y-m-d').'\'')->count();
         return [
-            'count' => $ctt,
-            'mcount'=> $mctt,
-            'wcount'=> $wctt
+            'count' => $ctt,    // 总统计数
+            'mcount'=> $mctt,   // 手机统计数
+            'dcount'=> $dcct,      // 当前统计数
+            'wcount'=> $wctt    // 桌面浏览器统计数
         ];
     }
 

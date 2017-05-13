@@ -56,7 +56,7 @@ class Loger extends Model
                 $subData['pid'] = $data['listid'];
                 $subData['name'] = time();
                 $subData['listid'] = getPkValue('pk_sys_logmsg__listid');
-                $content['msg'] = $content;
+                $subData['msg'] = $content;
                 if($uid) $subData['uid'] = $uid;
                 $success = (Db::table($this->_childTable)->insert($subData))? true: false;
             }

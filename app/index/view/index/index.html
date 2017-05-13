@@ -70,13 +70,15 @@
                 </div>
             </div>
             <div class="card-block" id="visit_chart" style="min-height: 400px;"></div>
+            <div class="card-block" id="visit_ditu_chrart" style="min-height: 400px;"></div>
         </div>
     </div>
     <div class="card" style="bottom: 0px;left: 0px;right: 0px;padding: 0px;">
         <div class="card-block">
             <p class="card-text text-center" style="font-size: 0.64em;">
-                <br> 累计访问量： {$page.count}
                 <br> 版本号: v{$Think.config.setting.version}({$Think.config.setting.build})
+                <br> 累计访问量： {$page.dcount}/{$page.count}
+                <br> 上线时间： {$page.online_dt}/<a href="javascript:void(0);" class="js__tooltip" data-toggle="tooltip" data-placement="left" title="截止当前的在线天数">{$page.online_cttdt}</a>
                 <br> Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}
             </p>
         </div>

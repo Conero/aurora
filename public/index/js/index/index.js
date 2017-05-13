@@ -74,8 +74,25 @@ $(function () {
         };
         vchart.setOption(option);
     }
+    function drawTiduChart() {
+        $.get(Web._baseurl+'public/echart/source/china.json', function (chinaJson) {
+            echarts.registerMap('china', chinaJson);
+            var chart = echarts.init(document.getElementById('visit_ditu_chrart'));
+            chart.setOption({
+                title: {
+                    left: 'center',
+                    text: '访问地区分布图'
+                },
+                series: [{
+                    type: 'map',
+                    map: 'china'
+                }]
+            });
+        });
+    }
     Web.ApiRequest('index/visit_count',null,function (rdata) {
         drawVchart(rdata);
     });
-
+    drawTiduChart();
+    $('.js__tooltip').tooltip();
 });
