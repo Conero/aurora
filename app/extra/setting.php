@@ -17,6 +17,7 @@ return [
     'start'         => '2014',    // 起始时间
     'version'       => '0.0.11',          // 版本号
     'build'         => '20170513',       // 更新时间
+    'online_date'   => '2017-05-05',                  // 上线时间
 
     // 发布般相关设置
     'p_wapurl' => 'http://www.conero.cn/aurora/wap.html',

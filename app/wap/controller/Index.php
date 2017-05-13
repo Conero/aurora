@@ -7,6 +7,7 @@
  */
 
 namespace app\wap\controller;
+use think\Config;
 use app\common\controller\Wap;
 use app\common\model\Visit;
 class Index extends Wap
@@ -19,7 +20,13 @@ class Index extends Wap
         $page = [];
         // 访问分布
         $rdata = (new Visit())->getVisitCount();
+
         $page['count'] = $rdata['count'];
+        $page['dcount'] = $rdata['dcount'];
+        $oldt = Config::get('setting.online_date');
+        $page['online_cttdt'] = getDays(date('Y-m-d'),$oldt);
+        $page['online_dt'] = $oldt;
+
         $user = $this->getUserInfo('user');
         if($user) $page['user'] = $user;
         $page['isLogin'] = $user? 'Y':'N';

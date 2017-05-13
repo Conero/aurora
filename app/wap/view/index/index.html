@@ -62,9 +62,9 @@
                 </a>
                 <div class="weui-cell">
                     <div class="weui-cell__bd">
-                        <p>系统访问累计访问次数</p>
+                        <p>累计访问次数</p>
                     </div>
-                    <div class="weui-cell__ft">{$page.count}</div>
+                    <div class="weui-cell__ft">{$page.dcount}/{$page.count}</div>
                 </div>
             </div>
             <div class="weui-footer">
@@ -82,6 +82,10 @@
                     <div class="weui-media-box weui-media-box_text">
                         <h4 class="weui-media-box__title">作者</h4>
                         <p class="weui-media-box__desc">古丞秋!!</p>
+                    </div>
+                    <div class="weui-media-box weui-media-box_text">
+                        <h4 class="weui-media-box__title">上线时间</h4>
+                        <p class="weui-media-box__desc">截止今天{$page.online_cttdt}天，与{$page.online_dt}</p>
                     </div>
                     <div class="weui-media-box weui-media-box_text">
                         <h4 class="weui-media-box__title"><a href="/Doeeking/">Doeeking</a></h4>
