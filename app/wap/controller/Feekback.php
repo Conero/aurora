@@ -10,6 +10,7 @@ namespace app\wap\controller;
 use app\common\Aurora;
 use app\common\controller\Wap;
 use app\common\model\Report;
+use app\common\SCache;
 
 class Feekback extends Wap
 {
@@ -48,10 +49,15 @@ class Feekback extends Wap
         if($item){
             $report = new Report();
             $page = $report->where('listid',$item)->find();
-            $count = $page['read_cout'] + 1;
-            $page['read_cout'] = $count;
+            $scache = new SCache();
+            if($scache->has('wap_feekback_read_ctt',$item) == false){
+                $count = $page['read_cout'] + 1;
+                $page['read_cout'] = $count;
+                $report->save(['read_cout'=>$count],['listid'=>$item]);
+                $scache->set('wap_feekback_read_ctt',$item);
+            }
+
             $page['type'] = $this->getSysConst('5401',$page['type']);
-            $report->save(['read_cout'=>$count],['listid'=>$item]);
             $this->assign('page',$page);
         }
         return $this->fetch();
