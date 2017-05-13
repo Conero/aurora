@@ -29,4 +29,8 @@ class Aurora
         }else
             return Db::table('sys_counter')->where('counter', $counter)->value('count_start');
     }
+    public function session_cache(){
+        $ip = request()->ip();
+        $CacheFile = hash($ip.rand(100000,999999));
+    }
 }

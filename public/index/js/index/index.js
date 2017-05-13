@@ -74,7 +74,7 @@ $(function () {
         };
         vchart.setOption(option);
     }
-    function drawTiduChart() {
+    function drawTiduChart(rdata) {
         $.get(Web._baseurl+'public/echart/source/china.json', function (chinaJson) {
             echarts.registerMap('china', chinaJson);
             var chart = echarts.init(document.getElementById('visit_ditu_chrart'));
@@ -83,9 +83,38 @@ $(function () {
                     left: 'center',
                     text: '访问地区分布图'
                 },
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data:['地区分布']
+                },
+                visualMap: {
+                    min: 0,
+                    max: 2500,
+                    left: 'left',
+                    top: 'bottom',
+                    text: ['高','低'],           // 文本，默认为数值文本
+                    calculable: true
+                },
+                toolbox: {
+                    show: true,
+                    orient: 'vertical',
+                    left: 'right',
+                    top: 'center',
+                    feature: {
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
                 series: [{
+                    name:'地区分布',
                     type: 'map',
-                    map: 'china'
+                    map: 'china',
+                    roam: false,
+                    data:rdata
                 }]
             });
         });
@@ -93,6 +122,9 @@ $(function () {
     Web.ApiRequest('index/visit_count',null,function (rdata) {
         drawVchart(rdata);
     });
-    drawTiduChart();
+    Web.ApiRequest('visit/getDistributionCtt',null,function (rdata) {
+       drawTiduChart(rdata);
+    });
+    //drawTiduChart();
     $('.js__tooltip').tooltip();
 });
