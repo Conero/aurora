@@ -7,6 +7,7 @@
  */
 
 namespace app\common\controller;
+use app\common\SCache;
 use app\common\traits\DbUtil;
 use app\common\traits\Util;
 use think\Config;
@@ -71,6 +72,15 @@ class Api extends Controller
      * api 请求验证
      */
     protected function api_check(){
+        $scache = new SCache();
+        $key = Config::get('setting.sckey_name');
+        if(!$scache->has($key,'Y')){
+            header('content-type:application/json;charset=utf-8;');
+            die(json_encode([
+                "code"=>-1,
+                "msg"=>"非法请求地址"
+            ]));
+        }
         /*
         $skey = Config::get('setting.session_api_sfkey');
         $svalue = Session::get($skey);
