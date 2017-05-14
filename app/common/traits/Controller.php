@@ -8,6 +8,7 @@
 
 namespace app\common\traits;
 
+use app\common\SCache;
 use think\Config;
 use think\Session;
 
@@ -122,5 +123,16 @@ trait Controller
      */
     public function getUserInfo($key=null){
         return getUserInfo($key);
+    }
+
+    /**
+     * api 认证注册
+     */
+    protected function apiCheckKeys(){
+        $scache = new SCache();
+        $key = Config::get('setting.sckey_name');
+        if(!$scache->has($key,'Y')){
+            $scache->set($key,'Y');
+        }
     }
 }
