@@ -7,6 +7,7 @@
  */
 
 namespace app\common\controller;
+use app\common\model\Token;
 use app\common\SCache;
 use app\common\traits\DbUtil;
 use app\common\traits\Util;
@@ -74,7 +75,10 @@ class Api extends Controller
     protected function api_check(){
         $scache = new SCache();
         $key = Config::get('setting.sckey_name');
-        if(!$scache->has($key,'Y')){
+        $token = new Token();
+        $vtoken = request()->param('token');
+        $tokenAble = ($vtoken && $token->TokenIsValid($vtoken))? true:false;
+        if(!$scache->has($key,'Y') && !$tokenAble){
             header('content-type:application/json;charset=utf-8;');
             die(json_encode([
                 "code"=>-1,
