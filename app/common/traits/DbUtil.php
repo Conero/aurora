@@ -40,6 +40,20 @@ trait DbUtil
         }
         return $retVal;
     }
+
+    /**
+     * 获取系统菜单
+     * @param $name
+     * @return array
+     */
+    public function getSysMenu($name){
+        $data = Db::table('sys_menu')->where('group_mk',$name)->order('order')->select();
+        $retVal = [];
+        foreach ($data as $v){
+            $retVal[$v['url']] = $v['descrip'];
+        }
+        return $retVal;
+    }
     /**
      * 访问站点自动登记,获取获取session值
      * @param $UpdateCtt 是否更记录

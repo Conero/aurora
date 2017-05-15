@@ -203,14 +203,15 @@ class Bootstrap{
             }      
             $lis = '';
             for($i=$start; $i<=$end; $i++){
-                $lis .= '<li'.($i == $page? ' class="active"':'').'><a href="'.$url.($this->page_decode($i)).($jsClick? '\');':'').'">'.$i.'</a></li>';
+                $lis .= '<li'.($i == $page? ' class="active page-item"':' class="page-item"').'><a href="'.$url.($this->page_decode($i)).($jsClick? '\');':'').'" class="page-link">'.$i.'</a></li>';
             }
             if($lis){
                 if($start>1) $lis = '<li><a href="'.$url.($this->page_decode(($start-10<1? 1:($start-10)))).($jsClick? '\');':'').'">&laquo;</a></li>'.$lis;
                 if($end<$pages) $lis .= '<li><a href="'.$url.($this->page_decode($end+1>$pages? $pages:($end+1))).($jsClick? '\');':'').'">&raquo;</a></li>';
                 // 概述
                 $descript = '<li><a href="javascript:void(0);" title="总页数'.$pages.'，加载数据'.$count.'条!">详情</a></li>';
-                $html = '<nav><ul class="pagination pagination-sm">'.$lis.$descript.'</ul></nav>';
+                //$html = '<nav><ul class="pagination pagination-sm">'.$lis.$descript.'</ul></nav>';
+                $html = '<ul class="pagination pagination-sm">'.$lis.$descript.'</ul>';
             }
         }
         $name = $name? $name:'pageBar';
