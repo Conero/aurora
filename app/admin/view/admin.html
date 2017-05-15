@@ -1,0 +1,33 @@
+{include file="public/appd/tpl_header.html" /}
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-faded">
+    <a class="navbar-brand" href="{:urlBuild('!admin:')}">
+        <img src="/aurora/public/aurora.png" width="30" height="30" alt="">
+        系统管理
+    </a>
+</nav>
+<div class="container-fluid">
+    <div class="row" style="min-height: 620px;">
+        <div class="col-1 bg-success">
+        </div>
+        <div class="col-9 js__body">
+            {$pageContent|default="页面主界面"}
+        </div>
+        {// 系统菜单}
+        <div class="col-2 bg-info js__menu">
+            <div class="list-group">
+                {$admin.menu|default=""}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card js__footer" style="bottom: 0px;left: 0px;right: 0px;padding: 0px;">
+    <div class="card-block">
+        <p class="card-text text-center" style="font-size: 0.64em;">
+            <br> 版本号: v{$Think.config.setting.version}({$Think.config.setting.build})
+            <br> Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}
+        </p>
+    </div>
+</div>
+</body>
+</html>
