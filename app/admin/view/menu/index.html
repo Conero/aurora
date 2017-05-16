@@ -1,0 +1,20 @@
+{// include file="app/admin/view/admin.html" /}
+<blockquote class="blockquote">
+    <p class="mb-0">
+        <i class="fa fa-tasks" aria-hidden="true"></i>
+        系统菜单
+    </p>
+    <footer class="blockquote-footer"><a href="{:url('menu/edit')}">新增 <i class="fa fa-plus-square"></i></a></footer>
+</blockquote>
+<div>{$searchBar}</div>
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr><th>#</th><th>分组码</th><th>分组描述</th><th>顺序</th><th>描述</th><th>地址</th><th>编辑时间</th><th>编辑者</th></tr>
+    </thead>
+    <tbody>
+    {$tbody|default="<tr><td colspan='8'>还没有数据</td></tr>"}
+    </tbody>
+</table>
+<nav>
+    {$pageBar|default=""}
+</nav>

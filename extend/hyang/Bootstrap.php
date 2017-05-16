@@ -10,59 +10,81 @@ class Bootstrap{
         $this->app = $obj;
         return $this;
     }
-    /* 2016年12月7日 星期三
-     * 部件附加的内联搜索菜单
-     * {
-     *   data:
-     *          id+ ; cols =>[列名] ; ipts+ form 附加输入框内容 
-     *   view:  
-     *          渲染名称
-     * }
-    */
-    public function GridSearchForm($data,$view=null)
-    {
-        $cols = isset($data['__cols__'])? $data['__cols__'] : $data;
-        $opt = '';
-        $skey = isset($_GET['skey'])? $_GET['skey']:null;
-        $svalue = isset($_GET['svalue'])? $_GET['svalue']:'';
-        foreach($cols as $k => $v){
-            $opt .= '<option value="'.$k.'" '.($skey && $skey == $k? ' selected':'').'>'.$v.'</option>';
+    /**
+     * 2017年5月16日 星期二
+     * @param $clos []string 列名
+     * @param $data []json|callback 数据
+     * @return string
+     */
+    public function tbodyGrid($clos,$data){
+        $xhtml = '';
+        if(is_string($clos)) $clos = explode(',',$clos);
+        if($data instanceof \Closure) $data = call_user_func($data);
+        $data = is_array($data)? $data:[];
+        $i = 1;
+        foreach ($data as $v){
+            $tmpxhtml = '<tr><td>'.$i.'</td>';
+            foreach ($clos as $k){
+                $content = '';
+                if(is_string($k) && isset($v[$k])) $content = $v[$k];
+                else if($k instanceof \Closure) $content = call_user_func($k,$v);
+                $tmpxhtml .= '<td>'.$content.'</td>';
+            }
+            $xhtml .= $tmpxhtml;
+            $i += 1;
         }
-        if(empty($opt)) $opt = '<option></option>';
-        if(isset($data['type']) && strtolower($data['type']) == 'div')
-            $html = '
-                <div class="form-inline navbar-right"> 
-                    <select class="form-control" name="skey">'. $opt.'</select><input name="svalue" type="text" class="form-control" value="'.$svalue.'" placeholder="输入关键字..."><button type="button" class="btn btn-default">搜索</button>
-                </div>
-            ';            
-        else
-            $html = '
-                <form class="form-inline navbar-right">
-                    '.(isset($data['ipts'])? $data['ipts']:'').'
-                    <select class="form-control" name="skey">'. $opt.'</select><input name="svalue" type="text" class="form-control" value="'.$svalue.'" placeholder="输入关键字..."><button type="submit" class="btn btn-default">搜索</button>
-                </form>
-            ';
-        // 直接渲染    
-        if(isset($data['__view__'])){
-            if(isset($data['__this__']) && is_object($data['__this__'])) $data['__this__']->assign($data['__view__'],$html);
-            elseif(is_object($this->app)) $this->app->assign($data['__view__'],$html);
-            return;
-        }
-        return $html;
+        return $xhtml;
     }
-    // 通过 url 获取到查询条件
-    public function getSearchWhere($plus=null)
-    {
-        $ret = [];
-        if(is_array($plus)){$ret = $plus;$plus = '';}
-        switch($plus){
-            case "cid":
-                $ret['center_id'] = uInfo('cid');break;
-            case "code":
-                $ret['user_code'] = uInfo('code');break;
+
+    /**
+     * 2017年5月16日 星期二/ 搜索框
+     * @param $cols []string
+     * @return string
+     */
+    public function searchBar($cols){
+        $svalue = (isset($_GET['svalue'])? $_GET['svalue']:'');
+        $skey = (isset($_GET['skey'])? $_GET['skey']:'');
+        $option = '';$checked = '';
+        foreach ($cols as $k=>$v){
+            if($skey && $k == $skey) $checked = 'selected';
+            $option .= "<option value='$k' $checked).'>$v</option>";
         }
-        if(isset($_GET['svalue']) && isset($_GET['skey']) && !empty($_GET['svalue'])) $ret[$_GET['skey']] = ['like','%'.$_GET['svalue'].'%'];
-        return $ret;
+        if(empty($skey)) $option = '<option value="" selected>选择值</option>'.$option;
+        $xhtml = '<form class="form-inline" style="margin-left: 60%;">'
+            . '<select class="custom-select mb-2 mr-sm-2 mb-sm-0" name="skey" id="inlineFormCustomSelect">'.$option.'</select>'
+            . '<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" name="svalue" value="'.$svalue.'"> '
+            . ' <button type="submit" class="btn btn-success"><i class="fa fa-search" aria-hidden="true"></i> 搜索</button>'
+            . '</form>'
+            ;
+        $xhtml = '
+            <div class="card card-outline-warning" style="padding: 3px;margin-bottom: 5px;">
+            '.$xhtml.'            
+            </div>
+        ';
+        return $xhtml;
+    }
+
+    /**
+     * 2017年5月16日 星期二/获取采筛选条件
+     * @param null $where
+     * @param string|array $alis 前缀名 array ['默认/_col_'=>alias,'列名'=>b/匹配值
+     * @return array|null
+     */
+    public function getWhere($where=null,$alias=null){
+        $where = is_array($where)? $where:[];
+        $key = isset($_GET['skey'])? $_GET['skey']:'';
+        if($key && $alias){
+            if(is_array($alias)){
+                if(isset($alias[$key])) $key = $alias[$key].'.'.$key;
+                else $key = $alias['_col_'].'.'.$key;
+            }
+            else $key = $alias.'.'.$key;
+        }
+        $value = isset($_GET['svalue'])? $_GET['svalue']:'';
+        if($value && $key){
+            $where[$key] = ['like',"%$value%"];
+        }
+        return $where;
     }
     /* 2016年11月22日 星期二
      * 表格生成器

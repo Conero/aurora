@@ -36,11 +36,17 @@ class Token extends Model
     }
     /**
      * 令牌验证是否正确,并且保存访问量
-     * @param $token
+     * @param $token string 令牌
+     * @param $type string 类型
      * @return bool
      */
-    public function TokenIsValid($token){
-        $data = $this->db()->where('token',$token)->where('invalid_mk<>\'Y\'')->field('invalid_mk,expire_in,uid,mtime,listid,v_ctt')->find();
+    public function TokenIsValid($token,$type=null){
+        $where = ['token'=>$token];
+        if($type) $where['type'] = $type;
+        $data = $this->db()
+            ->where($where)
+            ->where('invalid_mk<>\'Y\'')
+            ->field('invalid_mk,expire_in,uid,mtime,listid,v_ctt')->find();
         $exist = false;
         if($data){
             $updateCttFn = function () use($data){

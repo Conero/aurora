@@ -48,7 +48,7 @@ class Api extends Controller
         $module = $request->module();
         $contrl = $request->controller();
         $action = $request->action();
-        $url = Config::get('setting.url_pref').$module."/$contrl/$action";
+        $url =strtolower(Config::get('setting.url_pref').$module."/$contrl/$action");
         $api = model('Apis');
         $data = $api->where('url',$url)->field('listid,count')->find();
         if($data){
