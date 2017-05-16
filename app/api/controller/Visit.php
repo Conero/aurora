@@ -12,6 +12,7 @@ namespace app\api\controller;
 use app\common\controller\Api;
 use app\common\model\Loger;
 use hyang\Location;
+use think\Db;
 use think\Debug;
 
 class Visit extends Api
@@ -34,6 +35,8 @@ class Visit extends Api
         try {
             foreach ($data as $v) {
                 //println($v['ip'],Location::getLocation(Location::setIp($v['ip'])));
+                // 已经执行，但annlyse_mk值更新失败的记录自动更新
+                Db::execute('update `sys_visit` set `annlyse_mk`=\'Y\' where `ans_time` is not null and `province` is not null');
                 $ansDt = Location::getLocation(Location::setIp($v['ip']));
                 if ($ansDt['code'] == '0') { // 请求正确时
                     $succssCtt += 1;    // 正统统计

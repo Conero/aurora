@@ -1,5 +1,19 @@
 # 更改版本记录
-## V 0.1.2  2017年5月16日 星期二
+
+## V 0.1.3  2017年5月16日 星期二
+- Scache 类新增方法，执行 key-string 存储结构，扩展原来的 key-array
+- 系统公用方法调转bug修复，即服务器上重定向无效，在heard函数以后使用die
+- 令牌系统程序优化
+- hyang/Bootstrap 函数适应性更新以及优化
+- [桌面版建设/系统管理]
+    - 系统菜单页面设计以及基本页面布局优化设计
+    - 新增系统管理模块： 系统等
+    - 前端图标引入 [FortAwesome/Font-Awesome](https://github.com/FortAwesome/Font-Awesome) 字体图标库 
+        - [http://fontawesome.io](http://fontawesome.io)
+        - Version 4.7.0
+    - 主界面： 使用搜索控件，以及结构化tbody生成处理
+
+## V 0.1.2  2017年5月15日 星期一
 - [桌面版建设]
     - 系统管理后台程序设计，如基本布局等
     - 模板发视图

@@ -8,6 +8,7 @@
 
 namespace app\common\traits;
 use app\common\model\Token;
+use app\common\SCache;
 use think\Request;
 use think\View;
 
@@ -44,7 +45,13 @@ trait Admin
     protected function authCheckOut(){
         $model = new Token();
         $token = request()->param('token');
-        if($token && $model->TokenIsValid($token)) return true;
+        $scache = new SCache();
+        $key = 'admin_auth_t20';
+        if($scache->key_exist($key)) return true;
+        if($token && $model->TokenIsValid($token,'20')){
+            $scache->setKv($key,$token);;
+            return true;
+        }
         $uid = getUserInfo('uid');
         if(!empty($uid)) return true;
         $this->getErrorUrl('地址请求无效');

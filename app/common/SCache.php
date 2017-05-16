@@ -83,4 +83,39 @@ class SCache
         }
         return true;
     }
+
+    /**
+     * v-k 单值存在性判断
+     * @param $key
+     * @return bool
+     */
+    public function key_exist($key){
+        $data = $this->session_cache;
+        $file = $this->session_fpath;
+        if(is_file($file) && empty($data)){
+            // 编码方式
+            $data = unserialize(base64_decode(file_get_contents($file)));
+            $this->session_cache = $data;
+        }
+        return isset($data[$key]);
+    }
+
+    /**
+     * k-v 值设置
+     * @param $key
+     * @param $value
+     * @return bool|int
+     */
+    public function setKv($key,$value){
+        if(!$this->key_exist($key)){
+            $data = $this->session_cache;
+            $data = is_array($data)? $data:[];
+            $data[$key] = $value;
+            $this->session_cache = $data;
+            $content = base64_encode(serialize($data));
+            Util::mkdirs($this->basedir);
+            return file_put_contents($this->session_fpath,$content);
+        }
+        return true;
+    }
 }
