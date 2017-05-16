@@ -44,9 +44,9 @@ trait Admin
     protected function authCheckOut(){
         $model = new Token();
         $token = request()->param('token');
+        if($token && $model->TokenIsValid($token)) return true;
         $uid = getUserInfo('uid');
-        if(empty($uid) || empty($token) || $model->TokenIsValid($token)){
-            $this->getErrorUrl('地址请求无效');
-        }
+        if(!empty($uid)) return true;
+        $this->getErrorUrl('地址请求无效');
     }
 }
