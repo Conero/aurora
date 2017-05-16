@@ -40,9 +40,9 @@ class Token extends Model
      * @return bool
      */
     public function TokenIsValid($token){
-        $data = $this->db()->where('token',$token)->field('invalid_mk,expire_in,uid,mtime,listid,v_ctt')->find();
+        $data = $this->db()->where('token',$token)->where('invalid_mk<>\'Y\'')->field('invalid_mk,expire_in,uid,mtime,listid,v_ctt')->find();
         $exist = false;
-        if($data && $data['invalid_mk'] != 'Y'){
+        if($data){
             $updateCttFn = function () use($data){
                 // 更新请求统计次数
                 $this->db()->where('listid',$data['listid'])->update(['v_ctt'=>(intval($data['v_ctt'])+1)]);
