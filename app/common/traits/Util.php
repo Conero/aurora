@@ -21,11 +21,13 @@ trait Util
         $msg = $msg? $msg:'';
         $url = (IS_MOBILE == 'Y')? urlBuild('!wap:error',"?msg=$msg"):urlBuild('!index:error',"?msg=$msg");
         if($feekData) return $url;
-        header('location:'.$url);
+        header('Location: '.$url);
+        die('程序执行异常!');
     }
     public function getHomeUrl($feekData=false){
         $url = (IS_MOBILE == 'Y')? urlBuild('!wap:'):urlBuild('!index:');
         if($feekData) return $url;
-        header('location:'.$url);
+        header('Location: '.$url);
+        die('程序执行异常!');
     }
 }
