@@ -58,6 +58,38 @@ class Menu extends Web
      * 编辑页面 2017年5月16日 星期二
      */
     public function edit(){
-        return $this->pageTpl(function(){});
+        $this->loadScript([
+            'js' => ['menu/edit']
+        ]);
+        return $this->pageTpl(function($view){
+            $groupMk = request()->param('group');
+            // 数据编辑时
+            if($groupMk){
+                $data = Db::table('sys_menu')
+                    ->field('listid,descrip,url,remark,order')
+                    ->where('group_mk',$groupMk)
+                    ->order('order')
+                    ->select();
+                if($data){
+                    $outline = Db::table('sys_menu')
+                        ->field('group_mk,group_desc')
+                        ->where('group_mk',$groupMk)
+                        ->find();
+                    $detail = '';$i = 1;
+                    foreach ($data as $v){
+                        $detail .= '
+                            <tr data-id="'.base64_encode($v['listid']).'"><td data-no="'.$i.'">'.$v['order'].'</td>
+                                <td><input type="text" name="descrip" class="form-control" value="'.$v['descrip'].'" required></td>
+                                <td><input type="text" name="url" class="form-control" value="'.$v['url'].'" required></td>
+                                <td><input type="text" name="remark" class="form-control" value="'.$v['remark'].'"></td>
+                            </tr>
+                        ';
+                        $i++;
+                    }
+                    $view->assign('detail',$detail);
+                    $view->assign('data',$outline);
+                }
+            }
+        });
     }
 }
