@@ -3,7 +3,50 @@
  * 桌面端前端函数
  */
 var Web = Aurora();
-
+/**
+ * 获取单个表单的值，扩展 $.val 函数使 input/select/textare 等透明
+ * @param selector string|jquery
+ * @param isJson 是否返回 k-v json 值
+ * @return json|string
+ */
+Web.formValue = function (selector,isJson) {
+    var el = (typeof selector == 'object')? selector:$(selector);
+    var value = '';
+    if(el.is('input')){
+        var type = el.attr('type');
+        if(type == 'checkbox' || type == 'radio') {
+            if (el.is(':checked')) value = el.val();
+        }
+        else value = el.val();
+    }
+    else if(el.is('textarea')) value = el.val();
+    else if(el.is('select')){
+        value = el.find('option:selected').val();
+    }
+    if(isJson){
+        var name = el.attr('name');
+        var tmpJson = {};
+        tmpJson[name] = value;
+        return tmpJson;
+    }
+    return value;
+};
+/**
+ * 通过选择器获取表单值
+ * @param selector []string|string *
+ * @return json
+ */
+Web.getDataBySel = function (selector) {
+    selector = (typeof selector == 'object')? selector:[selector];
+    var saveData = {};
+    for(var i=0; i<selector.length; i++){
+        var el = $(selector[i]);
+        var name = el.attr("name");
+        if(name == '') continue;
+        saveData[name] = this.formValue(el);
+    }
+    return saveData;
+};
 /**
  * 表单监听器 - 2017年5月17日 星期三 / 包含 列表表单处理器(json)和独立form处理器([]json)
  * juqery v3.2.1
@@ -16,7 +59,9 @@ function FormListener(selector){
     /**
      * 列表表单监听器, 主键值自动绑定在tr中的 data-id 属性中
      * @param config json{
-     *      AddBtnEl/DelBtnEl 新增删除选择器默认： '#row_add_btn'/'#row_del_btn'
+     *      AddBtn/DelBtn/SaveBtn 新增删除选择器默认： '#row_add_btn'/'#row_del_btn'/'#rows_save_btn',
+     *     CcopyFromTr: string|string[]  复制一行出现的值
+     *     pk: 主键名称
      * }
      * @return TbGrid
      */
@@ -25,6 +70,10 @@ function FormListener(selector){
         var stackDelList = [];  // 删除数据记录堆栈
         var formAction = {};
         var trBindPkAttr = 'data-id';   // 绑定id
+        // 参数处理
+        config = config? config:{};
+        config.pk = config.pk? config.pk:'uid';
+
         /**
          * 获取列表长度
          * @returns {number}
@@ -48,7 +97,6 @@ function FormListener(selector){
          */
         formAction.addRow = function () {
             var xhtml = container.find('tr:eq('+this.getRowLen()+')').html();
-            console.log(this.getRowLen(),container.find('tr:eq('+this.getRowLen()+')',xhtml));
             var trXhtml = '<tr>'+xhtml+'</tr>';
             container.append(trXhtml);
             var trObj = container.find('tr:eq('+this.getRowLen()+')');
@@ -58,7 +106,8 @@ function FormListener(selector){
                 orderTd.attr('data-no',newLen);
                 orderTd.html(newLen);
             }
-            parentObj.ResetForm(trObj);
+            if(config.CcopyFromTr) parentObj.ResetForm(trObj,config.CcopyFromTr);
+            else parentObj.ResetForm(trObj);
             return trObj;
         };
         /**
@@ -69,35 +118,83 @@ function FormListener(selector){
             if(len>0){
                 var trObj = container.find('tr:eq('+len+')');
                 var pkValue = trObj.attr(trBindPkAttr);
-                if(pkValue) stackDelList.push({type:'D',uid:pkValue});
+                if(pkValue){
+                    var savedata = {type:'D'};
+                    savedata[config.pk] = pkValue;
+                    stackDelList.push(savedata);
+                }
                 trObj.remove();
             }
         };
-        config = config? config:{};
-        var AddBtnEl = config.AddBtn? $(config.AddBtn):$('#row_add_btn');
-        var DelBtnEl = config.DelBtn? $(config.DelBtn):$('#row_del_btn');
-        if(AddBtnEl.length > 0){
-            AddBtnEl.click(function () {
-                formAction.addRow();
-            });
-        }
-        if(DelBtnEl.length > 0){
-            DelBtnEl.click(function () {
-                formAction.delRow();
-            });
-        }
+        /**
+         * 获取数据标识
+         * @param trObj jquery
+         * @param key string|null
+         * @return json|string|null
+         */
+        formAction.getPk = function (trObj,key) {
+            var pk = trObj.attr(trBindPkAttr);
+            if(pk){
+                if(key){
+                    var tmpJson = {};
+                    tmpJson[key] = pk;
+                    return tmpJson;
+                }
+                return pk;
+            }
+            return null;
+        };
         /**
          * 获取保存至
          * @return json
          */
         formAction.getSaveData = function () {
-            var savedata = stackDelList;
+            var savedata = [];
             var len = this.getRowLen();
+            var pkName = config.pk;
             for(var i=1; i<=len; i++){
-                savedata.push(parentObj.getSaveData(this.getRowObj(i)));
+                var trObj = this.getRowObj(i);
+                var trData = parentObj.getSaveData(trObj);
+                var pkValue = this.getPk(trObj);
+                if(pkValue) trData[pkName] = pkValue;
+                savedata.push(trData);
             }
             return savedata;
         };
+        // 数据保存接口
+        formAction.save = function (savedata) {
+        };
+
+        var AddBtnEl = config.AddBtn? $(config.AddBtn):$('#row_add_btn');
+        var DelBtnEl = config.DelBtn? $(config.DelBtn):$('#row_del_btn');
+        var SaveBtnEl = config.SaveBtn? $(config.SaveBtn):$('#rows_save_btn');  // 数据保存
+        // 列新增
+        if(AddBtnEl.length > 0){
+            AddBtnEl.click(function () {
+                formAction.addRow();
+            });
+        }
+        // 列删除
+        if(DelBtnEl.length > 0){
+            DelBtnEl.click(function () {
+                formAction.delRow();
+            });
+        }
+        // 数据保存
+        if(SaveBtnEl.length > 0){
+            SaveBtnEl.click(function () {
+                var savedata = formAction.getSaveData();
+                // 将删除的值写到记录中
+                if(stackDelList.length > 0){
+                    for(var i=0;i<stackDelList.length; i++){
+                        savedata.push(stackDelList[i]);
+                    }
+                }
+                var isBreak = formAction.save(savedata);
+                if(isBreak) return false;
+            });
+        }
+
         return formAction;
     };
     /**
@@ -141,31 +238,43 @@ function FormListener(selector){
             var sEl = $(selects[i]);
             var sKey = taEl.attr('name');
             if(taKey == '') continue;
-            var svalue = sEl.find('option:selected').val();
-            data[sKey] = svalue;
+            data[sKey] = sEl.find('option:selected').val();
         }
         return data;
     };
     /**
      * 重置表单数据
      * @param el string|jquery
+     * @param ignore string|[]string 忽略值列表
      */
-    this.ResetForm = function (el) {
+    this.ResetForm = function (el,ignore) {
         if(typeof el == 'string') el = $(el);
         el = typeof el == 'object'? el:container;
+        if(ignore){
+            ignore = (typeof ignore == 'object')? ignore:[ignore];
+        }
         // input
         var inputs = el.find('input');
         for(var i=0; i<inputs.length; i++){
-            var el = $(inputs[i]);
-            var type = el.attr('type');
+            var iptEl = $(inputs[i]);
+            if(ignore){
+                var name = iptEl.attr("name");
+                if(name && $.inArray(name,ignore)>-1) continue;
+            }
+            var type = iptEl.attr('type');
             // 如下类型的元素不支持重置
             if(type == 'checkbox' || type == 'radio' || type == 'button') continue;
-            el.val('');
+            iptEl.val('');
         }
         // textarea
         var textareas = el.find('textarea');
         for(var j=0; j<textareas.length; j++){
-            $(textareas[j]).val('');
+            var txtEl = $(textareas[j]);
+            if(ignore){
+                var txtName = txtEl.attr("name");
+                if(txtName && $.inArray(txtName,ignore)>-1) continue;
+            }
+            txtEl.val('');
         }
     };
 }
