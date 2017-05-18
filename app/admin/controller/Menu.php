@@ -92,4 +92,23 @@ class Menu extends Web
             }
         });
     }
+    /**
+     * 数据保存 2017年5月19日 星期五
+     */
+    public function save(){
+        $data = request()->param();
+        $data['sumy'] = json_decode($data['sumy'],true);
+        $data['dtl'] = json_decode($data['dtl'],true);
+        foreach ($data['dtl'] as $value){
+            $pk = isset($value['uid'])? $value['uid']:null;
+            unset($value['uid']);
+            if($pk){ // 修改/删除
+                if(isset($value['type']) && 'D' == $value['type']){}
+                else Db::table('sys_menu')->where('listid',$pk)->update(array_merge($data['sumy'],$value));
+            }else{
+                Db::table('sys_menu')->insert(array_merge($data['sumy'],$value));
+            }
+        }
+        println($data);
+    }
 }
