@@ -99,16 +99,34 @@ class Menu extends Web
         $data = request()->param();
         $data['sumy'] = json_decode($data['sumy'],true);
         $data['dtl'] = json_decode($data['dtl'],true);
+        $addCtt = 0;$delCtt = 0; $editCtt = 0;$order = 1;
         foreach ($data['dtl'] as $value){
-            $pk = isset($value['uid'])? $value['uid']:null;
+            $pk = isset($value['uid'])? base64_decode($value['uid']):null;
             unset($value['uid']);
             if($pk){ // 修改/删除
-                if(isset($value['type']) && 'D' == $value['type']){}
-                else Db::table('sys_menu')->where('listid',$pk)->update(array_merge($data['sumy'],$value));
+                if(isset($value['type']) && 'D' == $value['type']){
+                    $this->pushRptBack('sys_menu',['listid'=>$pk],'auto');
+                    $delCtt += 1;
+                }
+                else{
+                    $value['order'] = $order;
+                    if(Db::table('sys_menu')->where('listid',$pk)->update(array_merge($data['sumy'],$value)))
+                        $editCtt += 1;
+                    $order += 1;
+                }
             }else{
+                $value['order'] = $order;
                 Db::table('sys_menu')->insert(array_merge($data['sumy'],$value));
+                $addCtt += 1;
+                $order += 1;
             }
         }
-        println($data);
+        $tmpArr = [];
+        if($addCtt > 0) $tmpArr[] = '新增数据'.$addCtt.'条';
+        if($delCtt > 0) $tmpArr[] = '删除数据'.$delCtt.'条';
+        if($editCtt > 0) $tmpArr[] = '修改数据'.$editCtt.'条';
+        if($addCtt == $delCtt && $addCtt == $editCtt && $addCtt == 0) $tmpArr[] = '没有保存任何数据，你可能没有做任何修改!';
+        $msg = '本次共提交条'.count($data['dtl']).'数据，其中'.implode(',',$tmpArr);
+        $this->success($msg);
     }
 }
