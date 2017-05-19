@@ -8,6 +8,7 @@
  */
 namespace app\common\traits;
 use think\Config;
+use think\Request;
 use think\Session;
 use think\Db;
 
@@ -86,5 +87,39 @@ trait DbUtil
             return bsjson(Session::get($skey));
         }
     }
-
+    // 数据删除时将数据写到数据回收表
+    // 支持多数据 - 2017年2月9日 星期四
+    // $autoDelete 自动删除数据
+    public function pushRptBack($table,$data=null,$mkQuery=false){
+        try{
+            $uid = getUserInfo('uid');
+            $request = Request::instance();
+            $savedata = [
+                'table_name'    => $table,
+                'ip'        => $request->ip(),
+                'url'       => $request->url()
+            ];
+            if($uid) $savedata['uid'] = $uid;
+            $map = (is_string($mkQuery) && strtolower($mkQuery) == 'auto')? $data:null;
+            if($mkQuery){
+                $qData = Db::table($table)->where($data)->select();
+                if(empty($data)) return false;
+                $ctt = 0;
+                foreach($qData as $v){
+                    $savedata['col_data'] = bsjson($v);
+                    if(Db::table('sys_recycle')->insert($savedata)) $ctt += 1;
+                }
+                // 自动删除数据
+                if($map) return Db::table($table)->where($map)->delete();
+                return $ctt>0? true:false;
+            }
+            else{
+                $savedata['col_data'] = bsjson($data);
+                return Db::table('sys_recycle')->insert($savedata);
+            }
+        }catch(\Exception $e){
+            debugOut($e->getTraceAsString());
+        }
+        return false;
+    }
 }
