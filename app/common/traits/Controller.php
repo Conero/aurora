@@ -19,7 +19,7 @@ trait Controller
     //  js/css 第一个 "/" 开头时不自动加载模块名
     //  加载前端工具 2016年9月21日 星期三   {auth: 权限标识,afterAuthFn:function 授权完成以后自定义脚本,title:页面标题,require:利用 FrontBuild 加载脚本, beforeLoadFront:string/function 加载前端脚本以前,js:js 脚本,css: css 脚本,afterLoadFront: string/function 加载前端页面以后,more:headplus,bootstrap: true 开启}
     // 回调函数时自动传入 $this 对象
-    public function loadScript($opt,$feek=false){
+    protected function loadScript($opt,$feek=false){
         // 权限检测
         if(isset($opt['auth'])){
             // 权限控制
@@ -68,7 +68,7 @@ trait Controller
         $this->assign('app',$AppAssignData);
     }
     // PHP 后端数据传递到服务端
-    public function _JsVar($key=null,$value=null)
+    protected function _JsVar($key=null,$value=null)
     {
         if(is_array($key)){
             $data = $this->_JsVarOption;
@@ -121,7 +121,7 @@ trait Controller
      * @param null $key
      * @return array|mixed|string
      */
-    public function getUserInfo($key=null){
+    protected function getUserInfo($key=null){
         return getUserInfo($key);
     }
 
@@ -134,5 +134,14 @@ trait Controller
         if(!$scache->has($key,'Y')){
             $scache->set($key,'Y');
         }
+    }
+    /**
+     * 自动分析分析出dtl-sumy 形式数据
+     */
+    protected function _getDtlData(){
+        $data = request()->param();
+        if(isset($data['sumy'])) $data['sumy'] = is_string($data['sumy'])? json_decode($data['sumy'],true):$data['sumy'];
+        if(isset($data['dtl'])) $data['dtl'] = is_string($data['dtl'])? json_decode($data['dtl'],true):$data['dtl'];
+        return $data;
     }
 }

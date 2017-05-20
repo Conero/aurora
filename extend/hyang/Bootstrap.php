@@ -65,6 +65,22 @@ class Bootstrap{
     }
 
     /**
+     * 生成 select 控件
+     * @param array $config
+     * @param null $selected
+     * @return string
+     */
+    public static function SelectGrid($config,$selected=null){
+        $option = isset($config['option'])? $config['option']:$config;
+        if($option instanceof \Closure) $option = call_user_func($option);
+        $option = is_array($option)? $option:[];
+        $selectXhtml = '';
+        foreach ($option as $k=>$v){
+            $selectXhtml .= '<option value="'.$k.'"'.($selected && $selected == $k? ' selected':'').'>'.$v.'</option>';
+        }
+        return $selectXhtml;
+    }
+    /**
      * 2017年5月16日 星期二/获取采筛选条件
      * @param null $where
      * @param string|array $alis 前缀名 array ['默认/_col_'=>alias,'列名'=>b/匹配值

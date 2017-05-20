@@ -51,7 +51,6 @@ class Menu extends Web
                 $view->assign('tbody',$tbody);
                 $view->assign('pageBar',$bstp->pageBar($count));
             }
-
         });
     }
     /**
@@ -96,13 +95,11 @@ class Menu extends Web
      * 数据保存 2017年5月19日 星期五
      */
     public function save(){
-        $data = request()->param();
-        $data['sumy'] = json_decode($data['sumy'],true);
-        $data['dtl'] = json_decode($data['dtl'],true);
+        $data = $this->_getDtlData();
         $addCtt = 0;$delCtt = 0; $editCtt = 0;$order = 1;
         foreach ($data['dtl'] as $value){
-            $pk = isset($value['uid'])? base64_decode($value['uid']):null;
-            unset($value['uid']);
+            $pk = isset($value['pk'])? base64_decode($value['pk']):null;
+            unset($value['pk']);
             if($pk){ // 修改/删除
                 if(isset($value['type']) && 'D' == $value['type']){
                     $this->pushRptBack('sys_menu',['listid'=>$pk],'auto');

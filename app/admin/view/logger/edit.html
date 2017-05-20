@@ -1,0 +1,51 @@
+<ol class="breadcrumb" style="margin-top: 10px;">
+    <li class="breadcrumb-item">
+        <a href="{:urlBuild('!.logger')}">
+            <i class="fa fa-book" aria-hidden="true"></i> 系统日志
+        </a>
+    </li>
+    <li class="breadcrumb-item active">数据维护</li>
+</ol>
+<form method="post" action="{:url('logger/save')}">
+    <div class="form-group row">
+        <label for="ipt_loger" class="col-sm-2 col-form-label">日志名称</label>
+        <div class="col-sm-10">
+            <input type="text" name="loger" class="form-control" id="ipt_loger" value="{$data.loger|default=''}" placeholder="日志名称" required>
+            {if condition="isset($data.listid)"}
+            <input type="hidden" name="uid" value="{$data.listid}">
+            {/if}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="ipt_belong_mk" class="col-sm-2 col-form-label">日志所属标识</label>
+        <div class="col-sm-10">
+            <input type="text" name="belong_mk" class="form-control" id="ipt_belong_mk" placeholder="日志所属标识" value="{$data.belong_mk|default=''}" required>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="ipt_code" class="col-sm-2 col-form-label">日志代码</label>
+        <div class="col-sm-10">
+            <input type="text" name="code" class="form-control" id="ipt_code" placeholder="日志代码" value="{$data.code|default=''}" required>
+        </div>
+    </div>
+    <!--<div class="form-group row">-->
+        <!--<label for="ipt_type" class="col-sm-2 col-form-label">类型</label>-->
+        <!--<div class="col-sm-10">-->
+            <!--<input type="text" name="type" class="form-control" id="ipt_type" placeholder="类型" required>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="form-group row">
+        <label for="ipt_type" class="col-sm-2 col-form-label">类型</label>
+        <div class="col-sm-10">
+            <select name="type" class="form-control" id="ipt_type" required>
+                <option>请选择...</option>
+                {$select_type}
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="offset-sm-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">保存</button>
+        </div>
+    </div>
+</form>
