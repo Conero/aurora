@@ -228,6 +228,10 @@ function Aurora() {
             }
             return savedata;
         };
+        this.log = console.log;
+        this.error = function(msg){
+            throw new Error( "Syntax error, unrecognized expression(Conero): " + msg);
+        };
     }
     var fn = aurora.prototype;
     /******************** 移动端与客服端公共函数 *******************************************/
@@ -390,6 +394,25 @@ function Aurora() {
         }
 		return '';
     };
+    // 与 php bsjson 函数匹配
+	fn.bsjson = function(value){
+		if(value){
+			// 解密并返回 对象
+			if(this.is_string(value)){
+				try {
+					value = Base64.decode(value);
+					return JSON.parse(value);
+				} catch (error) {
+					this.error(error);
+				}
+			}
+			else if(this.is_object(value) && this.objectLength(value) >0){
+				var str = JSON.stringify(value);
+				return Base64.encode(str);
+			}
+		}
+		return '';
+	};
 /**************************** 系统级私有函数(end) **************************************/
     return new aurora();
 }

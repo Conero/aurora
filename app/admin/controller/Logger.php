@@ -13,6 +13,7 @@ use app\common\controller\Web;
 use app\common\model\Loger;
 use app\common\traits\Admin;
 use hyang\Bootstrap;
+use think\Db;
 use think\Request;
 
 class Logger extends Web
@@ -20,6 +21,9 @@ class Logger extends Web
     use Admin;
     // 首页
     public function index(){
+        $this->loadScript([
+            'title'=>'系统日志-Aurora'
+        ]);
         return $this->pageTpl(function ($view){
             $bstp = new Bootstrap();
             $where = $bstp->getWhere(null,['_col_'=>'a','account'=>'b']);
@@ -53,15 +57,80 @@ class Logger extends Web
             }
         });
     }
+    // 编辑
+    public function edit(){
+        return $this->pageTpl(function ($view){
+            $uid = request()->param('uid');$type = null;
+            if($uid){
+                $logger = new Loger();
+                $data = $logger->get($uid)->toArray();
+                $type = $data['type'];
+                $view->assign('data',$data);
+            }
+            $view->assign('select_type',Bootstrap::SelectGrid($this->getSysConst('5403'),$type));
+        });
+    }
     // sfile 系统文件日志
     public function sfile(){
+        // 文件删除
+        // ?? 删除写入到日志
+        $request = Request::instance();
+        $type = $request->param('type');
+        if($type){
+            $logger = new Loger();
+            $msg = '';
+            if($type == 'fd'){
+                $file = $request->param('file');
+                if(unlink(ROOT_PATH.'/'.$file)){
+                    $logger->write('log_sfile',$file.' 日志文件本删除成功！');
+                    urlBuild('.logger/sfile','?dir='.$request->param('dir'));
+                }
+                $msg = $file.' 文件删除失败!';
+            }
+            elseif ($type == '2d'){
+                $dir = $request->param('dir');
+                if(rmdir(ROOT_PATH.'/'.$dir)){
+                    $logger->write('log_sfile',$dir.' 日志目录删除成功！');
+                    $dir = substr($dir,0,strrpos($dir,'/'));
+                    urlBuild('.logger/sfile','?dir='.$dir);
+                }
+                $msg = $dir.' 日志目录删除失败!';
+            }
+            if($msg) $logger->write('log_sfile',$msg);
+        }
         $this->loadScript([
             'js' => ['/jstree/jstree.min','logger/sfile'],
             'css'=> ['/jstree/themes/default/style.min']
         ]);
         return $this->pageTpl(function ($view){});
     }
-
+    // 日志详情
+    public function msg(){
+        $this->loadScript([
+            'js' => ['logger/msg'],
+            'title' => '日志详情'
+        ]);
+        return $this->pageTpl(function ($view){
+            $request = Request::instance();
+            $uid = $request->param('uid');
+            if($uid){
+                $logger = Db::table('sys_loger')->where('listid',$uid)->find();
+                $bstp = new Bootstrap();
+                $count = Db::table('sys_logmsg')
+                    ->where('pid',$uid)
+                    ->count();
+                $data = Db::table('sys_logmsg')
+                    ->field('ifnull(msg,content) as msg,listid,pid,name,uid,mtime')
+                    ->where('pid',$uid)
+                    ->order('mtime desc')
+                    ->page($bstp->page_decode(),30)
+                    ->select();
+                $view->assign('data',$data);
+                $view->assign('pageBar',$bstp->pageBar($count));
+                $view->assign('logger',$logger);
+            }
+        });
+    }
     /**
      * 文件系统脱后台数据获取 - ajax
      * @return array
@@ -72,7 +141,7 @@ class Logger extends Web
         if($item == 'get_content'){
             $type = $requset->param('type');
             if($type == 'file'){
-                return file_get_contents($requset->param('name'));
+                return file_get_contents(ROOT_PATH.'/'.$requset->param('name'));
             }
         }
         //debugOut($requset->param());
@@ -86,13 +155,22 @@ class Logger extends Web
         $retVal[] = ['id'=>'log','parent'=>'runtime','text'=>'log'];
         $retVal[] = ['id'=>'temp','parent'=>'runtime','text'=>'temp'];
         */
-        $basedir = ROOT_PATH.($dir? $dir:'/runtime/');
+        $basedir = ROOT_PATH.($dir? $dir.'/':'/runtime/');
         $ignoreArray = ['.','..','.gitignore'];
         foreach (scandir($basedir) as $v){
             if(in_array($v,$ignoreArray)) continue;
-            $type = is_file($basedir.$v)? 'file':'dir';
+            //$type = is_file($basedir.$v)? 'file':'dir';
+            $type = is_dir($basedir.$v)? 'dir':'file';
             $retVal[] = ['id'=>$v,'parent'=>'runtime','text'=>$v,'type'=>$type];
         }
         return $retVal;
+    }
+    // 数据删除，支持 ajax 删除法
+    public function del(){
+        list($item,$data) = $this->_getAjaxData();
+        if($item == 'r_l_m'){
+            $this->pushRptBack('sys_logmsg',['listid'=>$data['uid']],'auto');
+            return json(['code'=>1]);
+        }
     }
 }

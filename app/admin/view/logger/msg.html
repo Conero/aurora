@@ -1,0 +1,25 @@
+<ol class="breadcrumb" style="margin-top: 10px;">
+    <li class="breadcrumb-item">
+        <a href="{:urlBuild('!.logger')}">
+            <i class="fa fa-book" aria-hidden="true"></i> 系统日志
+        </a>
+    </li>
+    <li class="breadcrumb-item active">{$logger.loger} . 日志详情</li>
+</ol>
+<div class="card">
+    {if condition="isset($data)"}
+        {foreach $data as $vo}
+            <div class="card-block">
+                <h4 class="card-title">{$vo.name}</h4>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    {$vo.mtime}
+                    <a href="javascript:void(0);" data-uid="{$vo.listid}" class="js__trash_msg"><i class="fa fa-trash"></i></a>
+                </h6>
+                <p class="card-text">{$vo.msg}</p>
+            </div>
+        {/foreach}
+    {/if}
+</div>
+<div style="margin-top: 5px;">
+    {$pageBar|default=""}
+</div>

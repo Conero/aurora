@@ -18,5 +18,5 @@ class Web extends Controller
         $this->apiCheckKeys();
         $this->init();
     }
-    public function init(){}    // 应用初始化接口
+    protected function init(){}    // 应用初始化接口
 }
