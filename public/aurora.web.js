@@ -47,6 +47,7 @@ Web.getDataBySel = function (selector) {
     }
     return saveData;
 };
+
 /**
  * 表单监听器 - 2017年5月17日 星期三 / 包含 列表表单处理器(json)和独立form处理器([]json)
  * juqery v3.2.1
@@ -74,6 +75,10 @@ function FormListener(selector){
         config = config? config:{};
         config.pk = config.pk? config.pk:'pk';
 
+        // 数据保存接口
+        // 新增以后处理事件
+        formAction.afterAddRow = function (obj) {
+        };
         /**
          * 获取列表长度
          * @returns {number}
@@ -108,6 +113,7 @@ function FormListener(selector){
             }
             if(config.CcopyFromTr) parentObj.ResetForm(trObj,config.CcopyFromTr);
             else parentObj.ResetForm(trObj);
+            formAction.afterAddRow(trObj);
             return trObj;
         };
         /**
@@ -713,3 +719,22 @@ function FormListener(selector){
         });
     };
 }(Web));
+/**
+ * 删除自动提交，点击删除链接即可
+ * @param selector
+ * @param data
+ */
+Web.indexDelLink = function (selector,data) {
+    selector = selector? selector:'.js__del_lnk';
+    data = 'data-'+(data? data:'id');
+    var el = $(selector);
+    if(el.length > 0){
+        el.click(function () {
+            var pk = $(this).attr(data);
+            var json = {mode:'D',pk:pk};
+            Web.confirm('您确定要删除数据吗？',function () {
+                Web.post(Web.Think().getUrlByAction('save'),json);
+            });
+        });
+    }
+};

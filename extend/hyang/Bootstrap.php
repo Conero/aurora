@@ -81,9 +81,24 @@ class Bootstrap{
         return $selectXhtml;
     }
     /**
+     * 主键控件自动生成 2017年5月21日 星期日
+     * @param null $data 数据 默认获取 param()
+     * @param null $pk 主键默认 listid
+     * @return string
+     */
+    public static function formPkGrid($data=null,$pk=null){
+        $data = $data? $data: request()->param();
+        $pk = $pk? $pk:'listid';
+        $xhtml = '';
+        if(isset($data[$pk])){
+            $xhtml = '<input type="hidden" name="pk" value="'.base64_encode($data[$pk]).'">';
+        }
+        return $xhtml;
+    }
+    /**
      * 2017年5月16日 星期二/获取采筛选条件
      * @param null $where
-     * @param string|array $alis 前缀名 array ['默认/_col_'=>alias,'列名'=>b/匹配值
+     * @param string|array $alis 前缀名 array ['默认/_col_'=>alias,'列名'=>b/匹配值 或者 b.nick_col
      * @return array|null
      */
     public function getWhere($where=null,$alias=null){
@@ -91,7 +106,7 @@ class Bootstrap{
         $key = isset($_GET['skey'])? $_GET['skey']:'';
         if($key && $alias){
             if(is_array($alias)){
-                if(isset($alias[$key])) $key = $alias[$key].'.'.$key;
+                if(isset($alias[$key])) $key = strlen($alias[$key])>1 ? $alias[$key]:$alias[$key].'.'.$key;
                 else $key = $alias['_col_'].'.'.$key;
             }
             else $key = $alias.'.'.$key;

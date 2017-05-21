@@ -1,8 +1,13 @@
-{// include file="app/admin/view/admin.html" /}
-<h4 class="text-info">数据回收站</h4>
+<blockquote class="blockquote">
+    <p class="mb-0">
+        <i class="fa fa-recycle" aria-hidden="true"></i>
+        数据回收站
+    </p>
+</blockquote>
+<div>{$searchBar}</div>
 <table class="table table-bordered">
     <thead>
-    <tr><th>#</th><th>名称</th><th>前缀</th><th>类型</th><th>长度</th><th>最大值</th><th>编辑时间</th></tr>
+    <tr><th>#</th><th>数据表名</th><th>预览</th><th>操作地址</th><th>ip</th><th>编辑时间</th><th>操作者</th></tr>
     </thead>
     <tbody>
     {$tbody|default="<tr><td colspan='7'>还没有数据</td></tr>"}
