@@ -10,27 +10,28 @@ namespace app\common\traits;
 
 trait Util
 {
+    protected $saveConfig = [];
     /**
      * 错误自动重定位
      * @param null $msg
      * @param bool $feekData
      * @return mixed|null|string|void
      */
-    public function getErrorUrl($msg=null,$feekData=false){
+    protected function getErrorUrl($msg=null,$feekData=false){
         $msg = $msg? $msg:'';
         $url = (IS_MOBILE == 'Y')? urlBuild('!wap:error',"?msg=$msg"):urlBuild('!index:error',"?msg=$msg");
         if($feekData) return $url;
         header('Location: '.$url);
         die('程序执行异常!');
     }
-    public function getHomeUrl($feekData=false){
+    protected function getHomeUrl($feekData=false){
         $url = (IS_MOBILE == 'Y')? urlBuild('!wap:'):urlBuild('!index:');
         if($feekData) return $url;
         header('Location: '.$url);
         die('程序执行异常!');
     }
     // 删除空值
-    public function unEmptyArray($data){
+    protected function unEmptyArray($data){
         $ret = [];
         foreach($data as $k=>$v){
             if($v){
@@ -41,20 +42,27 @@ trait Util
         return $ret;
     }
     // 获取保存数据 list($data,$mode,$map) = $this->_getSaveData();
-    public function _getSaveData($pk=null,$data=null)
+    protected function _getSaveData($pk=null,$data=null)
     {
+        $pk = $pk? $pk:'listid';
         if(empty($data)) $data = count($_POST)>0? $_POST:$_GET;
-        $data = (isset($data['uid']) && count($data['uid']) == 1)? bsjson($data['uid']) : $data;
         $mode = isset($data['mode'])? $data['mode']:'';
         if($mode) unset($data['mode']);
-        elseif($pk && empty($data[$pk])) $mode = 'A';
-        elseif($pk && !empty($data[$pk])) $mode = 'M';
         $map = isset($data['map'])? $data['map']:'';
+        // 保存方法的配置
+        $saveConfig = $this->saveConfig? $this->saveConfig:[];
         if($map) unset($data['map']);
-        elseif($pk && isset($data[$pk])){
-            $map = [$pk=>$data[$pk]];
+        elseif($mode != 'A' && isset($data['pk'])){ //默认名称
+            $pkValue = $data['pk'];
+            $map = [$pk => isset($saveConfig['raw_pk'])? $pkValue: base64_decode($pkValue)]; // 对应 Bootstrap::formPkGrid 编码方式对应
+            if(empty($mode)) $mode = 'M';
+            unset($data['pk']);
+        }elseif($mode != 'A' && isset($data[$pk])){
+            $pkValue = $data[$pk];
+            $map = [$pk => isset($saveConfig['raw_pk'])? $pkValue: base64_decode($pkValue)]; // 对应 Bootstrap::formPkGrid 编码方式对应
+            if(empty($mode)) $mode = 'M';
             unset($data[$pk]);
-        }
+        }elseif(empty($mode)) $mode = 'A';
         return [$data,$mode,$map];
     }
     /**
@@ -64,7 +72,7 @@ trait Util
      * @return array
      * @example list($data,$type,$map) = $this->_getSaveDlist($data);
      */
-    public function _getSaveDlist($data,$option=null)
+    protected function _getSaveDlist($data,$option=null)
     {
         $data = is_array($data)? $data : json_decode($data,true);
         if(is_array($option)) $pk = isset($option['pk'])? $option['pk']:'';
@@ -80,7 +88,7 @@ trait Util
     // 获取ajax数据请求数据
     // $data = {'__:':'bsjson 加密数据','$rd':Math.random()}
     // list($item,$data) = $this->_getAjaxData();
-    public function _getAjaxData($onlyPOST=false){
+    protected function _getAjaxData($onlyPOST=false){
         if($onlyPOST) $data = $_POST;
         else $data = count($_POST)>0? $_POST:$_GET;
         if(isset($data['__:'])) $data = bsjson($data['__:']);

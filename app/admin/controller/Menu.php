@@ -65,7 +65,7 @@ class Menu extends Web
             // 数据编辑时
             if($groupMk){
                 $data = Db::table('sys_menu')
-                    ->field('listid,descrip,url,remark,order')
+                    ->field('listid,descrip,url,remark,order,icon')
                     ->where('group_mk',$groupMk)
                     ->order('order')
                     ->select();
@@ -76,10 +76,19 @@ class Menu extends Web
                         ->find();
                     $detail = '';$i = 1;
                     foreach ($data as $v){
+                        $icon = $v['icon'];
                         $detail .= '
                             <tr data-id="'.base64_encode($v['listid']).'"><td data-no="'.$i.'">'.$v['order'].'</td>
                                 <td><input type="text" name="descrip" class="form-control" value="'.$v['descrip'].'" required></td>
                                 <td><input type="text" name="url" class="form-control" value="'.$v['url'].'" required></td>
+                                <td>
+                                    <div class="input-group">
+                                      <span class="input-group-addon">'.
+                            ($icon? (substr_count($icon,'/')>0? '<img src="'.$icon.'">':'<i class="'.$icon.'"></i>'):'').'</span>
+                                      <input type="text" name="icon" class="form-control" value="'.$icon.'" required></td>
+                                    </div>
+                                </td>
+                                <!--<td><input type="text" name="icon" class="form-control" value="'.$v['icon'].'" required></td>-->
                                 <td><input type="text" name="remark" class="form-control" value="'.$v['remark'].'"></td>
                             </tr>
                         ';

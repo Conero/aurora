@@ -413,6 +413,67 @@ function Aurora() {
 		}
 		return '';
 	};
+    // 框架级获取提，如 模块名/控制器名称/方法名等
+    var _ThinkRequest = {};
+    function thinkQuery(idx) {
+        if(!_ThinkRequest.parseArray){
+            var pathname = location.pathname.replace(Web._baseurl,'');
+            pathname = pathname.replace('.html','');
+            _ThinkRequest.pathname = pathname;
+            tmpArray = pathname.split('/');
+            _ThinkRequest.parseArray = tmpArray;
+        }
+        if(_ThinkRequest.parseArray){
+            if(idx || idx === 0){
+                if(idx < _ThinkRequest.parseArray.length) return _ThinkRequest.parseArray[idx];
+                else if(idx>0) return 'index';
+            }
+        }
+    }
+    /**
+     * 获取控制器相关名称
+     * @param key
+     * @returns {*}
+     * @constructor
+     */
+    fn.Think = function () {
+        var Obj = this;
+        var JsThink = {};
+        thinkQuery();
+        /**
+         * 获取控制器相关名称
+         * @param key
+         * @returns {*}
+         * @constructor
+         */
+        JsThink.request = function (key) {
+            if(_ThinkRequest[key]) return _ThinkRequest[key];
+            else{
+                switch (key){
+                    case 'module':
+                        _ThinkRequest.module = thinkQuery(0);
+                        break;
+                    case 'controller':
+                        _ThinkRequest.controller = thinkQuery(1);
+                        break;
+                    case 'action':
+                        _ThinkRequest.action = thinkQuery(2);
+                        break;
+                }
+            }
+            if(_ThinkRequest[key]) return _ThinkRequest[key];
+        };
+        JsThink.location = _ThinkRequest;
+        JsThink.getUrlByAction = function (action) {
+          return Obj._baseurl
+              + this.request('module')
+              + '/'
+              + this.request('controller')
+              + '/'
+              + action;
+        };
+        return JsThink;
+    };
 /**************************** 系统级私有函数(end) **************************************/
     return new aurora();
 }

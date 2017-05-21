@@ -1,0 +1,51 @@
+<ol class="breadcrumb" style="margin-top: 10px;">
+    <li class="breadcrumb-item">
+        <a href="{:urlBuild('!.skey')}">
+            <i class="fa fa-address-card-o" aria-hidden="true"></i>
+            系统主键生成器
+        </a>
+    </li>
+    <li class="breadcrumb-item active">数据维护</li>
+</ol>
+<div class="card">
+    <div class="card-block">
+        <form method="post" action="{:url('skey/save')}">
+            <div class="form-group row has-success">
+                <label for="ipt_name" class="col-sm-2 col-form-label">名称</label>
+                <div class="col-sm-10">
+                    <input type="text" name="name" class="form-control" id="ipt_name" placeholder="名称" value="{$data.name|default=''}" required>
+                    <small class="form-text text-muted">建议命名方式 pk_tablename__pkname</small>
+                    <input type="hidden" name="mode" value="{$mode}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="ipt_pref" class="col-sm-2 col-form-label">首前缀</label>
+                <div class="col-sm-10">
+                    <input type="text" name="pref" class="form-control" id="ipt_pref" placeholder="首前缀" value="{$data.pref|default=''}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="ipt_len" class="col-sm-2 col-form-label">长度</label>
+                <div class="col-sm-10">
+                    <input type="text" name="len" class="form-control" id="ipt_len" placeholder="长度" value="{$data.len|default=''}">
+                    <small class="form-text text-muted">默认为15</small>
+                </div>
+            </div>
+            <div class="form-group row has-success">
+                <label for="ipt_type" class="col-sm-2 col-form-label">类型</label>
+                <div class="col-sm-10">
+                    <select name="type" class="form-control" id="ipt_type" required>
+                        <option value="">请选择...</option>
+                        {$select_type}
+                    </select>
+                    <small class="form-text text-muted">默认为 M 全年</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="offset-sm-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -28,7 +28,7 @@
     <p class="lead text-warning">明细数据</p>
     <table class="table table-bordered js__form">
         <thead>
-        <tr class="bg-info"><th>顺序</th><th>描述</th><th>地址</th><th>备注</th></tr>
+        <tr class="bg-info"><th>顺序</th><th>描述</th><th>地址</th><th>图标</th><th>备注</th></tr>
         </thead>
         <tbody>
             {if condition="isset($detail)"}
@@ -37,6 +37,12 @@
             <tr><td data-no="1">1</td>
                 <td><input type="text" name="descrip" class="form-control"></td>
                 <td><input type="text" name="url" class="form-control"></td>
+                <td>
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        <input type="text" name="icon" class="form-control">
+                    </div>
+                </td>
                 <td><input type="text" name="remark" class="form-control"></td>
             </tr>
             {/if}

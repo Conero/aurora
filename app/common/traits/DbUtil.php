@@ -44,14 +44,21 @@ trait DbUtil
 
     /**
      * 获取系统菜单
-     * @param $name
+     * @param $name string
+     * @param $mutilate bool 返回多数据
      * @return array
      */
-    public function getSysMenu($name){
+    public function getSysMenu($name,$mutilate=null){
         $data = Db::table('sys_menu')->where('group_mk',$name)->order('order')->select();
         $retVal = [];
         foreach ($data as $v){
-            $retVal[$v['url']] = $v['descrip'];
+            if($mutilate){
+                $retVal[$v['url']] = [
+                    'text' => $v['descrip'],
+                    'icon' => $v['icon']
+                ];
+            }
+            else $retVal[$v['url']] = $v['descrip'];
         }
         return $retVal;
     }

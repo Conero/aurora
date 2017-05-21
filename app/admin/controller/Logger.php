@@ -22,7 +22,8 @@ class Logger extends Web
     // 首页
     public function index(){
         $this->loadScript([
-            'title'=>'系统日志-Aurora'
+            'title'=>'系统日志-Aurora',
+            'js'    => 'logger/index'
         ]);
         return $this->pageTpl(function ($view){
             $bstp = new Bootstrap();
@@ -40,7 +41,12 @@ class Logger extends Web
             $tbody = $bstp->tbodyGrid([function($data){
                 return '<a href="'.url('logger/edit','uid='.$data['listid']).'">'.$data['loger'].'</a>';
             },'code','belong_mk','type','mtime','account',function($data){
-                return '<a href="'.url('logger/msg','uid='.$data['listid']).'">详情</a>';
+                return '
+                <a href="'.url('logger/msg','uid='.$data['listid']).'">详情</a>
+                <a href="javascript:void(0);" data-id="'.base64_encode($data['listid']).'" class="js__del_lnk">
+                    <i class="fa fa-trash-o"></i> 删除
+                </a>
+                ';
             }],
                 function () use($bstp,$where,$logger){
                     $data = $logger->alias('a')
@@ -66,6 +72,7 @@ class Logger extends Web
                 $data = $logger->get($uid)->toArray();
                 $type = $data['type'];
                 $view->assign('data',$data);
+                $view->assign('td_pk',Bootstrap::formPkGrid($data));
             }
             $view->assign('select_type',Bootstrap::SelectGrid($this->getSysConst('5403'),$type));
         });
@@ -171,6 +178,29 @@ class Logger extends Web
         if($item == 'r_l_m'){
             $this->pushRptBack('sys_logmsg',['listid'=>$data['uid']],'auto');
             return json(['code'=>1]);
+        }
+    }
+    public function save(){
+        list($data,$type,$map) = $this->_getSaveData();
+        //println($data,$type,$map);die;
+        $logger = new Loger();
+        if($type == 'M'){
+            if($logger->update($data,$map))
+                $this->success('数据更新成功!');
+            else
+                $this->error('数据更新失败!');
+        }
+        elseif ($type == 'D'){
+            $this->pushRptBack('sys_loger',$map,true);
+            $logger->where($map)->delete();
+            $this->success('数据删除成功!');
+        }
+        else{
+            $data['listid'] = getPkValue('pk_sys_loger__listid');
+            if($logger->insert($data))
+                $this->success('数据新增成功!');
+            else
+                $this->error('数据新增失败!');
         }
     }
 }

@@ -26,13 +26,18 @@ trait Admin
         call_user_func($callback,$view);
         // 页面渲染
         $this->assign('pageContent',$view->fetch());
-        $menu = $this->getSysMenu('admin_tpl');
+        $menu = $this->getSysMenu('admin_tpl',true);
         $admin = [];
         $xhtml = '';
         $requset = Request::instance();
         $curUrl = strtolower('/'.$requset->module().'/'.$requset->controller());
         foreach ($menu as $k=>$v){
-            $xhtml .= '<a href="'.$k.'" class="list-group-item '.(substr_count($k,$curUrl) > 0? 'active':'list-group-item-action').'">'.$v.'</a>';
+            $value = $v['text'];
+            $icon = $v['icon'];
+            $icon = $icon? (substr_count($icon,'/') > 0? '<img src="'.$icon.'">':'<i class="'.$icon.'"></i>'):'';
+            if($icon) $icon .= ' ';
+            $xhtml .= '<a href="'.$k.'" class="list-group-item '.
+                (substr_count($k,$curUrl) > 0? 'active':'list-group-item-action').'">'.$icon.$value.'</a>';
         }
         if($xhtml) $admin['menu'] = $xhtml;
         $this->assign('admin',$admin);
