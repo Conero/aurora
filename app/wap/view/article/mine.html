@@ -1,0 +1,28 @@
+{include file="public/appm/tpl_header.html" /}
+<body>
+    <div class="weui-tab container">
+        <div class="weui-flex bg-faded aurora-edit-head">
+            <div class="weui-flex__item">
+                <div class="placeholder">
+                    <a href="{:urlBuild('!.article')}">
+                        <i class="fa fa-arrow-circle-left"></i>
+                        文章
+                    </a>
+                    /我的文章</div>
+            </div>
+        </div>
+        {if condition="isset($collected)"}
+            <div class="weui-cells__title">我的文集 {$collected|count}</div>
+            {foreach $collected as $vo}
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <p>{$vo.collected}</p>
+                </div>
+                <div class="weui-cell__ft">{$vo.ctt}</div>
+            </div>
+            {/foreach}
+        {/if}
+        {$atclist|default=""}
+    </div>
+</body>
+</html>

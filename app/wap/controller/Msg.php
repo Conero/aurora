@@ -20,6 +20,7 @@ class Msg extends Wap
     public function succs(){
         $page = request()->param();
         if(isset($page['url']) && !empty($page['url'])) $page['url'] = urlBuild('!'.$page['url']);
+        elseif(isset($_SERVER['HTTP_REFERER'])) $page['url'] = $_SERVER['HTTP_REFERER'];
         $this->assign('page',$page);
         return $this->fetch();
     }

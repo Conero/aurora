@@ -1,0 +1,36 @@
+{include file="public/appm/tpl_header.html" /}
+<body>
+    <div class="weui-tab container">
+        <div class="page__hd">
+            <h1 class="page__title">
+                <a href="{:urlBuild('!.');}">
+                    <img src="/aurora/public/aurora-appm.png" alt="Aurora" height="50px">
+                </a>
+                文章
+            </h1>
+        </div>
+        {if condition="isset($page.uid)"}
+        <div class="weui-cells">
+            <a class="weui-cell weui-cell_access" href="{:url('article/edit')}">
+                <div class="weui-cell__bd">
+                    <p>我要写文章</p>
+                </div>
+                <div class="weui-cell__ft"></div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="{:url('article/mine')}">
+                <div class="weui-cell__bd">
+                    <p>我的文章</p>
+                </div>
+                <div class="weui-cell__ft"></div>
+            </a>
+        </div>
+        {/if}
+        <div class="weui-panel">
+            <div class="weui-panel__hd">文章列表</div>
+            <div class="weui-panel__bd">
+                {$atclist|default=""}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

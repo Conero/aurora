@@ -1,0 +1,64 @@
+{include file="public/appm/tpl_header.html" /}
+<body>
+    <div class="weui-tab container">
+        <div class="weui-flex bg-faded aurora-edit-head">
+            <div class="weui-flex__item">
+                <div class="placeholder">
+                    <a href="{:urlBuild('!.article')}">
+                        <i class="fa fa-arrow-circle-left"></i>
+                        文章
+                    </a>
+                    /我要投稿</div>
+            </div>
+        </div>
+        <div class="weui-cells__title">信息填写</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">* 标题</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="title" type="text"  value="{$data.title|default=''}" placeholder="请输入标题" required>
+                    {$pk_ipt|default=""}
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">文集</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" value="{$data.collected|default=''}" name="collected" type="text"  placeholder="设置文集">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">署名</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="sign" value="{$data.sign|default=''}" type="text"  placeholder="设置署名">
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_vcode">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">日期</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="date_ipt" name="date" value="{$data.date|default=''}" type="text"  readonly placeholder="设置日期">
+                </div>
+                <div class="weui-cell__ft">
+                    <button class="weui-vcode-btn" id="date_setting">设置</button>
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_switch">
+                <div class="weui-cell__bd">不发布</div>
+                <div class="weui-cell__ft">
+                    <input class="weui-switch" name="is_private" value="Y" type="checkbox">
+                </div>
+            </div>
+            <div class="weui-cells__title">文章内容</div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea" name="content" placeholder="请输入文本" rows="10" required>{$data.content|default=''}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" href="javascript:" id="save_data_lnk">提交</a>
+        </div>
+    </div>
+</body>
+</html>

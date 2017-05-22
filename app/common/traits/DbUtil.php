@@ -20,7 +20,7 @@ trait DbUtil
      * @param $key 常量名称
      * @return array/string
      */
-    public function getSysConst($scope,$key=null){
+    protected function getSysConst($scope,$key=null){
         if(substr_count($scope,'.')>0 && empty($key)){ // 存在点操作并键值为空自动解析值
             $index = strpos($scope,'.');
             $scope = substr($scope,0,$index);
@@ -48,7 +48,7 @@ trait DbUtil
      * @param $mutilate bool 返回多数据
      * @return array
      */
-    public function getSysMenu($name,$mutilate=null){
+    protected function getSysMenu($name,$mutilate=null){
         $data = Db::table('sys_menu')->where('group_mk',$name)->order('order')->select();
         $retVal = [];
         foreach ($data as $v){
@@ -66,7 +66,7 @@ trait DbUtil
      * 访问站点自动登记,获取获取session值
      * @param $UpdateCtt 是否更记录
      */
-    public function autoRecordVisitRecord($UpdateCtt=true){
+    protected function autoRecordVisitRecord($UpdateCtt=true){
         $skey = Config::get('setting.session_visit_key');
         if(!Session::has($skey)){
             $ctt = (Db::table('sys_visit')->count()) + 1;
@@ -97,7 +97,7 @@ trait DbUtil
     // 数据删除时将数据写到数据回收表
     // 支持多数据 - 2017年2月9日 星期四
     // $autoDelete 自动删除数据
-    public function pushRptBack($table,$data=null,$mkQuery=false){
+    protected function pushRptBack($table,$data=null,$mkQuery=false){
         try{
             $uid = getUserInfo('uid');
             $request = Request::instance();
