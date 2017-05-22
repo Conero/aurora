@@ -97,4 +97,19 @@ trait Util
         if($item) unset($data['item']);
         return [$item,$data];
     }
+
+    /**
+     * 用户权限检查
+     * @param null $auth 默认为登录用户
+     * @param null $callback function|bool true 是返回值
+     * @return mixed 直接调整扩展| bool
+     */
+    protected function checkAuth($auth=null,$callback=null){
+        // 必须未登录用户
+        if(empty($auth) && getUserInfo('uid') == ''){
+            if($callback instanceof \Closure) return call_user_func($callback,true);
+            elseif ($callback) return true;
+            $this->getErrorUrl('您该没有登录或注册，该功能将被限制使用!');
+        }
+    }
 }

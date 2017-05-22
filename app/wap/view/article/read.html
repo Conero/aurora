@@ -1,0 +1,45 @@
+{include file="public/appm/tpl_header.html" /}
+<body>
+<div class="weui-tab container">
+    <div class="weui-flex bg-faded aurora-edit-head">
+        <div class="weui-flex__item">
+            <div class="placeholder">
+                <a href="{:urlBuild('!.article')}">
+                    <i class="fa fa-arrow-circle-left"></i>
+                    文章
+                </a>
+                /{$page.title}</div>
+        </div>
+    </div>
+    <article class="weui-article">
+        <h1>{$page.title}</h1>
+        <p class="text-right">{$page.mtime}</p>
+        <section>
+            <h2 class="title bg-faded">内容</h2>
+            <section>
+                {$page.content|nl2br}
+            </section>
+        </section>
+    </article>
+    <div class="weui-cells__title">其他</div>
+    <div class="weui-cell">
+        <div class="weui-cell__bd">
+            <p>作者</p>
+        </div>
+        <div class="weui-cell__ft">{$page.sign|default="匿名"}</div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__bd">
+            <p>阅读数</p>
+        </div>
+        <div class="weui-cell__ft">{$page.read_count}</div>
+    </div>
+    <div class="weui-footer">
+        <p class="weui-footer__links">
+            <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
+        </p>
+        <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
+    </div>
+</div>
+</body>
+</html>

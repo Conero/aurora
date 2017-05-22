@@ -6,6 +6,7 @@
  * Name: 移动端公共控制器
  */
 namespace app\common\controller;
+use hyang\Bootstrap;
 use Phinx\Config;
 use think\Controller;
 use think\Session;
@@ -19,5 +20,15 @@ class Wap extends Controller
         $this->apiCheckKeys();
         $this->init();
     }
-    public function init(){}    // 应用初始化接口
+    protected function init(){}    // 应用初始化接口
+
+    /**
+     *  Bootstrap::formPkGrid 的别名，Wap 化
+     * @param $data
+     * @param $pk
+     * @return string
+     */
+    protected function formPkGrid($data=null,$pk=null){
+        return Bootstrap::formPkGrid($data,$pk);
+    }
 }

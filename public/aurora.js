@@ -474,6 +474,51 @@ function Aurora() {
         };
         return JsThink;
     };
+    /**
+     * 表单重置
+     * @param selector string|jquery
+     * @param ignore    []string|string
+     * @constructor
+     */
+    fn.ResetForm = function (selector,ignore) {
+        selector = selector? selector:'body';
+        var el = typeof selector == 'object'? selector:$(selector);
+        ignore = ignore? ignore: [];
+        ignore = typeof ignore == 'object'? ignore:[ignore];
+        var ipts = el.find('input');
+        for(var i=0; i<ipts.length; i++){
+            var ipt = $(ipts[i]);
+            if(typeof ipt.attr('disabled') != 'undefined') continue;
+            if(ignore.length>0){
+                var iptName = ipt.attr("name");
+                if(iptName && $.inArray(iptName,ignore)>-1) continue;
+            }
+            var iptType = ipt.attr('type');
+            if(iptType == 'checkbox' || iptType == 'radio'){ // 暂时无法重置
+                if(el.is('checked')) el.attr('checked',false);
+                continue;
+            }
+            ipt.val('');
+        }
+        var textareas = el.find('textarea');
+        for(var j=0; j<textareas.length; j++){
+            var textarea = $(textareas[j]);
+            if(ignore.length>0){
+                var txtName = textarea.attr("name");
+                if(txtName && $.inArray(txtName,ignore)>-1) continue;
+            }
+            textarea.val('');
+        }
+        var selects = el.find('select');
+        for(var x=0; x<selects.length; x++){
+            var sel = $(selects[x]);
+            if(ignore.length>0){
+                var selName = sel.attr("name");
+                if(selName && $.inArray(selName,ignore)>-1) continue;
+            }
+            if(sel.find('option:selected').length>0) sel.find('option:selected').attr('selected',false);
+        }
+    };
 /**************************** 系统级私有函数(end) **************************************/
     return new aurora();
 }
