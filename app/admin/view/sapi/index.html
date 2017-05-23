@@ -1,0 +1,18 @@
+<blockquote class="blockquote">
+    <p class="mb-0">
+        <i class="fa fa-support" aria-hidden="true"></i>
+        系统 APIs
+    </p>
+</blockquote>
+<div>{$searchBar}</div>
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr><th>#</th><th>请求地址</th><th>请求数</th><th>编辑时间</th></tr>
+    </thead>
+    <tbody>
+    {$tbody|default="<tr><td colspan='4'>还没有数据</td></tr>"}
+    </tbody>
+</table>
+<nav>
+    {$pageBar|default=""}
+</nav>

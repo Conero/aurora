@@ -29,7 +29,7 @@ class Article extends Wap
         //$count = Db::table('atc1000c')->count();
         // 数据提取
         $data = Db::table('atc1000c')
-            ->field('left(content,50) as content,listid,title,mtime,collected,sign')
+            ->field('left(content,50) as content,listid,title,date,collected,sign,ifnull(read_count,1) as read_count')
             ->page(1,30)
             ->where('is_private','N')
             ->order('mtime desc')
@@ -42,10 +42,11 @@ class Article extends Wap
                         <h4 class="weui-media-box__title">'.$v['title'].'</h4>
                         <p class="weui-media-box__desc">
                             <a href="'.url('article/read','item='.$v['listid']).'">'.$v['content'].'...</a>
+                            <i class="fa fa-eye"></i> '.$v['read_count'].'
                         </p>
                         <ul class="weui-media-box__info">
                             <li class="weui-media-box__info__meta"><i class="fa fa-user-circle"></i> '.$v['sign'].'</li>
-                            <li class="weui-media-box__info__meta">'.$v['mtime'].'</li>
+                            <li class="weui-media-box__info__meta">'.$v['date'].'</li>
                             '.(empty($v['collected'])? '':'<li class="weui-media-box__info__meta"><i class="fa fa-book"></i> 文集：'.$v['collected'].'</li>').
                         '
                         </ul>
@@ -125,7 +126,7 @@ class Article extends Wap
                         </p>
                         <ul class="weui-media-box__info">
                             <li class="weui-media-box__info__meta">'.$v['sign'].'</li>
-                            <li class="weui-media-box__info__meta">'.$v['mtime'].'</li>
+                            <li class="weui-media-box__info__meta">'.$v['date'].'</li>
                             '.(empty($v['collected'])? '':'<li class="weui-media-box__info__meta">文集：'.$v['collected'].'</li>').
                     '
                         </ul>

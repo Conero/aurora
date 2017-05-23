@@ -1,5 +1,11 @@
 {// include file="app/admin/view/admin.html" /}
-<h4 class="text-info">系统访问日志</h4>
+<blockquote class="blockquote">
+    <p class="mb-0">
+        <i class="fa fa-history" aria-hidden="true"></i>
+        系统访问日志
+    </p>
+</blockquote>
+<div>{$searchBar}</div>
 <table class="table table-bordered">
     <thead>
     <tr><th>#</th><th>ip</th><th>移动端</th><th>编辑时间</th><th>累计次数</th><th>是否已分析地址</th></tr>
@@ -11,22 +17,3 @@
 <nav>
 {$pageBar|default=""}
 </nav>
-<!--<nav aria-label="Page navigation example">-->
-    <!--<ul class="pagination">-->
-        <!--<li class="page-item">-->
-            <!--<a class="page-link" href="#" aria-label="Previous">-->
-                <!--<span aria-hidden="true">&laquo;</span>-->
-                <!--<span class="sr-only">Previous</span>-->
-            <!--</a>-->
-        <!--</li>-->
-        <!--<li class="page-item"><a class="page-link" href="#">1</a></li>-->
-        <!--<li class="page-item"><a class="page-link" href="#">2</a></li>-->
-        <!--<li class="page-item"><a class="page-link" href="#">3</a></li>-->
-        <!--<li class="page-item">-->
-            <!--<a class="page-link" href="#" aria-label="Next">-->
-                <!--<span aria-hidden="true">&raquo;</span>-->
-                <!--<span class="sr-only">Next</span>-->
-            <!--</a>-->
-        <!--</li>-->
-    <!--</ul>-->
-<!--</nav>-->

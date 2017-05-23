@@ -50,7 +50,7 @@ class Bootstrap{
             $option .= "<option value='$k' $checked).'>$v</option>";
         }
         if(empty($skey)) $option = '<option value="" selected>选择值</option>'.$option;
-        $xhtml = '<form class="form-inline" style="margin-left: 60%;">'
+        $xhtml = '<form class="form-inline" style="margin-left: 50%;">'
             . '<select class="custom-select mb-2 mr-sm-2 mb-sm-0" name="skey" id="inlineFormCustomSelect">'.$option.'</select>'
             . '<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" name="svalue" value="'.$svalue.'"> '
             . ' <button type="submit" class="btn btn-success"><i class="fa fa-search" aria-hidden="true"></i> 搜索</button>'
