@@ -17,16 +17,24 @@ class Visit extends Web
     {
         return $this->pageTpl(function ($view){
             $bstp = new Bootstrap();
+            $where = $bstp->getWhere();
             $visit = model('Visit');
-            $data = $visit->field('ip,is_mobile,mtime,dct,annlyse_mk')->order('mtime desc')->page($bstp->page_decode(),30)->select();
-            $count = $visit->count();
-            $tbody = '';$i = 1;
-            foreach ($data as $v){
-                $tbody .= '<tr><td>'.$i.'</td><td>'.$v['ip'].'</td><td>'.$v['is_mobile'].
-                    '</td><td>'.$v['mtime'].'</td><td>'.$v['dct'].
-                    '</td><td>'.(empty($v['annlyse_mk'])? '否':'是').'</td></tr>';
-                $i += 1;
-            }
+            $view->assign('searchBar',$bstp->searchBar([
+                'ip'  => 'ip',
+                'is_mobile'  => '是否为移动端',
+                'mtime'  => '访问时间',
+                'dct'  => '累计访问次数',
+                'annlyse_mk'  => '分析标识'
+            ]));
+            $count = $visit->where($where)->count();
+            $tbody = $bstp->tbodyGrid(['ip','is_mobile','mtime','dct','annlyse_mk'],function ()use($visit,$where,$bstp){
+                return $visit
+                    ->where($where)
+                    ->field('ip,is_mobile,mtime,dct,ifnull(annlyse_mk,\'N\') as annlyse_mk')
+                    ->page($bstp->page_decode(),30)
+                    ->order('mtime desc')
+                    ->select();
+            });
             if($tbody){
                 $view->assign('tbody',$tbody);
                 $view->assign('pageBar',$bstp->pageBar($count));
