@@ -9,10 +9,10 @@
         - 系统访问记录模块微调优化
 - [其他]
     - 编辑 Oschina相关处理接口，基本实现普通接口调用
-    - 引入 ![ApacheMimeTypes](https://github.com/dflydev/dflydev-apache-mime-types) 库用于处理是来自 Doeeking V2中的url保存图片功能
+    - 引入 [ApacheMimeTypes](https://github.com/dflydev/dflydev-apache-mime-types) 库用于处理是来自 Doeeking V2中的url保存图片功能
     - 数据库新增-项目相关的数据库表设计(探索)
     - 以及数据库其他优化
-    
+
 ## V 0.1.9  2017年5月22日 星期一
 - [移动版建设]
     - 文章模块实现
