@@ -380,7 +380,7 @@ function urlBuild($url=null,$param=null)
     }
     else $url .= $suffix;
     if($redirect){
-        go($url);return;
+        go($url);return false;
     }
     if($httpAdd) $url = $httpAdd.$url;
     return $url;

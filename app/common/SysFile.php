@@ -9,24 +9,104 @@
 namespace app\common;
 
 
+use app\common\traits\DbUtil;
 use Exception;
 use think\Db;
 use Dflydev\ApacheMimeTypes\PhpRepository;
 
 class SysFile
 {
-    const basedir = ROOT_PATH.'/source/';   // 文件所在的文件
+    use DbUtil;
     const id_mk = 'pk_sys_file__listid';
+    const dirname = '/source/';
     protected $file;    // 系统接受的文件名
+    protected $basepath;
+    protected $basedir; // 文件目录
+    protected $registerEvents = []; // [key => callback   注册事件
     public function __construct($file=null)
     {
         $this->file = $file? $file:$_FILES;
-        if(!is_dir(self::basedir)) mkdir(self::basedir);
+        $basedir = ROOT_PATH.self::dirname;
+        if(!is_dir($basedir)) mkdir($basedir);
+        $this->basepath = date('Ym').'/';
+        $this->basedir = $basedir.$this->basepath;
     }
-    // 文件保存
-    public function save(){}
-    // 文件移除
-    public function remove(){}
+
+    /**
+     * 新增前事件处理
+     * @param $callback  => function($data,$type=SF|F1){}
+     */
+    public function beforeInsert($callback){
+        if($callback instanceof \Closure) $this->registerEvents['beforeInsert'] = $callback;
+    }
+
+    /**
+     * 文件保存
+     * @param $pid string 在分组中信息或者直接新增住
+     * @return bool
+     */
+    public function save($pid=nulll){
+        $success = false;
+        $pid = $pid? $pid:null;
+        foreach ($this->file as $v){
+            // 出错时直接跳过
+            if($v['error']) continue;
+            $lisid = getPkValue(self::id_mk);
+            $path = $this->basepath.$lisid;
+            $name = $v['name'];
+            $value = [
+                'listid' => $lisid,
+                'name' => $name,
+                'filetype' => $v['type'],
+                'size'  => $this->sizeUnit($v['size']),
+                'path'  => $path
+            ];
+            if(empty($pid)){
+                $fileGroup = ['mtime'=>date('Y-m-d H:i:s')];
+                $uid = getUserInfo('uid');
+                if(key_exists('beforeInsert',$this->registerEvents)){
+                    $fileGroup = call_user_func($this->registerEvents['beforeInsert'],$fileGroup,'F1');
+                }
+                if($uid) $fileGroup['uid'] = $uid;
+                $pid = Db::table('file1000c')->insertGetId($fileGroup);
+            }
+            $value['pid'] = $pid;
+            if(key_exists('beforeInsert',$this->registerEvents)){
+                $value = call_user_func($this->registerEvents['beforeInsert'],$value,'SF');
+            }
+            if(Db::table('sys_file')->insert($value)) {
+                move_uploaded_file($v['tmp_name'], $this->basedir . $name);
+                $success = true;
+            }
+        }
+        return $success;
+    }
+    /**
+     * 文件移除
+     * @param $pid string|array
+     * @return null
+     */
+    public function remove($pid){
+        if(is_array($pid)){
+            foreach ($pid as $v){
+                $this->remove($v);
+            }
+            return null;
+        }
+        $data = Db::table('sys_file')
+            ->field('listid,path')
+            ->where('pid',$pid)
+            ->select();
+        foreach ($data as $v){
+            $file = ROOT_PATH.self::dirname.$v['path'];
+            if(is_file($file)){
+                unlink($file);
+            }
+            $map = ['listid'=> $v['listid']];
+            $this->pushRptBack('sys_file',$map,'auto');
+        }
+        $this->pushRptBack('file1000c',['listid'=>$pid],'auto');
+    }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 2016/1/24 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     //文件单位化  $fizese 文件原始大小：
     public function sizeUnit($fizese)
@@ -63,55 +143,51 @@ class SysFile
     }
     // URL 中加载文件 - 基于 curl
     public function fromUrl($url,$filename=null){
-        $default = '.html';
         try{
             // 将网络中的文件保存到服务器端
-            $basedir = self::basedir.date('Ym').'/';
+            $basedir = $this->basedir;
             if(!is_dir($basedir)) mkdir($basedir);
+            $listid = getPkValue(self::id_mk);
             // 获取文件格式名称
-            $tArr = explode('/',$url);
-            $urlFileName = array_pop($tArr);
-            $ext = strrchr($urlFileName,'.');
+            $pathinfo = pathinfo($url);
+            $ext  = $pathinfo['extension'];
             if(empty($filename)){
-                $filename = $urlFileName;
-                $name = $urlFileName;
-                $pref = '_'.time();
-                if($ext){
-                    $filename = str_replace($ext,$pref.$ext,$filename);
-                }
-                else $filename = $filename.$pref.$default;
+                $filename = $pathinfo['basename'];
             }
             else{
                 $filename = ($ext && substr_count($filename,$ext) == 0)? $filename.$ext:$filename;
-                $name = $filename; // 自定义时覆盖名称
             }
-            $filename = $basedir.$filename;
+            $name = $filename; // 自定义时覆盖名称
+            $filename = $listid.'.'.$ext;
+
+            // 网络文件处理
             ob_start();
             readfile($url);
             $file = ob_get_contents();
             ob_end_clean();
             //文件大小
-            $fp2=@fopen($filename,'w');
+            $fp2=@fopen($basedir.$filename,'w');
             @fwrite($fp2,$file);
             @fclose($fp2);
 
             //  文件写入数据库处理
-            $size = $this->sizeUnit(filesize($filename));
-            $listid = getPkValue(self::id_mk);
+            $size = $this->sizeUnit(filesize($basedir.$filename));
             $saveData = [
                 'name' => $name,
-                'path'  => date('Ym').'/'.sha1($listid).$ext
+                'size'=> $size,
+                'path'  => $this->basepath.$filename
             ];
             if($ext){
                 $parser = new PhpRepository();
                 $mimetype = $parser->findType(str_replace('.','',$ext));
                 if($mimetype) $saveData['filetype'] = $mimetype;
             }
-            return $this->saveData($saveData);
+            $saveData['listid'] = $listid;
+            $feekRet = $this->saveData($saveData);
+            return $feekRet;
         }catch(Exception $e){
             $br = "\r\n";
             $rpt = '>> 从URL连接上传文件时出错！'
-                . $br .'>> 用户('.($this->nick).')'
                 . $br .'>> 时间('.(date('Y-m-d H:i:s')).')'
                 . $br .'>> 错误信息： '.$br.$e->getTraceAsString();
             ;
@@ -126,39 +202,29 @@ class SysFile
     public function saveData($data){
         $checked = false;
         try{
-            $oData = $this->uploadPlusData();
-            if(is_array($oData)) $data = array_merge($oData,$data);
-            if(isset($data['file_own']) && empty($data['file_own'])) $data['file_own'] = $this->nick;
-            $checked = Db::table('sys_file')->insertGetId($data);
-            if($checked){
-                $this->fileid = $checked;
-                // 文件转移
-                $modeFileRight = false;
-                if(!is_dir($this->curdir)) mkdir($this->curdir);
-                if($this->_isUploadMethod == true) $modeFileRight = move_uploaded_file($this->_sourcePath,$this->basedir.$data['url_name']);
-                else $modeFileRight = copy($this->_sourcePath,$this->basedir.$data['url_name']);
-                // 如果文件上传失败，则删除当前已新增的数据库记录
-                if($modeFileRight == false){
-                    $map = ['file_id'=>$checked];
-                    Db::table('sys_file')->where($map)->delete();
-                    return false;
+            $fileGroup = ['mtime'=>date('Y-m-d H:i:s')];
+            $uid = getUserInfo('uid');
+            if(key_exists('beforeInsert',$this->registerEvents)){
+                $fileGroup = call_user_func($this->registerEvents['beforeInsert'],$fileGroup,'F1');
+            }
+            if($uid) $fileGroup['uid'] = $uid;
+            $pid = Db::table('file1000c')->insertGetId($fileGroup);
+            //debugOut([$pid,$fileGroup,$data]);
+            if($pid){
+                $data['pid'] = $pid;
+                if(key_exists('beforeInsert',$this->registerEvents)){
+                    $data = call_user_func($this->registerEvents['beforeInsert'],$data,'SF');
                 }
-                return true;
+                Db::table('sys_file')->insert($data);
+                $checked = true;
             }
         }catch(Exception $e){
-            if($checked && !is_bool($checked)){
-                try{
-                    $map = ['file_id'=>$checked];
-                    Db::table('sys_file')->where($map)->delete();
-                }catch(Exception $e2){}
-
-                $br = "\r\n";
-                $rpt = '>> 新增上传时，保存数据/转移文件时出错！'
-                    . $br .'>> 时间('.(date('Y-m-d H:i:s')).')'
-                    . $br .'>> 错误信息： '.$br.$e->getTraceAsString();
-                ;
-                $this->infoRpt($rpt);
-            }
+            $br = "\r\n";
+            $rpt = '>> 新增上传时，保存数据/转移文件时出错！'
+                . $br .'>> 时间('.(date('Y-m-d H:i:s')).')'
+                . $br .'>> 错误信息： '.$e->getMessage().$br.$e->getTraceAsString();
+            ;
+            $this->infoRpt($rpt);
         }
         return $checked;
     }
