@@ -9,11 +9,13 @@
 namespace app\common\traits;
 use app\common\model\Token;
 use app\common\SCache;
+use think\Db;
 use think\Request;
 use think\View;
 
 trait Admin
 {
+    protected $current_menuid = 'admin_tpl';
     /**
      * 页面模板
      * @param $callback
@@ -26,7 +28,7 @@ trait Admin
         call_user_func($callback,$view);
         // 页面渲染
         $this->assign('pageContent',$view->fetch());
-        $menu = $this->getSysMenu('admin_tpl',true);
+        $menu = $this->getSysMenu($this->current_menuid,true);
         $admin = [];
         $xhtml = '';
         $requset = Request::instance();
@@ -60,5 +62,15 @@ trait Admin
         $uid = getUserInfo('uid');
         if(!empty($uid)) return true;
         $this->getErrorUrl('地址请求无效');
+    }
+
+    /**
+     * 获取系统菜单相关参数
+     */
+    protected function getParamFromMenu($name){
+        return Db::table('sys_menu')
+            ->field('icon,descrip')
+            ->where(['group_mk'=>$this->current_menuid,'url'=>'/aurora/admin/'.$name.'.html'])
+            ->find();
     }
 }
