@@ -7,3 +7,36 @@
     </li>
     <li class="breadcrumb-item active">{$data.code} | {$data.name}</li>
 </ol>
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" href="#prj_descrip" data-toggle="tab" role="tab" aria-controls="prj_descrip">
+                    <i class="fa fa-info text-success"></i>
+                    {$data.code} 详情
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#prj_setting" data-toggle="tab" role="tab" aria-controls="prj_setting">
+                    <i class="fa fa-cog"></i>
+                    配置项
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div class="card-block tab-pane fade show active" id="prj_descrip" role="tabpanel" aria-labelledby="prj_descrip-tab">
+            <h4 class="card-title">{$data.name}</h4>
+            <h6 class="card-subtitle mb-2 text-muted text-right">时间： {$data.mtime}</h6>
+            <p class="card-text">描述<br /> {$data.descrip}</p>
+            <a href="{php}echo url('project/edit','uid='.$data['listid']);{/php}" class="btn btn-primary">修改</a>
+        </div>
+        <div class="card-block tab-pane fade" id="prj_setting" role="tabpanel" aria-labelledby="prj_setting-tab">
+            <p class="text-right">
+                <a href="javascript:void(0);" class="btn btn-info btn-sm" id="setting_add_lnk"><i class="fa fa-plus-square-o"></i></a>
+            </p>
+            <h4 class="card-title">设置项</h4>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        </div>
+    </div>
+</div>

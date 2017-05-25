@@ -718,6 +718,57 @@ function FormListener(selector){
             }
         });
     };
+    /**
+     * boostrap formGroup表单控件
+     * @param config []{
+     *  'label':'',type:'text',name:'',def:'默认值',notnull:bool
+     * }
+     * @param data json 值
+     */
+    obj.formGroup = function (config,data) {
+        var xhtml = '';
+        data = (typeof data == 'object')? data:{};
+        for(var i=0; i<config.length; i++){
+            var conf = config[i];
+            var type = conf.type? conf.type:'text';
+            var name = conf.name;
+            var value = data[name]? data[name]:(conf.def? conf.def:'');
+            xhtml += '<div class="form-group row'+(conf.notnull? ' has-success':'')+'">'
+                + '<label for="example-text-input" class="col-2 col-form-label">'+conf.label+'</label>'
+                + '<div class="col-10">'
+                + '<input class="form-control" type="'+type+'" name="'+name+'"'+(value? ' value="'+value+'"':'')+'>'
+                + '</div>'
+                + '</div>'
+                ;
+        }
+        return xhtml;
+    };
+    /**
+     * 模态窗口内嵌提示
+     * @param el jquery $(this)
+     * @param text string
+     * @param sec int
+     * @constructor
+     */
+    obj.ModalAlert = function (el,text,sec) {
+        if(typeof el != 'object') return;
+        var dom = el.parents('div.modal');
+        if(dom.length > 0){
+            dom = dom.find('div.modal-body');
+            if(dom.length > 0){
+                sec = sec? sec:2;
+                var id = 'md_alt_content';
+                var xhtml = '<div class="alert alert-danger" role="alert" id="'+id+'" style="margin-top: 0px;">'
+                    + '   <strong><i class="fa fa-bolt" 错误!</strong> '+text
+                    + '</div>'
+                    ;
+                dom.prepend(xhtml);
+                setTimeout(function () {
+                    $('#'+id).remove();
+                },sec*1000);
+            }
+        }
+    };
 }(Web));
 /**
  * 删除自动提交，点击删除链接即可

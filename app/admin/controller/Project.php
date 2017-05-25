@@ -96,7 +96,8 @@ class Project extends Web
         $uid = request()->param('uid');
         $data = Db::table('prj1000c')->where('listid',$uid)->find();
         $this->loadScript([
-            'title' => $data['name']
+            'title' => $data['name'],
+            'js'    => ['project/about']
         ]);
         return $this->pageTpl(function ($view) use($data){
             $setting = $this->page_setting;  // 页面配置项
