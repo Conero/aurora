@@ -28,15 +28,24 @@ class Api extends Controller
     protected function init(){}    // 应用初始化接口
     /**
      * 信息反馈
-     * @param $msg
+     * @param $msg string|array
      * @param null $code 默认为 失败
      * @return \think\response\Json
      */
     protected function FeekMsg($msg,$code=null){
-        $data = [
-            'code'=>($code? $code: -1),
-            'msg' => $msg
-        ];
+        if(is_array($msg)){ // 放回数据
+            $data = [
+                'code'=> '1',
+                'msg' => '',
+                'data'=>$msg
+            ];
+        }
+        else{ // 返回消息
+            $data = [
+                'code'=>($code? $code: -1),
+                'msg' => $msg
+            ];
+        }
         return json($data);
     }
 

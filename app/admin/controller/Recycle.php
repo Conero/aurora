@@ -17,8 +17,15 @@ use think\Db;
 class Recycle extends Web
 {
     use Admin;
+    protected $page_setting = [];
+    protected function init()
+    {
+        $this->page_setting = $this->getParamFromMenu('recycle');
+    }
+
     public function index(){
         return $this->pageTpl(function ($view){
+            $setting = $this->page_setting;  // 页面配置项
             $bstp = new Bootstrap();
             $where = $bstp->getWhere(null,['_col_'=>'a','account'=>'b']);
             $view->assign('searchBar',$bstp->searchBar([
@@ -49,6 +56,7 @@ class Recycle extends Web
                 $view->assign('tbody',$tbody);
                 $view->assign('pageBar',$bstp->pageBar($count));
             }
+            $view->assign('setting',$setting);
         });
     }
 }

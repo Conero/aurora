@@ -17,9 +17,15 @@ use think\Db;
 class Menu extends Web
 {
     use Admin;
+    protected $page_setting = [];
+    protected function init()
+    {
+        $this->page_setting = $this->getParamFromMenu('menu');
+    }
     // 首页
     public function index(){
         return $this->pageTpl(function ($view){
+            $setting = $this->page_setting;  // 页面配置项
             $bstp = new Bootstrap();
             $where = $bstp->getWhere(null,['_col_'=>'a','account'=>'b']);
             $count = !empty($where)?
@@ -51,6 +57,7 @@ class Menu extends Web
                 $view->assign('tbody',$tbody);
                 $view->assign('pageBar',$bstp->pageBar($count));
             }
+            $view->assign('setting',$setting);
         });
     }
     /**
@@ -61,6 +68,7 @@ class Menu extends Web
             'js' => ['menu/edit']
         ]);
         return $this->pageTpl(function($view){
+            $setting = $this->page_setting; 
             $groupMk = request()->param('group');
             // 数据编辑时
             if($groupMk){
@@ -98,6 +106,7 @@ class Menu extends Web
                     $view->assign('data',$outline);
                 }
             }
+            $view->assign('setting',$setting);
         });
     }
     /**

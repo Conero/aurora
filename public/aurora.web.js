@@ -524,7 +524,7 @@ function FormListener(selector){
         option = obj.is_object(option)? option:{};
         fn = obj.is_object(fn)? fn:{};
         var post = option.post;
-        var field = option.field, postField = new Array();
+        var field = option.field, postField = [];
         var table = '',value ='';
         var mulSelected = obj.empty(option.single)? true:false;		// 多选
         var largeSize = option.largeSize;
@@ -534,7 +534,7 @@ function FormListener(selector){
             cols = 1 + cols;
             postField.push(k);
             value = field[k];
-            table += '<th'+(value == 'hidden'? ' class="hidden"':'')+'>'+value+'</th>';
+            table += '<th'+(value == 'hidden'? ' class="invisible" style="display:none;" ':'')+'>'+value+'</th>';
         }
         table = '<table class="table"><tr><th>#</th>'+table+'<th>选择</th></tr>';
         post.field = postField.join(',');
@@ -549,7 +549,7 @@ function FormListener(selector){
                 $('#'+id+' [dataid="selected"]').on('click',fn.selected);// 单选择
             }
         };
-        $.post('/conero/index/common/popup.html',post,function(data){
+        $.post(obj._baseurl+'index/common/popup.html',post,function(data){
             // 生成表格喊函数 data 数据； startRow 最大行
             var createTabel = function(newData,startRow){
                 var data = newData;
@@ -570,7 +570,7 @@ function FormListener(selector){
                             break;
                         }
                         value = field[kk];
-                        td += '<td class="'+(value == 'hidden'? 'hidden':kk)+'">'+data[k][kk]+'</td>';
+                        td += '<td col-name="' +kk+'"'+(value == 'hidden'? ' style="display:none;" ':'')+'">'+data[k][kk]+'</td>';
                     }
                     if(isbreak) break;
                     trs += td+'<td>'+((mulSelected == true)? '<input type="checkbox" name="popupchecked">':'<a href="javascript:void(0);" dataid="selected">选择</a>')+'</td></tr>';
@@ -665,7 +665,7 @@ function FormListener(selector){
                     // 从第首页开始
                     searchPost.page = 1;
                     _sourceSearchMap = searchPost.map;
-                    $.post('/conero/index/common/popup.html',searchPost,function(data){
+                    $.post(obj._baseurl+'index/common/popup.html',searchPost,function(data){
                         var html = createTabel(data);
                         var body = $('#'+id).find('div.modal-body');
                         body.find('table').remove();
@@ -709,7 +709,7 @@ function FormListener(selector){
                         if(no < pages) page = no + 1;
                         else return;
                         serachPost.page = page;
-                        $.post('/conero/index/common/popup.html',serachPost,function(data){
+                        $.post(obj._baseurl+'index/common/popup.html',serachPost,function(data){
                             createTabel(data,true);
                         });
                     };
@@ -721,7 +721,7 @@ function FormListener(selector){
     /**
      * boostrap formGroup表单控件
      * @param config []{
-     *  'label':'',type:'text',name:'',def:'默认值',notnull:bool
+     *  'label':'',type:'text/tarea',name:'',def:'默认值',notnull:bool,hideCol:[]string/string
      * }
      * @param data json 值
      */
@@ -733,10 +733,28 @@ function FormListener(selector){
             var type = conf.type? conf.type:'text';
             var name = conf.name;
             var value = data[name]? data[name]:(conf.def? conf.def:'');
+            var inputer = '';
+            var hideCol = '';
+            if(conf.hideCol){
+                conf.hideCol = (typeof conf.hideCol == 'object')? conf.hideCol:[conf.hideCol];
+                var hCols = conf.hideCol;
+                for(var j =0; j<hCols.length; j++){
+                    var hideName = hCols[j];
+                    hideCol += '<input type="hidden" name="'+hideName+'"'+(data[hideName]? ' value="'+data[hideName]+'"':'')+'>';
+                }
+            }
+            switch(type){
+                case 'tarea': // textarea
+                    inputer = '<textarea class="form-control" name="'+name+'" cols="3">'+(value? value:'')+'</textarea>';
+                    break;
+                default: // text
+                    inputer = '<input class="form-control" type="'+type+'" name="'+name+'"'+(value? ' value="'+value+'"':'')+'>';
+            }
+            inputer = inputer + hideCol;
             xhtml += '<div class="form-group row'+(conf.notnull? ' has-success':'')+'">'
                 + '<label for="example-text-input" class="col-2 col-form-label">'+conf.label+'</label>'
                 + '<div class="col-10">'
-                + '<input class="form-control" type="'+type+'" name="'+name+'"'+(value? ' value="'+value+'"':'')+'>'
+                + inputer
                 + '</div>'
                 + '</div>'
                 ;

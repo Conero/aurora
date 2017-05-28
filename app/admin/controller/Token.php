@@ -16,6 +16,12 @@ use hyang\Bootstrap;
 class Token extends Web
 {
     use Admin;
+    protected $page_setting = [];
+    protected function init()
+    {
+        $this->page_setting = $this->getParamFromMenu('token');
+    }
+
     // 首页
     public function index(){
         $this->loadScript([
@@ -23,6 +29,7 @@ class Token extends Web
             'js'    => 'token/index'
         ]);
         return $this->pageTpl(function($view){
+            $setting = $this->page_setting;  // 页面配置项            
             $bstp = new Bootstrap();
             $view->assign('searchBar',$bstp->searchBar([
                 'type'=>'类型',
@@ -60,13 +67,16 @@ class Token extends Web
                 $view->assign('tbody',$tbody);
                 $view->assign('pageBar',$bstp->pageBar($count));
             }
+            $view->assign('setting',$setting);
         });
     }
     // 编辑
     public function edit(){
         return $this->pageTpl(function ($view){
+            $setting = $this->page_setting;  // 页面配置项
             $type = '';
             $view->assign('select_type',Bootstrap::SelectGrid($this->getSysConst('5402'),$type));
+            $view->assign('setting',$setting);
         });
     }
     // 数据维护

@@ -17,6 +17,12 @@ use think\Db;
 class Skey extends Web
 {
     use Admin;
+    protected $page_setting = [];
+    protected function init()
+    {
+        $this->page_setting = $this->getParamFromMenu('skey');
+    }
+
     // 首页
     public function index(){
         $this->loadScript([
@@ -24,6 +30,7 @@ class Skey extends Web
             'js'    => 'skey/index'
         ]);
         return $this->pageTpl(function($view){
+            $setting = $this->page_setting;  // 页面配置项            
             $bstp = new Bootstrap();
             $view->assign('searchBar',$bstp->searchBar([
                 'type'=>'类型',
@@ -55,11 +62,13 @@ class Skey extends Web
                 $view->assign('tbody',$tbody);
                 $view->assign('pageBar',$bstp->pageBar($count));
             }
+            $view->assign('setting',$setting);
         });
     }
     // 编辑
     public function edit(){
         return $this->pageTpl(function ($view){
+            $setting = $this->page_setting;  // 页面配置项
             $type = 'M';
             $name = request()->param('name');
             $mode = 'A';
@@ -74,6 +83,7 @@ class Skey extends Web
             $view->assign('mode',$mode);
             $this->_JsVar('mode',$mode);
             $view->assign('select_type',Bootstrap::SelectGrid($this->getSysConst('5404'),$type));
+            $view->assign('setting',$setting);
         });
     }
     // 数据保存

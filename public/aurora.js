@@ -413,6 +413,32 @@ function Aurora() {
 		}
 		return '';
 	};
+    // getUrlBind - 对应PHP版函数 -- $name=null,$ogri=false,$position='LEFT'
+	fn.getUrlBind = function(name,ogri,position){
+		position = position? 'RIGHT':'LEFT';
+		var path = location.pathname;
+		var data = path.split('/');
+		var ret,index;
+		if(name){
+			for(var i=0; i<data.length; i++){
+				if(name == data[i]){
+					index = (position == 'LEFT')? (i+1):(i-1);
+					if(index >= 0 && index < data.length){
+						ret = data[index];
+						if(!ogri){
+							var reg = /(\.shtml)|(\.html)|(\.htm)/;
+							ret = ret.replace(reg,'');
+						}						
+					}
+					else ret = '';
+					return ret;
+				}
+			}
+			return '';
+		}
+		else ret = name;
+		return ret;
+	};
     // 框架级获取提，如 模块名/控制器名称/方法名等
     var _ThinkRequest = {};
     function thinkQuery(idx) {

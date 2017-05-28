@@ -16,6 +16,12 @@ use think\Db;
 class Sconst extends Web
 {
     use Admin;
+    protected $page_setting = [];
+    protected function init()
+    {
+        $this->page_setting = $this->getParamFromMenu('sconst');
+    }
+
     // 首页
     public function index(){
         $this->loadScript([
@@ -23,6 +29,7 @@ class Sconst extends Web
             'js'    => 'sconst/index'
         ]);
         return $this->pageTpl(function ($view){
+            $setting = $this->page_setting;  // 页面配置项            
             $bstp = new Bootstrap();
             $where = $bstp->getWhere(null,['_col_'=>'a','account'=>'b']);
             $view->assign('searchBar',$bstp->searchBar([
@@ -58,6 +65,7 @@ class Sconst extends Web
                 $view->assign('tbody',$tbody);
                 $view->assign('pageBar',$bstp->pageBar($count));
             }
+            $view->assign('setting',$setting);
         });
     }
     // 编辑页
@@ -66,6 +74,7 @@ class Sconst extends Web
             'js' => 'sconst/edit'
         ]);
         return $this->pageTpl(function ($view){
+            $setting = $this->page_setting;  // 页面配置项
             $scope = request()->param('scope');
             if($scope){
                 $sumy = Db::table('sys_const')->field('scope,scope_desc')
@@ -86,6 +95,7 @@ class Sconst extends Web
                 $view->assign('data',$sumy);
                 $view->assign('detail',$detail);
             }
+            $view->assign('setting',$setting);
         });
     }
     // 数据保存
