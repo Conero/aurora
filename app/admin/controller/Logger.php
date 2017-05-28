@@ -19,6 +19,12 @@ use think\Request;
 class Logger extends Web
 {
     use Admin;
+    protected $page_setting = [];
+    protected function init()
+    {
+        $this->page_setting = $this->getParamFromMenu('logger');
+    }
+
     // 首页
     public function index(){
         $this->loadScript([
@@ -26,6 +32,7 @@ class Logger extends Web
             'js'    => 'logger/index'
         ]);
         return $this->pageTpl(function ($view){
+            $setting = $this->page_setting;  // 页面配置项
             $bstp = new Bootstrap();
             $where = $bstp->getWhere(null,['_col_'=>'a','account'=>'b']);
             $view->assign('searchBar',$bstp->searchBar([
@@ -61,11 +68,13 @@ class Logger extends Web
                 $view->assign('tbody',$tbody);
                 $view->assign('pageBar',$bstp->pageBar($count));
             }
+            $view->assign('setting',$setting);
         });
     }
     // 编辑
     public function edit(){
         return $this->pageTpl(function ($view){
+            $setting = $this->page_setting;  // 页面配置项
             $uid = request()->param('uid');$type = null;
             if($uid){
                 $logger = new Loger();
@@ -75,6 +84,7 @@ class Logger extends Web
                 $view->assign('td_pk',Bootstrap::formPkGrid($data));
             }
             $view->assign('select_type',Bootstrap::SelectGrid($this->getSysConst('5403'),$type));
+            $view->assign('setting',$setting);
         });
     }
     // sfile 系统文件日志
@@ -109,7 +119,10 @@ class Logger extends Web
             'js' => ['/jstree/jstree.min','logger/sfile'],
             'css'=> ['/jstree/themes/default/style.min']
         ]);
-        return $this->pageTpl(function ($view){});
+        return $this->pageTpl(function ($view){
+            $setting = $this->page_setting;  // 页面配置项
+            $view->assign('setting',$setting);
+        });
     }
     // 日志详情
     public function msg(){
@@ -118,6 +131,7 @@ class Logger extends Web
             'title' => '日志详情'
         ]);
         return $this->pageTpl(function ($view){
+            $setting = $this->page_setting;  // 页面配置项
             $request = Request::instance();
             $uid = $request->param('uid');
             if($uid){
@@ -135,6 +149,7 @@ class Logger extends Web
                 $view->assign('data',$data);
                 $view->assign('pageBar',$bstp->pageBar($count));
                 $view->assign('logger',$logger);
+                $view->assign('setting',$setting);
             }
         });
     }
