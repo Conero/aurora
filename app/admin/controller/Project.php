@@ -110,7 +110,9 @@ class Project extends Web
         ]);
         return $this->pageTpl(function ($view) use($data,$prj){
             $setting = $this->page_setting;  // 页面配置项
+            //$prj->get($data['listid']);
             $prjSetting = $prj->Settings()
+                ->where('pid',$data['listid'])
                 ->order('groupid asc,setting_key')
                 ->select()
             ;
@@ -123,7 +125,8 @@ class Project extends Web
                         <span class="d-flex mr-3 text-success" ><i class="fa fa-gg"></i></span>
                         <div class="media-body">
                             <h5 class="mt-0 mb-1">'.
-                    (empty($v['groupid'])? '':$v['groupid'].'.').'<a href="javascript:void(0);" class="text-info js__sett_edit" data-no="'.$v['listid'].'">'.$v['setting_key']
+                    (empty($v['groupid'])? '':$v['groupid'].'.').'<a href="javascript:void(0);" class="text-info js__sett_edit" data-no="'.$v['listid'].'" 
+                    title="'.$v['remark'].'">'.$v['setting_key']
                     .'</a>
                             <a href="javascript:void(0);" class="text-warning js__sett_del" data-no="'.base64_encode($v['listid']).'"><i class="fa fa-trash"></i></a>
                             </h5>

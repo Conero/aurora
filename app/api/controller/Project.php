@@ -21,10 +21,17 @@ class Project extends Api
         list($data,$mode,$map) = $this->_getSaveData();
         //debugOut([$data,$mode,$map]);
         if($mode == 'A'){
+            // 新增是检测是否已经存在数据库中 通过 分组码.键名.项目名称
+            $prjSet = new Prj1001c();
+            $where = ['pid'=>$data['pid'],'setting_key'=>$data['setting_key']];
+            if(isset($data['groupid']) && empty($data['groupid'])) $where['groupid'] = $data['groupid'];
+            if($prjSet->where($where)->count() > 0) return $this->FeekMsg('数据已经存在，请勿保存重复的数据!');
+            // 数据不重复时保存数据
             $data['listid'] = getPkValue('pk_prj1001c__listid');
             $uid = getUserInfo('uid');
             if($uid) $data['uid'] = $uid;
-            $prjSet = new Prj1001c($data);
+            //$prjSet = new Prj1001c($data);
+            $prjSet->data($data);
             if($prjSet->save()) return $this->FeekMsg('配置项保存成功！',1);
             return $this->FeekMsg('配置项保存失败！');
         }elseif ($mode == 'M'){

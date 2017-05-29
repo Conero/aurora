@@ -44,10 +44,11 @@ class Bootstrap{
     public function searchBar($cols){
         $svalue = (isset($_GET['svalue'])? $_GET['svalue']:'');
         $skey = (isset($_GET['skey'])? $_GET['skey']:'');
-        $option = '';$checked = '';
+        $option = '';
         foreach ($cols as $k=>$v){
+            $checked = '';
             if($skey && $k == $skey) $checked = 'selected';
-            $option .= "<option value='$k' $checked).'>$v</option>";
+            $option .= "<option value='$k' $checked>$v</option>";
         }
         if(empty($skey)) $option = '<option value="" selected>选择值</option>'.$option;
         $xhtml = '<form class="form-inline" style="margin-left: 50%;">'
