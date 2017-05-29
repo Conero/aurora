@@ -7,6 +7,7 @@
  */
 
 namespace app\wap\controller;
+use app\common\model\Prj1001c;
 use think\Config;
 use app\common\controller\Wap;
 use app\common\model\Visit;
@@ -31,6 +32,8 @@ class Index extends Wap
         if($user) $page['user'] = $user;
         $page['isLogin'] = $user? 'Y':'N';
         $this->assign('page',$page);
+        $setting = (new Prj1001c())->getSetVals('index','Jessica',true);
+        $this->assign('setting',$setting);
 //        debugOut($this->getUserInfo());
         return $this->fetch();
     }

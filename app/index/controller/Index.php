@@ -8,6 +8,7 @@ namespace app\index\controller;
 use app\common\controller\Web;
 use app\common\model\Visit;
 use think\Config;
+use think\Db;
 
 class Index extends Web
 {
@@ -30,6 +31,28 @@ class Index extends Web
         $page['online_dt'] = $oldt;
 
         $this->assign('page',$page);
+        // 数据
+        $data = [];
+        $article = '';
+        $qData = Db::table('atc1000c')
+            ->order('date desc')
+            ->where('is_private','N')
+            ->limit(8)
+            ->select();
+        foreach ($qData as $v){
+            $article .= '<li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="mr-auto p-2">
+                    <a href="'.url('essay/read','item='.$v['listid']).'" class="font-weight-bold text-info">'.$v['title'].'</a>
+                    <span class="font-italic">('.$v['collected'].')</span>
+                </div>
+                <div class="p-2">
+                    <i class="fa fa-eye"></i> '.$v['read_count'].'
+                    '.$v['date'].'
+                 </div>
+                </li>';
+        }
+        $data['article'] = $article;
+        $this->assign('data',$data);
         return $this->fetch();
     }
 }

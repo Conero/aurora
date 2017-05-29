@@ -1,0 +1,21 @@
+{include file="public/appd/tpl_header.html" /}
+<body>
+<nav class="navbar navbar-light bg-faded" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="{:urlBuild('!.')}">
+        <img src="/aurora/public/aurora.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        Aurora/文林轩
+    </a>
+</nav>
+<div class="container">
+    {$page.list}
+</div>
+<div class="card" style="bottom: 0px;left: 0px;right: 0px;padding: 0px;">
+    <div class="card-block">
+        <p class="card-text text-center" style="font-size: 0.64em;">
+            <br> 版本号: v{$Think.config.setting.version}({$Think.config.setting.build})
+            <br> Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}.All Rights Reserved.
+        </p>
+    </div>
+</div>
+</body>
+</html>
