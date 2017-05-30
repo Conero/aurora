@@ -13,6 +13,7 @@ use app\common\controller\Wap;
 use app\common\model\Visit;
 class Index extends Wap
 {
+    // 首页
     public function index()
     {
         $this->loadScript([
@@ -35,6 +36,10 @@ class Index extends Wap
         $setting = (new Prj1001c())->getSetVals('index','Jessica',true);
         $this->assign('setting',$setting);
 //        debugOut($this->getUserInfo());
+        return $this->fetch();
+    }
+    // 捐助
+    public function donate(){
         return $this->fetch();
     }
 }

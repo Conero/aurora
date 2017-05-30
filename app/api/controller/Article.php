@@ -12,6 +12,7 @@ namespace app\api\controller;
 use app\common\controller\Api;
 use think\Db;
 use think\Request;
+use app\common\SCache;
 
 class Article extends Api
 {
@@ -52,5 +53,50 @@ class Article extends Api
             debugOut($e->getMessage()."\r\n".$e->getTraceAsString());
         }
         return $json? $json:$this->FeekMsg('数据提交失败!');
+    }
+
+    /**
+     * 喜欢文章
+     * @param  uid
+     */
+    public function star(){
+        $uid = request()->param('uid');
+        if($uid){
+            // 阅读数处理，不重复保存数据
+            $scache = new SCache();
+            $count = Db::table('atc1000c')->where('listid',$uid)->value('star_count');
+            if($scache->has('index_art1000c_star_ctt',$uid) == false){
+                $count = intval($count) + 1;
+                Db::table('atc1000c')->where('listid',$uid)->update(['star_count'=>$count]);
+                $scache->set('index_art1000c_star_ctt',$uid);
+                return $this->FeekMsg(['count'=>$count]);
+            }
+            return $this->FeekMsg('请勿重复操作!');
+        }
+        return $this->FeekMsg('数据请求参数无效!');
+    }
+
+    /**
+     * 评论保存
+     */
+    public function comment_save(){
+        list($data,$mode,$map) = $this->_getSaveData();
+        //debugOut([$data,$mode,$map]);
+        if($data){
+            if($mode == 'A'){
+                $uid = getUserInfo('uid');
+                if($uid) $data['uid'] = $data;
+                $data['ip'] = request()->ip();
+                if(Db::table('atc1002c')->insert($data)) return $this->FeekMsg('数据保存成功!',1);
+                return $this->FeekMsg('数据保存失败!');
+            }elseif ($mode == 'M'){
+                if(Db::table('atc1002c')->where($map)->update($data)) return $this->FeekMsg('数据修改成功!',1);
+                return $this->FeekMsg('数据修改失败!');
+            }elseif ($mode == 'D'){
+                $this->pushRptBack('atc1002c',$map,'auto');
+                return $this->FeekMsg('数据删除成功!',1);
+            }
+        }
+        return $this->FeekMsg('数据请求参数无效!');
     }
 }

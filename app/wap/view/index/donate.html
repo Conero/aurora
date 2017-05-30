@@ -1,0 +1,33 @@
+{include file="public/appm/tpl_header.html" /}
+<body>
+<div class="weui-tab container">
+    <div class="page__hd">
+        <h1 class="page__title">
+            <a href="{:urlBuild('!.');}">
+                <img src="/aurora/public/aurora-appm.png" alt="Aurora" height="50px">
+            </a>
+            捐助社区
+        </h1>
+    </div>
+    <div class="weui-cells">
+        <div class="weui-cells__title">
+            没有您的帮助，我们可以走多远呢？如果可以，请你帮助我们.
+        </div>
+        <div class="weui-cell">
+            <img src="{$Think.config.setting.static_pref}img/WeChat.jpg" alt="微信">
+        </div>
+        <div class="weui-cells__title"></div>
+        <div class="weui-cell">
+            <img src="{$Think.config.setting.static_pref}img/Alipay.jpg" alt="支付宝">
+        </div>
+    </div>
+    <div class="weui-footer">
+        <p class="weui-footer__links">
+            <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
+        </p>
+        <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
+        <p class="weui-footer__text">页面更新： 20170530</p>
+    </div>
+</div>
+</body>
+</html>
