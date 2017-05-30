@@ -38,7 +38,7 @@
         <div class="card" style="margin-bottom: 2px;">
             <div class="card-block">
                 <h4 class="card-title">
-                    <a href="{:urlBuild('!.essay')}">文林轩</a>
+                    <a href="{:urlBuild('!.essay')}">文林轩/{$data.article_count}</a>
                 </h4>
             </div>
             <ul class="list-group list-group-flush">
@@ -81,6 +81,22 @@
             </div>
             <div class="card-block" id="visit_chart" style="min-height: 400px;"></div>
             <div class="card-block" id="visit_ditu_chrart" style="min-height: 400px;"></div>
+            <blockquote class="blockquote">
+                <p><a href="javascript:void(0);" class="text-success js__toggle" data-id="help_us_ds">捐助</a>.</p>
+                <footer class="blockquote-footer">没有您的帮助，我们不知道可以走多远！If you can, just give us hands.</footer>
+            </blockquote>
+            <div class="row d-none" id="help_us_ds">
+                <div class="col"></div>
+                <div class="col">
+                    <img src="{$Think.config.setting.static_pref}img/WeChat.jpg" style="width: 200px;height: 300px" alt="微信">
+                </div>
+                <div class="col">
+                    <img src="{$Think.config.setting.static_pref}img/Alipay.jpg" style="width: 200px;height: 300px" alt="支付宝">
+                </div>
+                <div class="col"></div>
+            </div>
+
+
         </div>
     </div>
     <div class="card" style="bottom: 0px;left: 0px;right: 0px;padding: 0px;">

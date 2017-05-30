@@ -39,6 +39,9 @@ class Index extends Web
             ->where('is_private','N')
             ->limit(8)
             ->select();
+        $count = Db::table('atc1000c')
+            ->where('is_private','N')
+            ->count();
         foreach ($qData as $v){
             $article .= '<li class="list-group-item d-flex justify-content-between align-items-center">
                 <div class="mr-auto p-2">
@@ -46,12 +49,14 @@ class Index extends Web
                     <span class="font-italic">('.$v['collected'].')</span>
                 </div>
                 <div class="p-2">
-                    <i class="fa fa-eye"></i> '.$v['read_count'].'
+                    <i class="fa fa-eye text-danger"></i> '.$v['read_count'].'
+                    '.(empty($v['star_count'])? '':'<i class="fa fa-star text-success"></i>'.$v['star_count']).'
                     '.$v['date'].'
                  </div>
                 </li>';
         }
         $data['article'] = $article;
+        $data['article_count'] = $count;
         $this->assign('data',$data);
         return $this->fetch();
     }

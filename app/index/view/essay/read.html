@@ -8,12 +8,39 @@
     </nav>
     <div class="container" style="min-height: 610px;">
         <h1 class="display-4 text-center">{$data.title}</h1>
+        <blockquote class="blockquote blockquote-reverse">
+            <p class="mb-0">{$data.sign|default="侠名"} 于{$data.date}.</p>
+            <footer class="blockquote-footer">选自 <cite title="Source Title">{$data.collected}</cite></footer>
+        </blockquote>
         <div class="card">
             <div class="card-block">
+                <p class="lead text-success">正文</p>
                 {$data.content}
+                {// 评论}
+                {if condition="isset($data.cmmts)"}
+                    <p class="lead text-right text-success">评语</p>
+                    <div class="list-group">
+                        {$data.cmmts}
+                    </div>
+                {/if}
+                </div>
             </div>
             <div class="card-footer">
-                <p><i class="fa fa-eye"></i> {$data.read_count}</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <i class="fa fa-eye text-info"></i> {$data.read_count}
+                    </li>
+                    <li class="list-inline-item">
+                        <i class="fa fa-star
+                        {if condition="$data.star_mk eq 'Y'"}text-success{else}text-danger{/if}">
+                        </i>{$data.star_count|default="0"}</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="javascript:void(0);" id="write_cmt_lnk">
+                            {$data.cmmt_ctt|default=""}<i class="fa fa-comment"></i> 写评语
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

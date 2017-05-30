@@ -127,4 +127,9 @@ $(function () {
     });
     //drawTiduChart();
     $('.js__tooltip').tooltip();
+    // toggle 显示
+    $('.js__toggle').click(function () {
+       var id = $(this).attr("data-id");
+        $('#'+id).toggleClass('d-none');
+    });
 });
