@@ -11,6 +11,7 @@ namespace app\api\controller;
 use app\common\controller\Api;
 use think\Config;
 use WechatAurora;
+use app\common\model\Loger;
 include __DIR__.'/WechatAurora.php';
 header('content-type:text/html;charset=utf-8;');
 class Weixin extends Api
@@ -21,6 +22,10 @@ class Weixin extends Api
         $config['debug'] = Config::get('setting.gzh_code_debug');
         $config['debug'] = $config['debug']? true:false;
         $wx = new WechatAurora($config);
+        $log = new Loger();
+        $content = request()->ip().
+            ">请求时订阅号后台数据!";
+        $log->write($this->LogCode,$content);
         $wx->run();
     }
 }
