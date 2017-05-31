@@ -20,12 +20,13 @@ return [
     // 用于底部版权
     'organization' => 'Conero',    // 机构组织， 用于底部才菜单
     'start'         => '2014',    // 起始时间
-    'version'       => '0.1.15',          // 版本号
-    'build'         => '20170530',       // 更新时间
+    'version'       => '0.1.16',          // 版本号
+    'build'         => '20170531',       // 更新时间
     'online_date'   => '2017-05-05',                  // 上线时间
 
     // 发布版相关设置
     'p_wapurl' => 'http://www.conero.cn/aurora/wap.html',
+    'p_baseurl'=> 'http://www.conero.cn/aurora/',           // 请求主地址
     
     // 前端设置
     'static_pref'=>'/aurora/public/',
