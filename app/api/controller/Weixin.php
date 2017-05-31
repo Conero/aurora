@@ -22,9 +22,13 @@ class Weixin extends Api
         $config['debug'] = Config::get('setting.gzh_code_debug');
         $config['debug'] = $config['debug']? true:false;
         $wx = new WechatAurora($config);
+        // 日志记录
         $log = new Loger();
-        $content = request()->ip().
-            ">请求时订阅号后台数据!";
+        $content = request()->ip()
+            .">请求时订阅号后台数据!"
+            ."\r\n请求数据：\r\n"
+            . json_encode(request()->param())
+        ;
         $log->write($this->LogCode,$content);
         $wx->run();
     }
