@@ -15,7 +15,7 @@
                     {$vo.mtime}
                     <a href="javascript:void(0);" data-uid="{$vo.listid}" class="js__trash_msg"><i class="fa fa-trash"></i></a>
                 </h6>
-                <p class="card-text">{$vo.msg}</p>
+                <p class="card-text">{$vo.msg|nl2br}</p>
             </div>
         {/foreach}
     {/if}
