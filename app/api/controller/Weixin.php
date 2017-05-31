@@ -29,7 +29,7 @@ class Weixin extends Api
             ."\r\n请求数据：\r\n"
             . json_encode(request()->param())
         ;
-        $log->write($this->LogCode,$content);
+        $log->write($wx->LogCode,$content);
         $wx->run();
     }
 }
