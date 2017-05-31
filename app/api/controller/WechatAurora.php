@@ -10,7 +10,7 @@ use app\common\model\Loger;
 import('wechat-php-sdk.src.Wechat',EXTEND_PATH);
 class WechatAurora extends Wechat
 {
-    protected $LogCode = 'weixin_dyh_log';
+    public $LogCode = 'weixin_dyh_log';
     /**
      * 用户关注时触发，回复「欢迎关注」
      *
