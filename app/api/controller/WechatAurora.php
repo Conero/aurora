@@ -96,9 +96,7 @@ class WechatAurora extends Wechat
                         ;
                         foreach ($data as $dt){
                             $msg .= '
-                            <li><a href="'.(\think\Config::get('setting.p_baseurl')).'wap/article/read/item/'.$dt['listid'].'.html">
-                            '.$dt['title'].'('.$dt['collected'].').'.$dt['sign'].' - '.$dt['date'].'
-                            </a></li>
+                            <li><a href="'.(\think\Config::get('setting.p_baseurl')).'wap/article/read/item/'.$dt['listid'].'.html">'.$dt['title'].'('.$dt['collected'].').'.$dt['sign'].' - '.$dt['date'].'</a></li>
                             ';
                         }
                         $msg = $msg? '<ul>'.$msg.'</ul>':'没有找到资源，sorry，guys!';
