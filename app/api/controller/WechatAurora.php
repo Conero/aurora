@@ -95,11 +95,10 @@ class WechatAurora extends Wechat
                             ->select()
                         ;
                         foreach ($data as $dt){
-                            $msg .= '
-                            <li><a href="'.(\think\Config::get('setting.p_baseurl')).'wap/article/read/item/'.$dt['listid'].'.html">'.$dt['title'].'('.$dt['collected'].').'.$dt['sign'].' - '.$dt['date'].'</a></li>
+                            $msg .= "\r\n".'<a href="'.(\think\Config::get('setting.p_baseurl')).'wap/article/read/item/'.$dt['listid'].'.html">'.$dt['title'].'('.$dt['collected'].').'.$dt['sign'].' - '.$dt['date'].'</a>
                             ';
                         }
-                        $msg = $msg? '<ul>'.$msg.'</ul>':'没有找到资源，sorry，guys!';
+                        $msg = $msg? $msg:'没有找到资源，sorry，guys!';
                         break;
                 }
                 if($msg){
