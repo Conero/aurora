@@ -61,13 +61,13 @@ class WechatAurora extends Wechat
         ;
         $log->write($this->LogCode,$content);
         $cmdList = [
-            'zw:' => '搜索文章列表'
+            'wz:' => '搜索文章列表'
         ];
         foreach ($cmdList as $k=>$v){
             if(substr_count($text,$k)>0){
                 $msg = '';
                 switch ($k){
-                    case 'zw:':
+                    case 'wz:':
                         $where = [];
                         $childList = ['a','wj'];
                         foreach ($childList as $vv){
@@ -105,7 +105,8 @@ class WechatAurora extends Wechat
                         break;
                 }
                 if($msg){
-                    $this->responseText($msg);return;
+                    $this->responseText($msg);
+                    return;
                 }
                 break;
             }
