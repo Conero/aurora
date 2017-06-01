@@ -8,6 +8,7 @@
  */
 use app\common\model\Loger;
 use app\common\wxin\AutoAnswer;
+use app\common\model\Prj1001c;
 import('wechat-php-sdk.src.Wechat',EXTEND_PATH);
 class WechatAurora extends Wechat
 {
@@ -59,9 +60,21 @@ class WechatAurora extends Wechat
             .print_r(request()->param(),true)
             //. json_encode(request()->param())
         ;
-
-        $msg = (new AutoAnswer())->run($text);
+        $auto = new AutoAnswer();
+        $msg = $auto->run($text);
         $content .= "响应文本：\r\n".$msg;
+        if(empty($msg)){
+            $content .= "\r\nError: AutoAnswer 获取文本失败(1)!";
+            $msg = (new Prj1001c())->getSetVal('weixin_api.cmd_list_help','Jessica',true);
+        }
+        if(empty($msg)){ // 第二尝试
+            $content .= "\r\nError: Prj1001c 获取帮助失败，尝试获取手动文本(2)!";
+            $msg = $auto->getCmdDocs();
+        }
+        if(empty($msg)){
+            $content .= "\r\nError: Prj1001c 尝试获取手动文本(3)，文本获取失败了。!";
+            $msg = "\r\n Sorry,guys! I'm so down,now!";
+        }
         $log->write($this->LogCode,$content);
         // 输入文章文本
         $this->responseText($msg);
