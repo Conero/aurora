@@ -24,8 +24,10 @@ class WechatAurora extends Wechat
             ."\r\n请求数据：\r\n"
             .print_r(request()->param(),true)
         ;
+        $msg = (new Prj1001c())->getSetVal('weixin_api.when_star_event', 'Jessica', true);
         $log->write($this->LogCode,$content);
-        $this->responseText('欢迎关注,生成测试时');
+        $msg = $msg? $msg:'欢饮您的关注';
+        $this->responseText($msg);
     }
 
     /**
