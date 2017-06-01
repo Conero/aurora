@@ -27,7 +27,7 @@ class Weixin extends Api
         $content = request()->ip()
             .">请求时订阅号后台数据!"
             ."\r\n请求数据：\r\n"
-            . json_encode(request()->param())
+            .print_r(request()->param(),true)
         ;
         $log->write($wx->LogCode,$content);
         $wx->run();

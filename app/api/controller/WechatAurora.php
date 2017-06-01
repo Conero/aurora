@@ -7,7 +7,7 @@
  * Name: 微信服务实现
  */
 use app\common\model\Loger;
-use app\common\model\Prj1001c;
+use app\common\wxin\AutoAnswer;
 import('wechat-php-sdk.src.Wechat',EXTEND_PATH);
 class WechatAurora extends Wechat
 {
@@ -21,7 +21,7 @@ class WechatAurora extends Wechat
         $content = request()->ip()
             ."用于关注订阅号，关注时触发接口!"
             ."\r\n请求数据：\r\n"
-            . json_encode(request()->param())
+            .print_r(request()->param(),true)
         ;
         $log->write($this->LogCode,$content);
         $this->responseText('欢迎关注,生成测试时');
@@ -37,7 +37,7 @@ class WechatAurora extends Wechat
         $content = request()->ip()
             .">用户取消关注时触发"
             ."\r\n请求数据：\r\n"
-            . json_encode(request()->param())
+            .print_r(request()->param(),true)
         ;
         $log->write($this->LogCode,$content);
         // 「悄悄的我走了，正如我悄悄的来；我挥一挥衣袖，不带走一片云彩。」
@@ -60,59 +60,9 @@ class WechatAurora extends Wechat
             //. json_encode(request()->param())
         ;
         $log->write($this->LogCode,$content);
-        $cmdList = [
-            'wz:' => '搜索文章列表'
-        ];
-        foreach ($cmdList as $k=>$v){
-            if(substr_count($text,$k)>0){
-                $msg = '';
-                switch ($k){
-                    case 'wz:':
-                        $where = [];
-                        $childList = ['a','wj'];
-                        foreach ($childList as $vv){
-                            if(substr_count($text,$k.$vv)>0){
-                                $value = trim(str_replace($k.$vv,'',$text));
-                                switch ($vv){
-                                    case 'a':
-                                        $where = ['sign'=>['like',"%$value%"]];
-                                        break;
-                                    case 'wj':
-                                        $where = ['collected'=>['like',"%$value%"]];
-                                        break;
-                                }
-                                break;
-                            }
-                        }
-                        if(empty($where)) {
-                            $value = trim(str_replace($k,'',$text));
-                            $where = ['title' => ['like',"%$value%"]];
-                        };
-                        $data = db()->table('atc1000c')
-                            ->field('listid,title,sign,collected,date')
-                            ->where($where)
-                            ->limit(30)
-                            ->select()
-                        ;
-                        foreach ($data as $dt){
-                            $msg .= "\r\n".'<a href="'.(\think\Config::get('setting.p_baseurl')).'wap/article/read/item/'.$dt['listid'].'.html">'.$dt['title'].'('.$dt['collected'].').'.$dt['sign'].' - '.$dt['date'].'</a>
-                            ';
-                        }
-                        $msg = $msg? $msg:'没有找到资源，sorry，guys!';
-                        break;
-                }
-                if($msg){
-                    $this->responseText($msg);
-                    return;
-                }
-                break;
-            }
-        }
+        $msg = (new AutoAnswer())->run($text);
         // 输入文章文本
-        $this->responseText(
-            (new Prj1001c())->getSetVal('weixin_api.cmd_list_help','Jessica',true)
-        );
-        return;
+        $this->responseText($msg);
         //$this->responseText('收到了文字消息：' . $this->getRequest('content'));
     }
 
@@ -126,7 +76,7 @@ class WechatAurora extends Wechat
         $content = request()->ip()
             .">收到链接消息时触发，回复收到的链接地址"
             ."\r\n请求数据：\r\n"
-            . json_encode(request()->param())
+            .print_r(request()->param(),true)
         ;
         $log->write($this->LogCode,$content);
         $this->responseText('收到了链接：' . $this->getRequest('url'));
@@ -142,7 +92,7 @@ class WechatAurora extends Wechat
         $content = request()->ip()
             .">收到自定义菜单消息时触发，回复菜单的EventKey"
             ."\r\n请求数据：\r\n"
-            . json_encode(request()->param())
+            .print_r(request()->param(),true)
         ;
         $log->write($this->LogCode,$content);
         $this->responseText('你点击了菜单：' . $this->getRequest('EventKey'));
