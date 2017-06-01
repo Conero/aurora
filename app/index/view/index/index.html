@@ -82,7 +82,10 @@
             <div class="card-block" id="visit_chart" style="min-height: 400px;"></div>
             <div class="card-block" id="visit_ditu_chrart" style="min-height: 400px;"></div>
             <blockquote class="blockquote">
-                <p><a href="javascript:void(0);" class="text-success js__toggle" data-id="help_us_ds">捐助</a>.</p>
+                <p>
+                    <a href="javascript:void(0);" class="text-success js__toggle" data-id="help_us_ds">捐助</a>
+                    <a href="javascript:void(0);" class="text-danger js__toggle" data-id="star_weixin_ds">关注我们的微信</a>
+                    .</p>
                 <footer class="blockquote-footer">没有您的帮助，我们不知道可以走多远！If you can, just give us hands.</footer>
             </blockquote>
             <div class="row d-none" id="help_us_ds">
@@ -95,8 +98,9 @@
                 </div>
                 <div class="col"></div>
             </div>
-
-
+            <div class="row d-none" id="star_weixin_ds">
+            <img src="{$Think.config.setting.static_pref}img/conero-dyh-min.jpg" alt="订阅号conero">
+            </div>
         </div>
     </div>
     <div class="card" style="bottom: 0px;left: 0px;right: 0px;padding: 0px;">
