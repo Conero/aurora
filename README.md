@@ -18,3 +18,7 @@
 ## 框架改造说明
 - 分区移动端与桌面端 appm/appd
 - 公共部分 api
+
+## 微信公众号 Conero
+
+![关注我们的公众号](http://www.conero.cn/aurora/public/img/conero-dyh-min.jpg)
