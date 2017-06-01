@@ -59,8 +59,10 @@ class WechatAurora extends Wechat
             .print_r(request()->param(),true)
             //. json_encode(request()->param())
         ;
-        $log->write($this->LogCode,$content);
+
         $msg = (new AutoAnswer())->run($text);
+        $content .= "响应文本：\r\n".$msg;
+        $log->write($this->LogCode,$content);
         // 输入文章文本
         $this->responseText($msg);
         //$this->responseText('收到了文字消息：' . $this->getRequest('content'));
