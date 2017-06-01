@@ -179,6 +179,22 @@ class Util{
          $ret = $data;
          return $ret;
      }
+
+    /**
+     * 重复某个值构造数组
+     * @param $col
+     * @param $count
+     * @return array
+     */
+    public static function ReplaceArray($col,$count){
+        $NewArray = [];
+        $i = 0;
+        while ($i<$count){
+            $NewArray[] = $col;
+            $i++;
+        }
+        return $NewArray;
+    }
      /**
      * 2017年2月12日 星期日  字符串删除空格
      * @param string  $str
