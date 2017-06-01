@@ -50,6 +50,7 @@ EOF;
      * @param null $text
      */
     protected function parseText($text=null){
+        if(empty($text)) return null;
         foreach ($this->CmdClass as $k=>$v){
             $pattern = "/".$k."/i";
             if(preg_match($pattern,$text)>0){
