@@ -116,8 +116,8 @@ class Logger extends Web
             if($msg) $logger->write('log_sfile',$msg);
         }
         $this->loadScript([
-            'js' => ['/jstree/jstree.min','logger/sfile'],
-            'css'=> ['/jstree/themes/default/style.min']
+            'js' => ['/lib/jstree/jstree.min','logger/sfile'],
+            'css'=> ['/lib/jstree/themes/default/style.min']
         ]);
         return $this->pageTpl(function ($view){
             $setting = $this->page_setting;  // 页面配置项
