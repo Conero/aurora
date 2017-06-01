@@ -29,22 +29,29 @@ class AutoAnswer
         $this->CmdClassConf = __DIR__.'/'.$this->CmdClassConf;
         $this->CmdClass = is_file($this->CmdClassConf)?
             json_decode(file_get_contents($this->CmdClassConf),true):[];
-        /*
-        // 默认文档
-        $year = date('Y');
-        $this->CmdDocs = <<<EOF
-        欢迎来到 <a href="http://www.conero.cn/">Coenro.cn</a>, 我是 Aurora Coenro
-         *  wz: 按内容/标题               搜索文章
-                wz:a        按作者搜索文章
-                wz:wj       按文集搜索文章
-                
-         2014-$year@Conero
-         Joshua Conero Doeeking Yang
-EOF;
-        */
         $this->CmdDocs = (new Prj1001c())->getSetVal('weixin_api.cmd_list_help','Jessica',true);
+        $this->cmd = null;
+
     }
 
+    /**
+     * 当 $this->CmdDocs 获取失败时，从文本获取内容
+     * @return string
+     */
+    public function getCmdDocs(){
+       // 默认文档
+       $year = date('Y');
+        $str = <<<EOF
+       欢迎来到 <a href="http://www.conero.cn/">Coenro.cn</a>, 我是 Aurora Coenro
+        *  wz: 按内容/标题               搜索文章
+               wz:a        按作者搜索文章
+               wz:wj       按文集搜索文章
+
+        2014-$year@Conero
+        Joshua Conero Doeeking Yang
+EOF;
+       return $str;
+    }
     /**
      * 文本解析出 命令
      * @param null $text
