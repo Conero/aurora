@@ -9,9 +9,11 @@
 namespace app\common\wxin;
 
 
+use hyang\Net;
 use think\Config;
 use think\Db;
 use app\common\model\Prj1001c;
+use think\Request;
 
 class AutoAnswer
 {
@@ -105,6 +107,24 @@ EOF;
         elseif (empty($this->cmd) && $text){ // 系统默认
             // 版本号
             if(preg_match("/(version)|(-v)/i",$text)) $str = "\r\n版本号： ".Config::get('setting.version').'('.Config::get('setting.build').')';
+            else{
+                try {
+                    $prj1c = new Prj1001c();
+                    $config = $prj1c->getSetVals('juhe_api', 'aurora', true);
+                    $url = $config['robot_url'];
+                    $appkey = $config['robot_AppKey'];
+                    $request = Request::instance();
+                    $userid = str_replace('.', '', $request->ip());
+                    $param = [
+                        'key' => $appkey,
+                        'info' => $text,
+                        'userid' => $userid
+                    ];
+                    $rdata = @json_decode(juhecurl($url, $param, true), true);
+                    if (empty($rdata['error_code'])) $str = $rdata['result']['text'];
+                }catch (\Exception $e){
+                }
+            }
         }
         if(empty($str)) $str = $this->CmdDocs;
         return $str;
