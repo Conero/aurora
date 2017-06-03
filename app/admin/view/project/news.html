@@ -1,0 +1,34 @@
+<ol class="breadcrumb" style="margin-top: 10px;">
+    <li class="breadcrumb-item">
+        <a href="{:urlBuild('!.project')}">
+            <i class="{$setting.icon}" aria-hidden="true"></i>
+            {$setting.descrip}
+        </a>
+    </li>
+    <li class="breadcrumb-item">{$setting.navbar_about}</li>
+    <li class="breadcrumb-item active">信息发布</li>
+</ol>
+<div class="card">
+    <div class="card-block">
+        <form method="post" action="{:url('project/news_save')}">
+            <div class="form-group has-success">
+                <label for="ipt_title">标题</label>
+                <input type="text" class="form-control" name="title" id="ipt_title" value="{$data.title|default=''}" placeholder="标题" required>
+                {$setting.pid_hidden|default=""}
+            </div>
+            <div class="form-group">
+                <label for="ipt_group_mk">分组标识</label>
+                <input type="text" class="form-control" name="group_mk" id="ipt_group_mk" value="{$data.group_mk|default=''}" placeholder="分组标识">
+            </div>
+            <div class="form-group">
+                <label for="ipt_descrip">概述</label>
+                <textarea class="form-control" name="descrip" id="ipt_descrip" placeholder="概述">{$data.descrip|default=''}</textarea>
+            </div>
+            <div class="form-group has-success">
+                <label for="ipt_content">内容</label>
+                <textarea class="form-control" name="content" id="ipt_content" placeholder="内容">{$data.content|default=''}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>

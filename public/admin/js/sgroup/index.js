@@ -6,7 +6,20 @@ $(function () {
     function CreateGroupRoleTree() {
         var data = Web.getJsVar('jstree');
         console.log(data);
-        $('#group_role_tree').jstree({'core' :
+        $('#group_role_tree')
+            .on('changed.jstree', function (e, data) {
+                console.log(data);
+                var node = data.node;
+                if(node.type == 'default'){
+                    var xhtml = '<p>'
+                            + ' <a href="'+Web._baseurl+'admin/sgroup/edit/uid/'+node.id+'.html" class="btn btn-info">编辑</a>'
+                            + ' <a href="'+Web._baseurl+'admin/sgroup/edit/uid/'+node.id+'.html" class="btn btn-danger">删除</a>'
+                        + '</p>'
+                        ;
+                    $('#grp_role_ds').html(xhtml);
+                }
+            })
+            .jstree({'core' :
             {
                 data:data
             },
