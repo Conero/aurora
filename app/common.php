@@ -559,8 +559,38 @@ function sysCounter($key,$value=null){
     // 返回设置值
     return array_key_exists($key,$data)? $data[$key]:"";
 }
-
-
+/**
+ * 系统访问数据提取出来
+ * @param $UpdateCtt 是否更记录
+ */
+function sysVisitInfo($UpdateCtt=true){
+    $skey = Config::get('setting.session_visit_key');
+    if(!Session::has($skey)){
+        $ctt = (Db::table('sys_visit')->count()) + 1;
+        $isMobile = isMobile()? 'Y':'N';
+        // 不更新统计量，可用于开发者开发过滤统计或者反爬虫等
+        if($UpdateCtt)
+            Db::table('sys_visit')->insert([
+                'ip' => request()->ip(),
+                'is_mobile' => $isMobile,
+                'agent' => isset($_SERVER['HTTP_USER_AGENT'])? $_SERVER['HTTP_USER_AGENT']:'',
+                'dct'=> $ctt
+            ]);
+        if($isMobile == 'Y'){
+            $SessionData['mcount'] = $ctt;
+//                $SessionData['wcount'] = Db::table('sys_visit')->field(['count(*)'=>'ctt'])->where('is_mobile','N')->value('ctt');
+            $SessionData['wcount'] = Db::table('sys_visit')->where('is_mobile','N')->count();
+        }else{
+            $SessionData['wcount'] = $ctt;
+//                $SessionData['mcount'] = Db::table('sys_visit')->field(['count(*)'=>'ctt'])->where('is_mobile','Y')->value('ctt');
+            $SessionData['mcount'] = Db::table('sys_visit')->where('is_mobile','Y')->count();
+        }
+        Session::set($skey,bsjson($SessionData));
+        return $SessionData;
+    }else{
+        return bsjson(Session::get($skey));
+    }
+}
  
 /**
  * 请求接口返回内容
