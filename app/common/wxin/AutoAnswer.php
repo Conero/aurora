@@ -10,11 +10,9 @@ namespace app\common\wxin;
 
 
 use app\common\SCache;
-use hyang\Net;
 use think\Config;
 use think\Db;
 use app\common\model\Prj1001c;
-use think\Request;
 
 class AutoAnswer
 {
@@ -108,8 +106,8 @@ EOF;
         elseif (empty($this->cmd) && $text){ // 系统默认
             $scache = new SCache();
             $scacheKey = 'heju_robot_first';
-            $request = Request::instance();
-            $userid = str_replace('.', '', $request->ip());
+            $visitData = sysVisitInfo();
+            $userid = $visitData['wcount'];
             // 版本号
             if(preg_match("/(version)|(-v)/i",$text)) $str = "\r\n版本号： ".Config::get('setting.version').'('.Config::get('setting.build').')';
             elseif ($str == '?'){
