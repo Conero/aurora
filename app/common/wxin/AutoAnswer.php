@@ -104,19 +104,23 @@ EOF;
         $data = $this->parseText($text);
         if($this->cmd && method_exists($this,($this->cmd).'CmdAction')) $str = call_user_func([$this,($this->cmd).'CmdAction'],$data);
         elseif (empty($this->cmd) && $text){ // 系统默认
-            $scache = new SCache();
-            $scacheKey = 'heju_robot_first';
-            $visitData = sysVisitInfo();
-            $userid = $visitData['wcount'];
+            //$scache = new SCache();
+            //$scacheKey = 'heju_robot_first';
+            //$visitData = sysVisitInfo();
+            //$userid = $visitData['wcount'];
+            $userid = str_replace('.','',request()->ip());
             // 版本号
             if(preg_match("/(version)|(-v)/i",$text)) $str = "\r\n版本号： ".Config::get('setting.version').'('.Config::get('setting.build').')';
             elseif ($str == '?'){
                 $str = $this->CmdDocs;
             }
+            /*
+             // 微信端请求无法识别
             elseif (!$scache->has($scacheKey,$userid)){
                 $str = $this->CmdDocs;
                 $scache->set($scacheKey,$userid);
             }
+            */
             else{
                 try {
                     $prj1c = new Prj1001c();
