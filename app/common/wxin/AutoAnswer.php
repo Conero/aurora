@@ -9,6 +9,7 @@
 namespace app\common\wxin;
 
 
+use app\common\SCache;
 use hyang\Net;
 use think\Config;
 use think\Db;
@@ -105,16 +106,22 @@ EOF;
         $data = $this->parseText($text);
         if($this->cmd && method_exists($this,($this->cmd).'CmdAction')) $str = call_user_func([$this,($this->cmd).'CmdAction'],$data);
         elseif (empty($this->cmd) && $text){ // 系统默认
+            $scache = new SCache();
+            $request = Request::instance();
+            $userid = str_replace('.', '', $request->ip());
             // 版本号
             if(preg_match("/(version)|(-v)/i",$text)) $str = "\r\n版本号： ".Config::get('setting.version').'('.Config::get('setting.build').')';
+            elseif ($str == '?'){
+                $str = $this->CmdDocs;
+            }
+            elseif (!$scache->has('heju_robot_first',$userid)) $str = $this->CmdDocs;
             else{
                 try {
                     $prj1c = new Prj1001c();
                     $config = $prj1c->getSetVals('juhe_api', 'aurora', true);
                     $url = $config['robot_url'];
                     $appkey = $config['robot_AppKey'];
-                    $request = Request::instance();
-                    $userid = str_replace('.', '', $request->ip());
+
                     $param = [
                         'key' => $appkey,
                         'info' => $text,
