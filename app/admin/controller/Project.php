@@ -11,6 +11,7 @@ namespace app\admin\controller;
 
 use app\common\controller\Web;
 use app\common\model\Prj1000c;
+use app\common\model\Prj1002c;
 use app\common\traits\Admin;
 use hyang\Bootstrap;
 
@@ -138,8 +139,45 @@ class Project extends Web
             if($setList) $data['setting_list'] = '<ul class="list-unstyled">'.$setList.'</ul>';
             //debugOut($prjSetting);
             $view->assign('setting',$setting);
+            $data['news_url'] = urlBuild('!.project/news','?uid='.bsjson(['pid'=>$data['listid']]));
             $view->assign('data',$data);
         });
         //println($uid);
+    }
+    // 消息发布
+    public function news(){
+        $this->loadScript([
+            'js' => ['/lib/tinymce/tinymce.min','project/news']
+        ]);
+        return $this->pageTpl(function ($view){
+            $setting = $this->page_setting;
+            $param = bsjson(request()->param('uid'));
+            $pid = $param['pid'];
+            $pdata = (new Prj1000c())->field('code,name')->where('listid',$pid)->find();
+            $setting['navbar_about'] = '<a href="'.url('project/about','uid='.$pid).'" title="'.$pdata['name'].'">'.$pdata['code'].'</a>';
+            $setting['pid_hidden'] = '<input type="hidden" name="pid" value="'.$pid.'">';
+            //println($param);
+            $view->assign('setting',$setting);
+        });
+    }
+    // 信息发布后台数据维护
+    public function news_save(){
+        list($data,$mode,$map) = $this->_getSaveData();
+        //println($data,$mode,$map);
+        $uid = $this->getUserInfo('uid');
+        if($mode == 'A'){
+            $data['listid'] = getPkValue('pk_prj1002c__listid');
+            if($uid) $data['uid'] = $uid;
+            $prj12 = new Prj1002c($data);
+            if($prj12->save()) $this->success('数据新增成功');
+            else $this->error('数据新增失败');
+        }elseif ($mode == 'M'){
+            $prj12 = new Prj1002c();
+            if($prj12->save($data,$map)) $this->success('数据更新成功!');
+            else $this->error('数据更新失败!');
+        }elseif ($mode == 'D'){
+            $this->pushRptBack('prj1002c',$map,'auto');
+            $this->success('数据删除成功!');
+        }
     }
 }

@@ -17,6 +17,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="#prj_inform" data-toggle="tab" role="tab" aria-controls="prj_inform">
+                    <i class="fa fa-newspaper-o"></i>
+                    信息发布
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#prj_setting" data-toggle="tab" role="tab" aria-controls="prj_setting">
                     <i class="fa fa-cog"></i>
                     配置项
@@ -30,6 +36,11 @@
             <h6 class="card-subtitle mb-2 text-muted text-right">时间： {$data.mtime}</h6>
             <p class="card-text">描述<br /> {$data.descrip}</p>
             <a href="{php}echo url('project/edit','uid='.$data['listid']);{/php}" class="btn btn-primary">修改</a>
+        </div>
+        <div class="card-block tab-pane fade" id="prj_inform" role="tabpanel" aria-labelledby="prj_setting-tab">
+            <p class="text-right">
+                <a href="{$data.news_url}" class="btn btn-success btn-sm"><i class="fa fa-plus-square"></i></a>
+            </p>
         </div>
         <div class="card-block tab-pane fade" id="prj_setting" role="tabpanel" aria-labelledby="prj_setting-tab">
             <p class="text-right">
