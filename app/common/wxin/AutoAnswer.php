@@ -107,6 +107,7 @@ EOF;
         if($this->cmd && method_exists($this,($this->cmd).'CmdAction')) $str = call_user_func([$this,($this->cmd).'CmdAction'],$data);
         elseif (empty($this->cmd) && $text){ // 系统默认
             $scache = new SCache();
+            $scacheKey = 'heju_robot_first';
             $request = Request::instance();
             $userid = str_replace('.', '', $request->ip());
             // 版本号
@@ -114,7 +115,10 @@ EOF;
             elseif ($str == '?'){
                 $str = $this->CmdDocs;
             }
-            elseif (!$scache->has('heju_robot_first',$userid)) $str = $this->CmdDocs;
+            elseif (!$scache->has($scacheKey,$userid)){
+                $str = $this->CmdDocs;
+                $scache->set($scacheKey,$userid);
+            }
             else{
                 try {
                     $prj1c = new Prj1001c();
