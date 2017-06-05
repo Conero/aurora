@@ -23,4 +23,11 @@ class Prj1000c extends Model
     public function Settings(){
         return $this->hasMany('Prj1001c','pid');
     }
+    /**
+     * 项目信息发布
+     * @return \think\model\relation\HasMany
+     */
+    public function Inform(){
+        return $this->hasMany('Prj1002c','pid');
+    }
 }

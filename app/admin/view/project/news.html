@@ -15,6 +15,12 @@
                 <label for="ipt_title">标题</label>
                 <input type="text" class="form-control" name="title" id="ipt_title" value="{$data.title|default=''}" placeholder="标题" required>
                 {$setting.pid_hidden|default=""}
+                {$pk_ipt|default=""}
+            </div>
+            <div class="form-group">
+                <label for="ipt_type">类型</label>
+                <select class="form-control" name="type" id="ipt_type">{$setting.type_select}</select>
+                <small class="form-text text-muted"><a href="javascript:void(0);" class="text-success" id="set_type_lnk"><i class="fa fa-plus"></i> 设置</a>更多类型.</small>
             </div>
             <div class="form-group">
                 <label for="ipt_group_mk">分组标识</label>
@@ -28,7 +34,29 @@
                 <label for="ipt_content">内容</label>
                 <textarea class="form-control" name="content" id="ipt_content" placeholder="内容">{$data.content|default=''}</textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            {if condition="isset($data.push_mk) && 'Y' eq $data.push_mk"}
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" name="push_mk" value="Y" class="form-check-input" checked>
+                    直接发布到网站
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" name="close" value="Y" class="form-check-input">
+                    关闭发布
+                </label>
+            </div>
+            {else}
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" name="push_mk" value="Y"
+                           class="form-check-input">
+                    直接发布到网站
+                </label>
+            </div>
+            {/if}
+            <button type="submit" class="btn btn-primary">提交</button>
         </form>
     </div>
 </div>
