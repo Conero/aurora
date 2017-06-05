@@ -10,8 +10,8 @@ namespace app\index\controller;
 
 
 use app\common\controller\Web;
+use app\common\model\Atc1000c;
 use hyang\Bootstrap;
-use think\Db;
 use app\common\SCache;
 
 class Essay extends Web
@@ -26,12 +26,13 @@ class Essay extends Web
         $value = request()->get('value');
         if($value && $filter) $where[$filter] = ['like',"%$value%"];
         $bstp = new Bootstrap();
-        $data = Db::table('atc1000c')
+        $atc = new Atc1000c();
+        $data = $atc
             ->where($where)
             ->order('date desc')
             ->page($bstp->page_decode(),30)
             ->select();
-        $count = Db::table('atc1000c')
+        $count = $atc
             ->where($where)
             ->count();
         $list = '';
@@ -59,8 +60,9 @@ class Essay extends Web
     }
     // 阅读文章
     public function read(){
+        $atc = new Atc1000c();
         $item = request()->param('item');
-        $data = Db::table('atc1000c')
+        $data = $atc
             ->where('listid',$item)
             ->find();
         // 阅读数处理，不重复保存数据
@@ -68,7 +70,7 @@ class Essay extends Web
         if($scache->has('index_art1000c_read_ctt',$item) == false){
             $count = $data['read_count'] + 1;
             $data['read_count'] = $count;
-            Db::table('atc1000c')->where(['listid'=>$item])->update(['read_count'=>$count]);
+            $atc->save(['read_count'=>$count],['listid'=>$item]);
             $scache->set('index_art1000c_read_ctt',$item);
         }
         $data['star_mk'] = ($scache->has('index_art1000c_star_ctt',$item) == true)? 'Y':'N';
@@ -77,14 +79,14 @@ class Essay extends Web
             'js' => ['essay/read'],
             'title' => $data['title'].(empty($data['collected'])? '':'/'.$data['collected']).'-'.$data['sign']
         ]);
-
+        $atc2 = $atc->Comments();
         // 评论获取
-        $commentsCtt = Db::table('atc1002c')
+        $commentsCtt = $atc2
             ->where('pid',$item)
             ->count();
         if($commentsCtt){
             $data['cmmt_ctt'] = $commentsCtt;
-            $comments = Db::table('atc1002c')
+            $comments = $atc2
                 ->where('pid',$item)
                 ->select();
             $commentsList = '';
