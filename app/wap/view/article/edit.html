@@ -23,13 +23,19 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">文集</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" value="{$data.collected|default=''}" name="collected" type="text"  placeholder="设置文集">
+                    <input class="weui-input" value="{$data.collected|default=''}" name="collected" id="collected_ipt" type="text"  placeholder="设置文集">
+                </div>
+                <div class="weui-cell__ft">
+                    <button class="weui-vcode-btn" id="collected_setting">选择</button>
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">署名</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" name="sign" value="{$data.sign|default=''}" type="text"  placeholder="设置署名">
+                    <input class="weui-input" name="sign" value="{$data.sign|default=''}" id="sign_ipt" type="text"  placeholder="设置署名">
+                </div>
+                <div class="weui-cell__ft">
+                    <button class="weui-vcode-btn" id="sign_setting">选择</button>
                 </div>
             </div>
             <div class="weui-cell weui-cell_vcode">

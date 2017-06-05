@@ -2,6 +2,42 @@
  * Created by Administrator on 2017/5/22 0022.
  */
 $(function () {
+    // 文集选择
+    $('#collected_setting').click(function () {
+        var collected = Wap.getJsVar('collected');
+        if(collected){
+            var option = [];
+            for(var k in collected){
+                option.push({
+                    label:k + ' - '+ collected[k],
+                    value:k
+                });
+            }
+            weui.picker(option,{
+                onConfirm: function(result){
+                    $('#collected_ipt').val(result[0].value);
+                }
+            });
+        }
+    });
+    // 署名选择
+    $('#sign_setting').click(function () {
+        var collected = Wap.getJsVar('sign');
+        if(collected){
+            var option = [];
+            for(var k in collected){
+                option.push({
+                    label:k + ' - '+ collected[k],
+                    value:k
+                });
+            }
+            weui.picker(option,{
+                onConfirm: function(result){
+                    $('#sign_ipt').val(result[0].value);
+                }
+            });
+        }
+    });
     // 日期设置
     $('#date_setting').click(function () {
         var dt = new Date();

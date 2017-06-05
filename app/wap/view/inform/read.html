@@ -1,12 +1,12 @@
 {include file="public/appm/tpl_header.html" /}
-<body>
+<body xmlns="http://www.w3.org/1999/html">
 <div class="weui-tab container">
     <div class="weui-flex bg-faded aurora-edit-head">
         <div class="weui-flex__item">
             <div class="placeholder">
-                <a href="{:urlBuild('!.article')}">
+                <a href="{:urlBuild('!.inform')}">
                     <i class="fa fa-arrow-circle-left"></i>
-                    文章
+                    通知公告
                 </a>
                 /{$page.title}</div>
         </div>
@@ -24,11 +24,16 @@
     <div class="weui-cells__title">其他</div>
     <div class="weui-cell">
         <div class="weui-cell__bd">
+            <p>作者</p>
+        </div>
+        <div class="weui-cell__ft">{$page.sign|default="匿名"}</div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__bd">
             <p>阅读数</p>
         </div>
         <div class="weui-cell__ft">{$page.read_count}</div>
     </div>
-
     <div class="weui-cell">
         <!-- JiaThis Button BEGIN -->
         {$Think.config.setting.wap_thisjia}
@@ -41,5 +46,3 @@
         <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
     </div>
 </div>
-</body>
-</html>

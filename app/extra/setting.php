@@ -16,12 +16,14 @@ return [
 
     'gzh_code'      => '5400',  // 公众号
     'gzh_code_debug'=> 1,       // 公众号是否开启调试
+    'wap_prj_code' => 'Jessica',// 移动端项目代码
+    'prj_code' => 'aurora',     // 项目代码
 
     // 用于底部版权
     'organization' => 'Conero',    // 机构组织， 用于底部才菜单
     'start'         => '2014',    // 起始时间
-    'version'       => '0.1.19',          // 版本号
-    'build'         => '20170604',       // 更新时间
+    'version'       => '0.1.20',          // 版本号
+    'build'         => '20170605',       // 更新时间
     'online_date'   => '2017-05-05',                  // 上线时间
 
     // 发布版相关设置
@@ -45,6 +47,7 @@ return [
                 </script>
                 <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2135664" charset="utf-8"></script>
         ',
+    
     // 前端设置
     'static_pref'=>'/aurora/public/',
     'url_pref'  => '/aurora/',      // 地址前缀
