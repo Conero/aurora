@@ -27,7 +27,24 @@ return [
     // 发布版相关设置
     'p_wapurl' => 'http://www.conero.cn/aurora/wap.html',
     'p_baseurl'=> 'http://www.conero.cn/aurora/',           // 请求主地址
-    
+    // 插件
+    // 手机端文章分享
+    'wap_thisjia'=>'<div class="jiathis_style_m"></div><script type="text/javascript" src="http://v3.jiathis.com/code/jiathis_m.js" charset="utf-8"></script>',  // 手机端文章分享
+    'web_thisjia' => '
+            <div class="jiathis_style">
+                    <span class="jiathis_txt">分享到：</span>
+                    <a class="jiathis_button_tools_1"></a>
+                    <a class="jiathis_button_tools_2"></a>
+                    <a class="jiathis_button_tools_3"></a>
+                    <a class="jiathis_button_tools_4"></a>
+                    <a href="http://www.jiathis.com/share?uid=2135664" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+                    <a class="jiathis_counter_style"></a>
+                </div>
+                <script type="text/javascript">
+                    var jiathis_config = {data_track_clickback:\'true\'};
+                </script>
+                <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2135664" charset="utf-8"></script>
+        ',
     // 前端设置
     'static_pref'=>'/aurora/public/',
     'url_pref'  => '/aurora/',      // 地址前缀
