@@ -35,10 +35,13 @@ class Prj1001c extends Model
             $where['pid'] = $isPidCode? ((new Prj1000c())->where('code',$pid)->value('listid')):$pid;
         }
         $text = '';
-        $data = $this->db()->where($where)->find()->toArray();
-        if(!empty($data['short_text'])) $text = $data['short_text'];
-        elseif(!empty($data['long_text'])) $text = $data['long_text'];
-        elseif(!empty($data['json_text'])) $text = $data['json_text'];
+        $data = $this->db()->where($where)->find();
+        if($data){
+            $data = $data->toArray();
+            if(!empty($data['short_text'])) $text = $data['short_text'];
+            elseif(!empty($data['long_text'])) $text = $data['long_text'];
+            elseif(!empty($data['json_text'])) $text = bsjson($data['json_text']);
+        }
         return $text;
     }
 

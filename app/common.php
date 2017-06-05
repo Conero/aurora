@@ -178,7 +178,11 @@ function getDays($dt1=null,$dt2=null)
 // base_json 组合加密
 function bsjson($data){
     if(is_array($data)) return base64_encode(json_encode($data));
-    else if(is_string($data)) return json_decode(base64_decode($data),true);
+    else if(is_string($data)){
+        // 自动识别是否为 标准的json字符
+        if(preg_match('/[\{"\}\:]{3,}/',$data)) return json_decode($data,true);
+        return json_decode(base64_decode($data),true);
+    }
     return '';
 }
 

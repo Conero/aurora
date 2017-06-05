@@ -11,6 +11,7 @@ namespace app\admin\controller;
 
 use app\common\controller\Web;
 use app\common\model\Prj1000c;
+use app\common\model\Prj1001c;
 use app\common\model\Prj1002c;
 use app\common\traits\Admin;
 use hyang\Bootstrap;
@@ -111,10 +112,13 @@ class Project extends Web
         ]);
         return $this->pageTpl(function ($view) use($data,$prj){
             $setting = $this->page_setting;  // 页面配置项
+            $uid = $data['listid'];
             //$prj->get($data['listid']);
+            // 系统配置项数据获取
             $prjSetting = $prj->Settings()
-                ->where('pid',$data['listid'])
+                ->where('pid',$uid)
                 ->order('groupid asc,setting_key')
+                ->limit(30)
                 ->select()
             ;
             $setList = '';
@@ -137,6 +141,28 @@ class Project extends Web
                 ';
             }
             if($setList) $data['setting_list'] = '<ul class="list-unstyled">'.$setList.'</ul>';
+            // 系统项目-信息发布数据获取
+            $informs = $prj->Inform()
+                ->field('listid,title,ifnull(descrip,left(content,100)) as descrip')
+                ->where('pid',$uid)
+                ->limit(30)
+                ->select()
+            ;
+            $informList = '';
+            foreach ($informs as $v){
+                $informList .= '
+                    <li class="media">
+                    <span class="d-flex mr-3 text-warning" ><i class="fa fa-gg-circle"></i></span>
+                    <div class="media-body">
+                        <h5 class="mt-0 mb-1">'.$v['title'].'
+                            <a href="'.urlBuild('!.project/news','?uid='.bsjson(['pid'=>$uid,'lid'=>$v['listid']])).'"><i class="fa fa-pencil"></i></a>
+                        </h5>
+                        <div class="media-descrip">'.$v['descrip'].'</div>
+                    </div>
+                    </li>
+                ';
+            }
+            if($informList) $data['inform_list'] = $informList;
             //debugOut($prjSetting);
             $view->assign('setting',$setting);
             $data['news_url'] = urlBuild('!.project/news','?uid='.bsjson(['pid'=>$data['listid']]));
@@ -152,10 +178,45 @@ class Project extends Web
         return $this->pageTpl(function ($view){
             $setting = $this->page_setting;
             $param = bsjson(request()->param('uid'));
+            //println($param);
             $pid = $param['pid'];
-            $pdata = (new Prj1000c())->field('code,name')->where('listid',$pid)->find();
-            $setting['navbar_about'] = '<a href="'.url('project/about','uid='.$pid).'" title="'.$pdata['name'].'">'.$pdata['code'].'</a>';
+            $prj = new Prj1000c();
+            $prj1 = new Prj1001c();
+            $pdata = $prj->field('code,name')->where('listid',$pid)->find();
+            $setting['navbar_about'] = '<a href="'.url('project/about','uid='.$pid).'#prj_inform" title="'.$pdata['name'].'">'.$pdata['code'].'</a>';
             $setting['pid_hidden'] = '<input type="hidden" name="pid" value="'.$pid.'">';
+            $config = $this->getSysConst('5405'); // 'prj12c_type_key'
+            $setId = '';
+            if(isset($config['prj12c_type_groupid'])){
+                $goupid = $config['prj12c_type_groupid'];
+                $setting_key = $config['prj12c_type_key'];
+                $newsType = $prj1->getSetVal($setting_key,$pid);
+                if(empty($newsType)){
+                    $newsType = ['10'=>'未分类'];
+                    $setId = getPkValue('pk_prj1001c__listid');
+                    $prj1->save([
+                        'pid' => $pid,
+                        'listid' => $setId,
+                        'groupid'=> $goupid,
+                        'setting_key' => $setting_key,
+                        'remark'    => '系统自动设置',
+                        'json_text'=> bsjson($newsType)
+                    ]);
+                }else{
+                    $setId = $prj1->where(['pid'=>$pid,'groupid'=>$goupid,'setting_key'=>$setting_key])->value('listid');
+                }
+            }
+            $setting['type_select'] = Bootstrap::SelectGrid([
+                'option' => $newsType
+            ]);
+            $this->_JsVar('news_type',$newsType);
+            if($setId) $this->_JsVar('setId',$setId);
+            if(isset($param['lid'])){
+                $prj2 = new Prj1002c();
+                $data = $prj2->where('listid',$param['lid'])->find()->toArray();
+                $view->assign('data',$data);
+                $view->assign('pk_ipt',Bootstrap::formPkGrid($data));
+            }
             //println($param);
             $view->assign('setting',$setting);
         });
@@ -168,11 +229,18 @@ class Project extends Web
         if($mode == 'A'){
             $data['listid'] = getPkValue('pk_prj1002c__listid');
             if($uid) $data['uid'] = $uid;
+            if(isset($data['push_mk']) && $data['push_mk'] == 'Y'){ // 直接发布
+                $data['push_time'] = date('Y-m-d H:i:s');
+                if($uid) $data['push_uid'] = $uid;
+            }
             $prj12 = new Prj1002c($data);
             if($prj12->save()) $this->success('数据新增成功');
             else $this->error('数据新增失败');
         }elseif ($mode == 'M'){
             $prj12 = new Prj1002c();
+            if(isset($data['close'])){
+                $data['push_mk'] = 'N';
+            }
             if($prj12->save($data,$map)) $this->success('数据更新成功!');
             else $this->error('数据更新失败!');
         }elseif ($mode == 'D'){

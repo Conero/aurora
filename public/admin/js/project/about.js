@@ -2,6 +2,26 @@
  * Created by Administrator on 2017/5/25 0025.
  */
 $(function () {
+    /**
+     * 根据 location.hash 自动找到上衣次的div
+     * @constructor
+     */
+    function AutoFindLastDs() {
+        var hash = location.hash;
+        if(hash != ''){
+            hash = hash.substr(1);
+            var tabNav = $('[aria-controls="'+hash+'"]');
+            if(tabNav.length > 0){
+                tabNav.parents('ul.nav').find('a.active').removeClass('active');
+                tabNav.addClass('active');
+                var ds = $('div.tab-content').find('div.active');
+                // ds.removeClass('show');
+                // ds.removeClass('active');
+                ds.removeClass('show active');
+                $('#'+hash).addClass('show active');
+            }
+        }
+    }
 
     /**
      * 设置项布景
@@ -83,4 +103,5 @@ $(function () {
             }
         });
     });
+    AutoFindLastDs();
 });
