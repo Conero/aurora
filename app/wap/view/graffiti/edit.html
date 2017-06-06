@@ -1,0 +1,50 @@
+{include file="public/appm/tpl_header.html" /}
+<body>
+<div class="weui-tab container">
+    <div class="weui-flex bg-faded aurora-edit-head">
+        <div class="weui-flex__item">
+            <div class="placeholder">
+                <a href="{:urlBuild('!.')}#graffiti">
+                    <i class="fa fa-arrow-circle-left"></i>
+                    涂鸦
+                </a>
+                /我要涂鸦</div>
+        </div>
+    </div>
+    <div class="js__form">
+
+        <div class="weui-cells__title"><span class="text-danger">*</span> 涂鸦内容</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea" name="content" placeholder="请输入文本" required emptyTips="请输入涂鸦内容" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">标签</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="tag" type="text" placeholder="设置标签">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">署名</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="sign" type="text" placeholder="设置署名">
+                </div>
+            </div>
+        </div>
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" href="javascript:" id="save_lnk">确定</a>
+        </div>
+    </div>
+    <div class="weui-footer">
+        <p class="weui-footer__links">
+            <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
+        </p>
+        <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
+    </div>
+</div>
+</body>
+</html>

@@ -18,7 +18,8 @@ class Index extends Wap
     public function index()
     {
         $this->loadScript([
-            'js'    => ['index/index']
+            'js'    => ['index/index'],
+            'css'   => ['index/index']
         ]);
         $page = [];
         // 访问分布
