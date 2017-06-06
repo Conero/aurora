@@ -11,7 +11,6 @@ namespace app\api\controller;
 
 use app\common\controller\Api;
 use think\Db;
-use think\Request;
 use app\common\SCache;
 
 class Article extends Api

@@ -10,6 +10,7 @@
                 </h1>
                 <p class="page__desc">{$setting.top_descrip|default='欢饮使用Aurora系统，该系统致力于管理个人，以及轻量级社区管理！项目筹建时间 2017年5月5日，依托原来的本地文本版应用，可更好的扩展系统。'}</p>
             </div>
+            <div class="weui-flex aurora-border"></div>
             <div class="weui-panel">
                 <div class="weui-panel__hd">信息中心</div>
                 <div class="weui-panel__bd">
@@ -27,6 +28,7 @@
                             </a>
                         </div>
                     </div>
+                    <div class="weui-flex aurora-border"></div>
                     <div class="weui-media-box weui-media-box_text">
                         <h4 class="weui-media-box__title">
                             文章
@@ -41,6 +43,7 @@
                     </a>
                 </div>
             </div>
+            <div class="weui-flex aurora-border"></div>
             <div class="weui-cells__title">我们在一起</div>
             <div class="weui-cells">
                 <a class="weui-cell weui-cell_access" href="{:urlBuild('!.feekback')}">
@@ -85,11 +88,24 @@
                     <div class="weui-cell__ft">{$page.dcount}/{$page.count}</div>
                 </div>
             </div>
+            <div class="weui-flex aurora-border"></div>
             <div class="weui-footer">
                 <p class="weui-footer__links">
                     <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
                 </p>
                 <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
+            </div>
+        </div>
+        <!--涂鸦墙-->
+        <div class="weui-tab__panel" id="graffiti" style="display: none;">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <p>涂鸦墙</p>
+                </div>
+                <div class="weui-cell__ft"><a href="javascript:void(0);" class="text-success" id="gft_menu_lnk"><i class="fa fa-ellipsis-v"></i></a></div>
+            </div>
+            <div class="weui-flex aurora-border"></div>
+            <div class="weui-panel" id="graffiti_panel">
             </div>
         </div>
         <!--关于-->
@@ -137,9 +153,9 @@
                 <img src="/aurora/public/appm/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
                 <p class="weui-tabbar__label">首页</p>
             </a>
-            <a href="javascript:;" class="weui-tabbar__item">
+            <a href="javascript:;" class="weui-tabbar__item" data-url="graffiti">
                 <img src="/aurora/public/appm/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
-                <p class="weui-tabbar__label">通讯录</p>
+                <p class="weui-tabbar__label">涂鸦</p>
             </a>
             <a href="javascript:;" class="weui-tabbar__item">
                 <img src="/aurora/public/appm/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">

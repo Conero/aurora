@@ -1,0 +1,8 @@
+/* 2017年6月6日 星期二 移动端首页 */
+    /*模块间的间隙*/
+.aurora-border{
+    background-color: #F8F8F8;
+    /*background-color: #F7F7FA;*/
+    /*background-color: #E9E9E0;*/
+    min-height: 8px;
+}
