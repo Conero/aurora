@@ -30,6 +30,9 @@ class Graffiti extends Api
                 $graf = new Graff();
                 $data['listid'] = $graf->getPkVal();
                 if($uid) $data['uid'] = $uid;
+                $ip = request()->ip();
+                // 本地ip地址过滤
+                if($ip != '127.0.0.1') Location::setIp($ip);
                 $location = Location::getLocation();
                 if(empty($location['code']) && isset($location['data'])){
                     $rdata = $location['data'];
@@ -72,6 +75,7 @@ class Graffiti extends Api
         $data = $graff
             //->where('')
             ->limit(30)
+            ->order('mtime desc')
             ->select();
         return $this->FeekMsg($data);
     }

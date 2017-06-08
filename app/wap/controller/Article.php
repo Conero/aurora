@@ -15,25 +15,48 @@ use app\common\SCache;
 
 class Article extends Wap
 {
-    // 首页
-    public function index(){
-        $this->loadScript([
-            'title' => '文章'
-        ]);
-        $uid = getUserInfo('uid');
-        if($uid){
-            // 用户信息
-            $page = ['uid'=>$uid];
-            $this->assign('page',$page);
-        }
+    /**
+     * 获取文章列表
+     * @param int $page 1 页码
+     * @return false|\PDOStatement|string|\think\Collection   ($data,$count)
+     */
+    private function getArticleList($page=1,$getCount=false){
         $atc = new Atc1000c();
+        $col = request()->param('c');
+        $value = request()->param('v');
+        //println($col,$value);
+        $where = ['is_private'=>'N'];
+        if($value) $where[$col] = ['like',"%$value%"];
         // 数据提取
         $data = $atc
             ->field('left(content,50) as content,listid,title,date,collected,sign,ifnull(read_count,1) as read_count')
-            ->page(1,30)
-            ->where('is_private','N')
-            ->order('mtime desc')
+            ->page($page,30)
+            ->where($where)
+            ->order('date desc')
             ->select();
+        if($getCount){
+            $count = $atc
+                ->page($page,30)
+                ->where($where)
+                ->count();
+            return [$data,$count];
+        }
+        return $data;
+    }
+    // 首页
+    public function index(){
+        $this->loadScript([
+            'title' => '文章',
+            'js'    => 'article/index'
+        ]);
+        $uid = getUserInfo('uid');
+        $page = [];
+        if($uid){
+            // 用户信息
+            $page = ['uid'=>$uid];
+        }
+        // 数据提取
+        list($data,$count) = $this->getArticleList(1,true);
         if($data){
             $list = '';
             foreach ($data as $v){
@@ -45,17 +68,26 @@ class Article extends Wap
                             <i class="fa fa-eye"></i> '.$v['read_count'].'
                         </p>
                         <ul class="weui-media-box__info">
-                            <li class="weui-media-box__info__meta"><i class="fa fa-user-circle"></i> '.$v['sign'].'</li>
+                            <li class="weui-media-box__info__meta"><i class="fa fa-user-circle"></i> <a href="'.urlBuild('!.article/index','?c=sign&v='.$v['sign']).'" class="text-success">'.$v['sign'].'</a></li>
                             <li class="weui-media-box__info__meta">'.$v['date'].'</li>
-                            '.(empty($v['collected'])? '':'<li class="weui-media-box__info__meta"><i class="fa fa-book"></i> 文集：'.$v['collected'].'</li>').
+                            '.(empty($v['collected'])? '':'<li class="weui-media-box__info__meta"><i class="fa fa-book"></i> 文集：<a href="'.urlBuild('!.article/index','?c=collected&v='.$v['collected']).'" class="text-info">'.$v['collected'].'</a></li>').
                         '
                         </ul>
                     </div>
                ';
             }
             $this->assign('atclist',$list);
+            $page['count'] = $count;
         }
+        $page['is_search'] = request()->param()? 'Y':'N';
+        $this->assign('page',$page);
         return $this->fetch();
+    }
+    // ajax - 获取很多的文章
+    public function get_more_arts(){
+        $page = request()->param('page');
+        $page = $page? intval($page):2;
+        return json($this->getArticleList($page));
     }
     // 写文章
     public function edit(){

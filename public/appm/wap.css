@@ -219,6 +219,15 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   margin-top: 40px;
   /*padding-bottom: 10px;*/
 }
+
+/*模块间的间隙*/
+.aurora-border{
+    background-color: #F8F8F8;
+    /*background-color: #F7F7FA;*/
+    /*background-color: #E9E9E0;*/
+    min-height: 8px;
+}
+
 /****************************************
   自定义手机端 end
 *****************************************/
