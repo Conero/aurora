@@ -27,6 +27,7 @@ $(function () {
                     var xhtml = '';
                     for(var i=0; i<data.length; i++){
                         var el = data[i];
+                        /*
                         xhtml += '<div class="weui-media-box weui-media-box_text">'
                             + '<h4 class="weui-media-box__title">'+(el.sign? el.sign:el.city) +' '+ el.mtime+'</h4>'
                             + '<p class="weui-media-box__desc">'+el.content+'</p>'
@@ -36,8 +37,38 @@ $(function () {
                             + '<li class="weui-media-box__info__meta weui-media-box__info__meta_extra">'+el.address+'</li>'
                             + '</ul>'
                             + '</div>';
+                        */
+                        xhtml += '<div class="aurora-graffiti"><div class="weui-flex aurora-graffiti__head">'
+                            + '<div class="weui-flex__item aro-graff__hd">'+(el.sign? el.sign:'侠名') +'</div>'
+                            + '<div class="weui-flex__item"></div>'
+                            + '<div class="weui-flex__item aro-graff__ft">'
+                            + '<a href="javascript:void(0);" class="text-info js__grf_tog"><i class="fa fa-angle-double-down"></i></a>'
+                            + '</div>'
+                            + '</div>'
+                            + '<div class="weui-flex aurora-graffiti__desc aro-graff__pt">'+el.content+'</div>'
+                        + '<div class="weui-flex aurora-graffiti__footer">'
+                            + '<div class="weui-flex__item">'
+                            + '<ul class="weui-media-box__info"><li class="weui-media-box__info__meta weui-media-box__info__meta_extra">'+el.address+'</li>'
+                            + '<li class="weui-media-box__info__meta weui-media-box__info__meta_extra">'+el.mtime+'</li>'
+                            +'</ul>'
+                            + '</div>'
+                            + '</div>'
+                            + '</div>'
+                            + '</div>'
+                        ;
                     }
-                    $('#graffiti_panel').html(xhtml);
+                    var graffObj = $(xhtml);
+                    // 文字toggle
+                    graffObj.find('.js__grf_tog').click(function () {
+                        var dom = $(this);
+                        var desc = dom
+                            .parents('.aurora-graffiti')
+                            .find('.aurora-graffiti__desc')
+                            .toggleClass('aro-graff__pt');
+                        if(desc.attr('class').indexOf('aro-graff__pt')> -1) dom.find('i').attr('class','fa fa-angle-double-down');
+                        else dom.find('i').attr('class','fa fa-angle-double-up');
+                    });
+                    $('#graffiti_panel').html(graffObj);
                     loading.hide();
                 }
             });

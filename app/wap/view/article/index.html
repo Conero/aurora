@@ -13,23 +13,40 @@
         <div class="weui-cells">
             <a class="weui-cell weui-cell_access" href="{:url('article/edit')}">
                 <div class="weui-cell__bd">
-                    <p>我要写文章</p>
+                    <p><i class="fa fa-plus-square-o text-info"></i> 我要写文章</p>
                 </div>
                 <div class="weui-cell__ft"></div>
             </a>
             <a class="weui-cell weui-cell_access" href="{:url('article/mine')}">
                 <div class="weui-cell__bd">
-                    <p>我的文章</p>
+                    <p><i class="fa fa-file-text-o text-success"></i> 我的文章</p>
                 </div>
                 <div class="weui-cell__ft"></div>
             </a>
         </div>
+        <div class="weui-flex aurora-border"></div>
         {/if}
         <div class="weui-panel">
-            <div class="weui-panel__hd">文章列表</div>
-            <div class="weui-panel__bd">
+            <div class="weui-panel__hd weui-flex">
+                <div class="weui-flex__item">
+                    文章列表
+                </div>
+
+                <div class="weui-flex__item"></div>
+                <div class="weui-flex__item text-right">
+                    {if condition="$page.is_search eq 'Y'"}
+                    <a href="{:urlBuild('!.article')}" class="text-warning" style="font-size: 1.32em;margin-right: 10px;"><i class="fa fa-refresh"></i></a>
+                    {/if}
+                    <a href="javascript:void(0);" id="filter_lnk" style="font-size: 1.32em;margin-left: 5px;color: green"><i class="fa fa-ellipsis-v"></i></a>
+                </div>
+            </div>
+            <div class="weui-panel__bd" id="article_list">
                 {$atclist|default=""}
             </div>
+            {// 只有一页是不显示加载器}
+            {if condition="isset($page.count) && $page.count neq '1'"}
+            <a href="javascript:;" class="weui-btn weui-btn_plain-primary" id="load_more_lnk">加载更多</a>
+            {/if}
         </div>
     </div>
 </body>
