@@ -21,6 +21,7 @@ class Register extends Api
         }else{
             $data['certificate'] = md5($data['pswd']);
             $data = Util::dataUnset($data,['pswd','pswdck','code']);
+            $data['register_ip'] = request()->ip();
             if(!(new User($data))->save()) return ['code'=>-1,'msg'=>'数据失败！'];
         }
         return ['code'=>1,'msg'=>'数据保存成功!'];

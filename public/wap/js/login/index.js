@@ -18,12 +18,13 @@ $(function () {
     $('#save_lnk').click(function () {
         weui.form.validate('.js__form', function (error) {
             if (!error) {
-                var loading = weui.loading('提交中...');
+                var loading = weui.loading('登录中...');
                 $.post(Wap._baseurl+'api/login/auth',Wap.formJson('.js__form'),function (data) {
                     loading.hide();
                     if(data.code == -1){
                         weui.alert(data.msg);
                         reflushCode();
+                        return;
                     }
                     setTimeout(function () {
                         location.href = Wap._homeUrl;
