@@ -5,15 +5,29 @@
 $(function () {
     // 用户界面
     function UserPageFn($body) {
-        var xhtml = '<div class="weui-grids">'
-            + '<a href="javascript:;" class="weui-grid">个人中心</a>'
+        // 已经存在时不再重复生成
+        if($body.find('.weui-grids').length > 0) return;
+        var xhtml = '';
+        xhtml += '<div class="page__hd"><h1 class="page__title">'+$('#curr_user_account').text()+'</h1><p class="page__desc">欢饮您的登录系统!</p></div>';
+        xhtml += '<div class="weui-flex aurora-border"></div>';
+        xhtml += '<div class="weui-grids">'
+            + '<a href="'+Wap._baseurl+'wap/user.html" class="weui-grid text-success"><i class="fa fa-user"></i> 个人中心</a>'
             + '<a href="javascript:;" class="weui-grid">财务管理</a>'
             + '<a href="javascript:;" class="weui-grid">家谱应用</a>'
             + '<a href="javascript:;" class="weui-grid">账户管理</a>'
             + '<a href="javascript:;" class="weui-grid">日志系统</a>'
             + '<a href="javascript:;" class="weui-grid">个人计划</a>'
+            + '<a href="javascript:;" id="user_page_grid" class="weui-grid text-info"><i class="fa fa-info-circle"></i> 关于系统</a>'
             +'</div>';
+        xhtml += '<div class="weui-flex aurora-border"></div>';
+        xhtml += '<div class="weui-cells"><a href="'+Wap._baseurl+'api/login/quit" class="weui-cell weui-cell_access""><div class="weui-cell__bd"><p>注销登录</p></div><div class="weui-cell__ft"></div></a></div>';
+
         $body.append(xhtml);
+        // 地址自动跳转
+        $('#user_page_grid').off('click').on('click',function () {
+            location.href = Wap._homeUrl+'#about';
+            tabPageCreate('about');
+        });
     }
     // 涂鸦
     var GraffitiIsLoadMK = false;
@@ -119,7 +133,8 @@ $(function () {
         tabPageCreate(url,dom);
         if(url == 'graffiti') GraffitiPageFn();
     });
-    GraffitiPageFn();
+    // 刚好是从涂鸦页面进去的话，获取数据列表
+    if(location.hash == '#graffiti') GraffitiPageFn();
     // 涂鸦弹出菜单
     $('#gft_menu_lnk').click(function () {
         weui.actionSheet([

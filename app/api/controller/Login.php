@@ -33,15 +33,22 @@ class Login extends Api
             }
         }
         if(empty($msg)){
-            $data = (new User())->field('uid,name,gender,account as user')->where('account',$account)->find()->toArray();
+            $userModel = new User();
+            $data = $userModel->field('uid,name,gender,account as user')->where('account',$account)->find()->toArray();
             Session::set(Config::get('setting.session_user_key'),$data);
             // 写入登记表
             $count = Db::table('sys_login')->where('uid',$data['uid'])->count();
+            $ip = request()->ip();
             Db::table('sys_login')->insert([
                 'uid' => $data['uid'],
-                'ip'  => request()->ip(),
+                'ip'  => $ip,
                 'count' => ($count? ($count)+1 : 1)
             ]);
+            // 更新最近登录的时间以及ip信息
+            $userModel->save([
+                'last_time' => date('Y-m-d H:i:s'),
+                'last_ip'         => $ip
+            ],['uid'=>$data['uid']]);
         }
         return $msg? ['code'=>-1,'msg'=>$msg]:['code'=>1,'msg'=>''];
     }
@@ -65,6 +72,7 @@ class Login extends Api
                     $this->redirect($this->getHomeUrl(true));
                 }
                 elseif($url) $this->redirect($url);
+                else $this->redirect($this->getRootUrl());
             }
             else $msg = $badMsg;
         }
@@ -76,5 +84,16 @@ class Login extends Api
             'code'=>($msg? -1: 1),
             'msg' => $msg? $msg:'认证成功！'
         ]);
+    }
+
+    /**
+     * 系统注销
+     */
+    public function quit(){
+        $key = Config::get('setting.session_user_key');
+        if(Session::has($key)){
+            Session::delete($key);
+        }
+        $this->getRootUrl(false);
     }
 }

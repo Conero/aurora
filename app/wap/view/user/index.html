@@ -1,0 +1,47 @@
+{include file="public/appm/tpl_header.html" /}
+<body xmlns="http://www.w3.org/1999/html">
+<div class="weui-tab container">
+    <div class="page__hd">
+        <h1 class="page__title">
+            <a href="{:urlBuild('!.');}#user">
+                <img src="/aurora/public/aurora-appm.png" alt="Aurora" height="50px">
+            </a>
+            个人中心
+        </h1>
+    </div>
+    <div class="weui-flex aurora-border"></div>
+    <div class="weui-panel" style="min-height: 450px;">
+        <div class="weui-form-preview">
+            <div class="weui-form-preview__hd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">账号</label>
+                    <em class="weui-form-preview__value">{$data.account}</em>
+                </div>
+            </div>
+            <div class="weui-form-preview__bd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">姓名</label>
+                    <span class="weui-form-preview__value">{$data.name}</span>
+                </div>
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">性别</label>
+                    <span class="weui-form-preview__value">{if condition="$data.gender eq 'M'"}<i class="fa fa-mars"></i> 男{else}<i class="fa fa-venus"></i> 女{/if}</span>
+                </div>
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">注册时间</label>
+                    <span class="weui-form-preview__value">{$data.register_time}</span>
+                </div>
+            </div>
+            <div class="weui-form-preview__ft">
+                <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">操作</a>
+            </div>
+        </div>
+    </div>
+    <div class="weui-flex aurora-border"></div>
+    <div class="weui-footer">
+        <p class="weui-footer__links">
+            <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
+        </p>
+        <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
+    </div>
+</div>

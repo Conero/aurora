@@ -24,11 +24,27 @@ trait Util
         header('Location: '.$url);
         die('程序执行异常!');
     }
+
+    /**
+     * 自动获取web/wap 的主页面
+     * @param bool $feekData
+     * @return bool|mixed|null|string
+     */
     protected function getHomeUrl($feekData=false){
         $url = (IS_MOBILE == 'Y')? urlBuild('!wap:'):urlBuild('!index:');
         if($feekData) return $url;
         header('Location: '.$url);
         die('程序执行异常!');
+    }
+
+    /**
+     * 获取根地址
+     * @return string
+     */
+    protected function getRootUrl($feekData=true){
+        $url = request()->root(true);
+        if(!$feekData) $this->redirect($url);
+        return $url;
     }
     // 删除空值
     protected function unEmptyArray($data){
@@ -106,7 +122,8 @@ trait Util
      */
     protected function checkAuth($auth=null,$callback=null){
         // 必须未登录用户
-        if(empty($auth) && getUserInfo('uid') == ''){
+        $uid = getUserInfo('uid');
+        if(empty($auth) && $uid == ''){
             if($callback instanceof \Closure) return call_user_func($callback,true);
             elseif ($callback) return true;
             $this->getErrorUrl('您该没有登录或注册，该功能将被限制使用!');
