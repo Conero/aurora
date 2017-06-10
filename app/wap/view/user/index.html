@@ -31,9 +31,17 @@
                     <label class="weui-form-preview__label">注册时间</label>
                     <span class="weui-form-preview__value">{$data.register_time}</span>
                 </div>
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">登录时间</label>
+                    <span class="weui-form-preview__value">{$data.last_time}</span>
+                </div>
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">登录ip</label>
+                    <span class="weui-form-preview__value">{$data.last_ip}</span>
+                </div>
             </div>
             <div class="weui-form-preview__ft">
-                <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">操作</a>
+                <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="{:url('user/edit')}">修改</a>
             </div>
         </div>
     </div>

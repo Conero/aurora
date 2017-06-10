@@ -1,0 +1,38 @@
+{include file="public/appm/tpl_header.html" /}
+<body xmlns="http://www.w3.org/1999/html">
+<div class="weui-tab container">
+    <div class="page__hd">
+        <h1 class="page__title">
+            <a href="{:urlBuild('!.');}#user">
+                <img src="/aurora/public/aurora-appm.png" alt="Aurora" height="50px">
+            </a>
+            财务系统
+        </h1>
+    </div>
+    <div class="weui-flex aurora-border"></div>
+    <div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href="{:urlBuild('!.faccount')}">
+            <div class="weui-cell__bd">
+                <p>财务账单</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="{:url('faccount/edit')}">
+            <div class="weui-cell__bd">
+                <p>记账</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+    </div>
+    <div class="weui-flex aurora-border"></div>
+    <div class="weui-footer">
+        <p class="weui-footer__links">
+            <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
+        </p>
+        <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
+    </div>
+</div>
+</body>
+</html>

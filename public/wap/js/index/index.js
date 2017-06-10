@@ -12,8 +12,8 @@ $(function () {
         xhtml += '<div class="weui-flex aurora-border"></div>';
         xhtml += '<div class="weui-grids">'
             + '<a href="'+Wap._baseurl+'wap/user.html" class="weui-grid text-success"><i class="fa fa-user"></i> 个人中心</a>'
-            + '<a href="javascript:;" class="weui-grid">财务管理</a>'
-            + '<a href="javascript:;" class="weui-grid">家谱应用</a>'
+            + '<a href="'+Wap._baseurl+'wap/finance.html" class="weui-grid" style="color: #a67f59;"><i class="fa fa-money"></i> 财务管理</a>'
+            + '<a href="javascript:;" class="weui-grid" style="color:#669900;"><i class="fa fa-tree"></i> 家谱应用</a>'
             + '<a href="javascript:;" class="weui-grid">账户管理</a>'
             + '<a href="javascript:;" class="weui-grid">日志系统</a>'
             + '<a href="javascript:;" class="weui-grid">个人计划</a>'

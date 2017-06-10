@@ -8,6 +8,7 @@
 
 namespace app\api\controller;
 use app\common\model\Token;
+use hyang\Net;
 use think\Session;
 use think\Config;
 use think\Db;
@@ -38,17 +39,12 @@ class Login extends Api
             Session::set(Config::get('setting.session_user_key'),$data);
             // 写入登记表
             $count = Db::table('sys_login')->where('uid',$data['uid'])->count();
-            $ip = request()->ip();
+            $ip = Net::getNetIp();
             Db::table('sys_login')->insert([
                 'uid' => $data['uid'],
                 'ip'  => $ip,
                 'count' => ($count? ($count)+1 : 1)
             ]);
-            // 更新最近登录的时间以及ip信息
-            $userModel->save([
-                'last_time' => date('Y-m-d H:i:s'),
-                'last_ip'         => $ip
-            ],['uid'=>$data['uid']]);
         }
         return $msg? ['code'=>-1,'msg'=>$msg]:['code'=>1,'msg'=>''];
     }

@@ -33,3 +33,27 @@ Wap.msg_success = function (msg,title,url) {
     if(url) jsondata.url = url;
     this.post(this._baseurl+'wap/msg/succs.html',jsondata);
 };
+/**
+ * weui from 表单检测
+ * @param dom
+ * @param type   C/W/S -> clear,warning,success
+ * @returns {boolean}
+ * @constructor
+ */
+Wap.WeuiFromCheck = function (dom,type) {
+    var cell = dom.parents('.weui-cell');
+    var cellFt = cell.find('.weui-cell__ft');
+    if(type == 'C'){
+        if(cellFt.length > 0){
+            cellFt.remove();
+            return true;
+        }
+        return false;
+    }
+    var xhtml = '';
+    if (type == 'W') {
+        xhtml = '<i class="fa fa-warning text-warning"></i>';
+    } else xhtml = '<i class="fa fa-check text-success"></i>';
+    if (cellFt.length > 0) cellFt.html(xhtml);
+    else cell.append('<div class="weui-cell__ft">' + xhtml + '</div>');
+};
