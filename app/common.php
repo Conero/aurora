@@ -572,9 +572,10 @@ function sysVisitInfo($UpdateCtt=true){
     if(!Session::has($skey)){
         $ctt = (Db::table('sys_visit')->count()) + 1;
         $isMobile = isMobile()? 'Y':'N';
+        $listId = null;
         // 不更新统计量，可用于开发者开发过滤统计或者反爬虫等
         if($UpdateCtt)
-            Db::table('sys_visit')->insert([
+            $listId = Db::table('sys_visit')->insertGetId([
                 'ip' => request()->ip(),
                 'is_mobile' => $isMobile,
                 'agent' => isset($_SERVER['HTTP_USER_AGENT'])? $_SERVER['HTTP_USER_AGENT']:'',
@@ -589,6 +590,7 @@ function sysVisitInfo($UpdateCtt=true){
 //                $SessionData['mcount'] = Db::table('sys_visit')->field(['count(*)'=>'ctt'])->where('is_mobile','Y')->value('ctt');
             $SessionData['mcount'] = Db::table('sys_visit')->where('is_mobile','Y')->count();
         }
+        if($listId) $SessionData['visit_uid'] = $listId;
         Session::set($skey,bsjson($SessionData));
         return $SessionData;
     }else{

@@ -7,7 +7,11 @@
  * Name: 项目系统基本公共函数
  */
 namespace app\common;
+use hyang\Location;
+use hyang\Net;
+use think\Config;
 use think\Db;
+use think\Session;
 
 class Aurora
 {
@@ -29,8 +33,47 @@ class Aurora
         }else
             return Db::table('sys_counter')->where('counter', $counter)->value('count_start');
     }
-    public function session_cache(){
-        $ip = request()->ip();
-        $CacheFile = hash($ip.rand(100000,999999));
+//    public function session_cache(){
+//        $ip = request()->ip();
+//        $CacheFile = hash($ip.rand(100000,999999));
+//    }
+
+    /**
+     * 访问 session 数据更新
+     * @param $key
+     * @param null $value
+     * @return bool|string|array
+     */
+    public static function visitSession($key=null,$value=null){
+        $skey = Config::get('setting.session_visit_key');
+        $isUpdate = false;
+        if(Session::has($skey)){
+            $data = bsjson(Session::get($skey));
+            if(empty($key)) return $data;
+            if($value){
+                $data[$key] = $value;
+                $isUpdate = true;
+            }
+            elseif (is_array($key)){
+                $data = array_merge($data,$key);
+                $isUpdate = true;
+            }
+            elseif ($key){
+                return isset($data[$key])? $data[$key]:'';
+            }
+            if($isUpdate) Session::set($skey,bsjson($data));
+        }
+        return $isUpdate;
+    }
+    /**
+     * 获取地址信息
+     * @return array|mixed
+     */
+    public static function location(){
+        $ip = Net::getNetIp();
+        Location::setIp($ip);
+        $data = Location::getLocation();
+        if(!is_array($data)) $data = [];
+        return $data;
     }
 }

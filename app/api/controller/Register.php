@@ -9,6 +9,7 @@
 namespace app\api\controller;
 use app\common\controller\Api;
 use app\common\model\User;
+use hyang\Net;
 use hyang\Util;
 class Register extends Api
 {
@@ -21,7 +22,7 @@ class Register extends Api
         }else{
             $data['certificate'] = md5($data['pswd']);
             $data = Util::dataUnset($data,['pswd','pswdck','code']);
-            $data['register_ip'] = request()->ip();
+            $data['register_ip'] = Net::getNetIp();
             if(!(new User($data))->save()) return ['code'=>-1,'msg'=>'数据失败！'];
         }
         return ['code'=>1,'msg'=>'数据保存成功!'];

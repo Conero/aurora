@@ -1,0 +1,82 @@
+{include file="public/appm/tpl_header.html" /}
+<body xmlns="http://www.w3.org/1999/html">
+<div class="weui-tab container">
+    <div class="weui-flex bg-faded aurora-edit-head">
+        <div class="weui-flex__item">
+            <div class="placeholder">
+                <a href="{:urlBuild('!.finance')}">
+                    <i class="fa fa-arrow-circle-left"></i>
+                    财务系统
+                </a>
+                /记账</div>
+        </div>
+    </div>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="" class="weui-label">日期</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="date" value="">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="" class="weui-label">事务甲方</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" value="">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="" class="weui-label">金额</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="number" value="">
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells__title weui-label">* 类型</div>
+    <div class="weui-cells">
+        <div class="weui-cell weui-cell_select">
+            <div class="weui-cell__bd">
+                <select class="weui-select" name="gender">
+                    <option value="M" selected>收入</option>
+                    <option value="F">支出</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="weui-flex aurora-border"></div>
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="" class="weui-label">事务已方</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" value="">
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells__title weui-label">* 描述</div>
+    <div class="weui-cell">
+        <div class="weui-cell__bd">
+            <textarea class="weui-textarea" placeholder="输入账单描述" rows="3"></textarea>
+            <div class="weui-textarea-counter"><span>0</span>/200</div>
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__bd">
+            <div class="weui-uploader">
+                <div class="weui-uploader__hd">
+                    <p class="weui-uploader__title">附件上传</p>
+                </div>
+                <div class="weui-uploader__bd">
+                    <ul class="weui-uploader__files" id="uploaderCustomFiles"></ul>
+                    <div class="weui-uploader__input-box">
+                        <input id="uploaderCustomInput" class="weui-uploader__input" name="attach" type="file" multiple="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="weui-flex aurora-border"></div>
+    <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="submit_lnk">确定</a>
+    </div>
+</div>
+</body>
+</html>

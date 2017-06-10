@@ -66,7 +66,7 @@ class Net{
         $saveFile = $path.'cookie_'.md5($url);
         if('delete' == $url){    // 清空目录
             Util::cleardir($path);
-            return;
+            return null;
         }
         if(is_file($saveFile)) $cookieString = file_get_contents($saveFile);
         else{
@@ -116,5 +116,17 @@ class Net{
             return true;
         }
         return false;
+    }
+
+    /**
+     * 获取网络地址中的ip，如果获取失败则获取当前的ip
+     * @return mixed
+     */
+    public static function getNetIp(){
+        $url = 'http://httpbin.org/ip';
+        self::get($url);
+        $data = self::toArray();
+        if(isset($data['origin'])) return $data['origin'];
+        return request()->ip();
     }
 }

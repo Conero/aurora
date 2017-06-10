@@ -9,6 +9,7 @@
 namespace app\api\controller;
 
 
+use app\common\Aurora;
 use app\common\controller\Api;
 use app\common\model\Loger;
 use hyang\Location;
@@ -91,5 +92,13 @@ class Visit extends Api
             ];
         }
         return json($retVal);
+    }
+    /**
+     * 获取访客的地址信息
+     * @return \think\response\Json
+     */
+    public function location(){
+        $data = Aurora::location();
+        return json($data);
     }
 }

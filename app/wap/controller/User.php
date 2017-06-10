@@ -9,6 +9,7 @@
 namespace app\wap\controller;
 
 
+use app\common\Aurora;
 use app\common\controller\Wap;
 use app\common\model\User as UserModel;
 
@@ -17,9 +18,33 @@ class User extends Wap
     // 首页
     public function index(){
         $this->checkAuth();
-        $use = new UserModel();
-        $data = $use->get($this->getUserInfo('uid'))->toArray();
+        $user = new UserModel();
+        $data = $user->getUserInfo();
         $this->assign('data',$data);
+        return $this->fetch();
+    }
+    // 新增信息编辑
+    public function edit(){
+        $this->loadScript([
+            'js' => 'user/edit'
+        ]);
+        $this->checkAuth();
+        $user = new UserModel();
+        $uid = getUserInfo('uid');
+        $data = $user->get($uid)->toArray();
+        $page = [];
+        $city = Aurora::visitSession('city');
+        if(empty($city)){
+            $location = Aurora::location();
+            if(empty($location['code'])){
+                $city = $location['data']['city'];
+                Aurora::visitSession('city',$city);
+            }
+        }
+        if(empty($data['city'])) $data['city'] = $city;
+        if($city) $page['city'] = $city;
+        $this->assign('data',$data);
+        $this->assign('page',$page);
         return $this->fetch();
     }
 }

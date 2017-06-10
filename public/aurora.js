@@ -165,12 +165,13 @@ function Aurora() {
                     saveData[key] = El.val();
                 }
                 // select
+                // wap 表单值获取报错，无此选择器 select option:selected zepto.js
                 var sels = el.find("select");
                 for(i=0; i<sels.length; i++){
                     El = $(sels[i]);
                     key = El.attr("name");
                     if(this.empty(key)) continue;
-                    saveData[key] = El.find('option:selected').val();
+                    saveData[key] = El.find('[selected]').val();
                 }
                 return saveData;
             }
@@ -836,5 +837,19 @@ var Base64 = {
         return string;
     }
 };
-
+// 数据验证器
+var Validate = {
+    isEmail: function (value) {
+        var reg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        return reg.test(value);
+    },
+    isPhone: function (value) {
+        var reg = /^1[0-9]{10}$/;
+        return reg.test(value);
+    },
+    isChinese: function (value) {
+        var reg = /^[\u2E80-\u9FFF]+$/;
+        return reg.test(value);
+    }
+};
 
