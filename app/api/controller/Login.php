@@ -20,9 +20,9 @@ class Login extends Api
     // 用户登录认证
     public function auth(){
         // 验证码自动验证
-        $account = request()->param('account');
-        $pswd = request()->param('pswd');
-        $code = request()->param('code');
+        $account = trim(request()->param('account'));
+        $pswd = trim(request()->param('pswd'));
+        $code = trim(request()->param('code'));
         $msg = '';
         if(!captcha_check($code)) $msg = '验证码无效';
         else{

@@ -27,10 +27,10 @@ $(function () {
                         return;
                     }
                     setTimeout(function () {
-                        location.href = Wap._homeUrl;
+                        location.href = Wap._homeUrl+'#user';
                     },3000);
                     weui.toast('登录成功',2000);
-
+                    weui.loading('页面跳转中...');
                 });
                 /*
                 setTimeout(function () {
