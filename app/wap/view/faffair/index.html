@@ -1,0 +1,90 @@
+{include file="public/appm/tpl_header.html" /}
+<body xmlns="http://www.w3.org/1999/html">
+<div class="weui-tab container">
+    <div class="page__hd">
+        <h1 class="page__title">
+            <a href="{:urlBuild('!.finance');}">
+                <img src="/aurora/public/aurora-appm.png" alt="Aurora" height="50px">
+            </a>
+            甲乙事务
+        </h1>
+    </div>
+    <div class="weui-flex aurora-border"></div>
+    <div class="weui-flex">
+        <div class="weui-flex__item"></div>
+        <div class="weui-flex__item" style="text-align: right;padding-right: 10px;">
+            <a href="{:url('faffair/edit')}">新增</a>
+        </div>
+    </div>
+    <div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>+ 2017-06-10 / 47685</p>
+            </div>
+            <div class="weui-cell__ft">共3条数据</div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>- 2017-06-11 / 100</p>
+            </div>
+            <div class="weui-cell__ft">共1条数据</div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>+ 2017-06-10 / 47685</p>
+            </div>
+            <div class="weui-cell__ft">共3条数据</div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>- 2017-06-11 / 100</p>
+            </div>
+            <div class="weui-cell__ft">共1条数据</div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>+ 2017-06-10 / 47685</p>
+            </div>
+            <div class="weui-cell__ft">共3条数据</div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>- 2017-06-11 / 100</p>
+            </div>
+            <div class="weui-cell__ft">共1条数据</div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>+ 2017-06-10 / 47685</p>
+            </div>
+            <div class="weui-cell__ft">共3条数据</div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>- 2017-06-11 / 100</p>
+            </div>
+            <div class="weui-cell__ft">共1条数据</div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>+ 2017-06-10 / 47685</p>
+            </div>
+            <div class="weui-cell__ft">共3条数据</div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>- 2017-06-11 / 100</p>
+            </div>
+            <div class="weui-cell__ft">共1条数据</div>
+        </a>
+    </div>
+    <div class="weui-flex aurora-border"></div>
+    <div class="weui-footer">
+        <p class="weui-footer__links">
+            <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
+        </p>
+        <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
+    </div>
+</div>
+</body>
+</html>

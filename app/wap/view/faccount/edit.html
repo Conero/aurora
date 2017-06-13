@@ -11,75 +11,108 @@
                 /记账</div>
         </div>
     </div>
-    <div class="weui-cells weui-cells_form">
-        <div class="weui-cell">
-            <div class="weui-cell__hd"><label for="" class="weui-label">日期</label></div>
-            <div class="weui-cell__bd">
-                <input class="weui-input" type="date" value="">
-            </div>
-        </div>
-        <div class="weui-cell">
-            <div class="weui-cell__hd"><label for="" class="weui-label">事务甲方</label></div>
-            <div class="weui-cell__bd">
-                <input class="weui-input" type="text" value="">
-            </div>
-        </div>
-        <div class="weui-cell">
-            <div class="weui-cell__hd"><label for="" class="weui-label">金额</label></div>
-            <div class="weui-cell__bd">
-                <input class="weui-input" type="number" value="">
-            </div>
-        </div>
-    </div>
-    <div class="weui-cells__title weui-label">* 类型</div>
-    <div class="weui-cells">
-        <div class="weui-cell weui-cell_select">
-            <div class="weui-cell__bd">
-                <select class="weui-select" name="gender">
-                    <option value="M" selected>收入</option>
-                    <option value="F">支出</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="weui-flex aurora-border"></div>
-    <div class="weui-cells">
-        <div class="weui-cell">
-            <div class="weui-cell__hd"><label for="" class="weui-label">事务已方</label></div>
-            <div class="weui-cell__bd">
-                <input class="weui-input" type="text" value="">
-            </div>
-        </div>
-        <div class="weui-cell">
-            <div class="weui-cell__hd"><label for="" class="weui-label">财务城市</label></div>
-            <div class="weui-cell__bd">
-                <input class="weui-input" type="text" value="">
-            </div>
-        </div>
-        <div class="weui-cell">
-            <div class="weui-cell__hd"><label for="" class="weui-label">详细地址</label></div>
-            <div class="weui-cell__bd">
-                <input class="weui-input" type="text" value="">
-            </div>
-        </div>
-    </div>
-    <div class="weui-cells__title weui-label">* 描述</div>
-    <div class="weui-cell">
-        <div class="weui-cell__bd">
-            <textarea class="weui-textarea" placeholder="输入账单描述" rows="3"></textarea>
-            <div class="weui-textarea-counter"><span>0</span>/200</div>
-        </div>
-    </div>
-    <div class="weui-cell">
-        <div class="weui-cell__bd">
-            <div class="weui-uploader">
-                <div class="weui-uploader__hd">
-                    <p class="weui-uploader__title">附件上传</p>
+    <div class="js__form">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="date_ipter" class="weui-label">日期</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="date" id="date_ipter" value="{$data.date|default=''}" emptytips="请设置账单日期" name="date" required>
                 </div>
-                <div class="weui-uploader__bd">
-                    <ul class="weui-uploader__files" id="uploaderCustomFiles"></ul>
-                    <div class="weui-uploader__input-box">
-                        <input id="uploaderCustomInput" class="weui-uploader__input" name="attach" type="file" multiple="">
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="master_ipter" class="weui-label">事务甲方</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="master_ipter" type="text" value="{$data.master|default=''}" name="master"  readonly emptytips="请设置事务甲方"   required>
+                    <input type="hidden" id="masterid_ipter" name="master_id" value="{$data.master_id|default=''}">
+                </div>
+                <div class="weui-cell__ft">
+                    <button class="weui-vcode-btn">设置</button>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="money_ipter" class="weui-label">金额</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" name="money" value="{$data.money|default=''}" emptytips="请设置金额"  id="money_ipter" required>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells__title weui-label">* 科目</div>
+        <div class="weui-cells">
+            <div class="weui-cell weui-cell_select">
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="subject" id="subject_ipter" emptytips="请设置科目"  required>
+                        <option selected>买卖</option>
+                        <option>借贷</option>
+                        <option>转账</option>
+                        <option>银行存取</option>
+                        <option>赠收</option>
+                        <option>其他</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells__title weui-label">* 类型</div>
+        <div class="weui-cells">
+            <div class="weui-cell weui-cell_select">
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="type" id="type_ipter" required>
+                        <option value="IN" selected>收入</option>
+                        <option value="OU">支出</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                <label class="weui-label">标签</label>
+            </div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" name="tag_id" id="tagid_ipter">
+            </div>
+            <div class="weui-cell__ft">
+                <button class="weui-vcode-btn">设置</button>
+            </div>
+        </div>
+        <div class="weui-flex aurora-border"></div>
+        <div class="weui-cells">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="slave_ipter" class="weui-label">事务乙方</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="slave" id="slave_ipter" value="{$data.slave|default=''}">
+                    <input type="hidden" name="slave_id" id="slaveid_ipter" value="{$data.slave_id|default=''}">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="city_ipt" class="weui-label">财务城市</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" value="{$data.city|default=''}" name="city" id="city_ipt">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="address_ipter" class="weui-label">详细地址</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" value="{$data.address|default=''}" id="address_ipter">
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells__title weui-label">* 描述</div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <textarea class="weui-textarea" placeholder="输入账单描述" rows="3" name="descrip" id="descrip_ipter" emptytips="请设置描述" required>{$data.descrip|default=''}</textarea>
+                <div class="weui-textarea-counter"><span>0</span>/200</div>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__hd">
+                        <p class="weui-uploader__title">附件上传</p>
+                    </div>
+                    <div class="weui-uploader__bd">
+                        <ul class="weui-uploader__files" id="uploaderCustomFiles"></ul>
+                        <div class="weui-uploader__input-box">
+                            <input id="uploaderCustomInput" class="weui-uploader__input" name="attach" type="file" multiple="">
+                        </div>
                     </div>
                 </div>
             </div>

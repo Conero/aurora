@@ -1,0 +1,99 @@
+{include file="public/appm/tpl_header.html" /}
+<body xmlns="http://www.w3.org/1999/html">
+<div class="weui-tab container">
+    <div class="weui-flex bg-faded aurora-edit-head">
+        <div class="weui-flex__item">
+            <div class="placeholder">
+                <a href="{:urlBuild('!.faffair')}">
+                    <i class="fa fa-arrow-circle-left"></i>
+                    事务甲乙
+                </a>
+                /编辑</div>
+        </div>
+    </div>
+    <div class="js__form">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="name_ipter" class="weui-label">事务名称</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="name_ipter" type="text" value="{$data.name|default=''}" name="name"  emptytips="请设置事务名称"   required>
+                </div>
+            </div>
+            <div class="weui-cells__title weui-label">* 类型</div>
+            <div class="weui-cells">
+                <div class="weui-cell weui-cell_select">
+                    <div class="weui-cell__bd">
+                        <select class="weui-select" name="type" id="type_ipter" required>
+                            <option value="M0" selected>事务甲方</option>
+                            <option value="S0">事务乙方</option>
+                            <option value="00">未区分</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="code_ipter" class="weui-label">事务编号</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="code" value="{$data.code|default=''}" id="code_ipter">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="command_ipter" class="weui-label">保密口令</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="command" value="{$data.command|default=''}" id="command_ipter">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="groupmk_ipter" class="weui-label">分组标识</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="group_mk" value="{$data.group_mk|default=''}" id="groupmk_ipter">
+                </div>
+            </div>
+        </div>
+        <div class="weui-flex aurora-border"></div>
+        <div class="weui-cells">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="startuse_ipter" class="weui-label">使用起始日期</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="date" name="start_use" value="{$data.start_use|default=''}" id="startuse_ipter">
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_switch">
+                <div class="weui-cell__bd">启用</div>
+                <div class="weui-cell__ft">
+                    <label for="usemk_ipter" class="weui-switch-cp">
+                        <input id="usemk_ipter" class="weui-switch-cp__input" name="use_mk" value="Y" type="checkbox" checked="checked">
+                        <div class="weui-switch-cp__box"></div>
+                    </label>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="address_ipter" class="weui-label">详细地址</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" value="{$data.address|default=''}" id="address_ipter">
+                </div>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__hd">
+                        <p class="weui-uploader__title">附件上传</p>
+                    </div>
+                    <div class="weui-uploader__bd">
+                        <ul class="weui-uploader__files" id="uploaderCustomFiles"></ul>
+                        <div class="weui-uploader__input-box">
+                            <input id="uploaderCustomInput" class="weui-uploader__input" name="attach" type="file" multiple="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="weui-flex aurora-border"></div>
+    <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="submit_lnk">确定</a>
+    </div>
+</div>
+</body>
+</html>
