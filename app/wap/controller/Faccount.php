@@ -9,6 +9,7 @@
 namespace app\wap\controller;
 
 
+use app\common\Aurora;
 use app\common\controller\Wap;
 
 class Faccount extends Wap
@@ -19,6 +20,20 @@ class Faccount extends Wap
     }
     // 记账
     public function edit(){
+        $this->loadScript([
+            'js' => 'faccount/edit'
+        ]);
+        $data = ['date'=>date('Y-m-d')];
+        $city = Aurora::visitSession('city');
+        if(empty($city)){
+            $location = Aurora::location();
+            if(empty($location['code'])){
+                $city = $location['data']['city'];
+                Aurora::visitSession('city',$city);
+            }
+        }
+        if(empty($data['city'])) $data['city'] = $city;
+        $this->assign('data',$data);
         return $this->fetch();
     }
 }
