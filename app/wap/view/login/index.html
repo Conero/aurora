@@ -9,6 +9,7 @@
                  用户登录
             </h1>
         </div>
+        <div class="weui-flex aurora-border"></div>
         <div class="js__form">
             <div class="weui-cells__title">登录用户</div>
             <div class="weui-cells weui-cells_form">
@@ -25,22 +26,22 @@
                     </div>
                 </div>
             </div>
-            <div class="weui-cells weui-cells_form">
-                <div class="weui-cell">
-                    <div class="weui-cell__bd">
-                    </div>
-                    <div class="weui-cell__ft">
-                        <a href="javascript:;" id="recode_lnk"><img class="weui-vcode-img" src="{:captcha_src()}" /></a>
-                    </div>
+            <div class="weui-flex aurora-border"></div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
                 </div>
-                <div class="weui-cell weui-cell_vcode">
-                    <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
-                    <div class="weui-cell__bd">
-                        <input class="weui-input" name="code" type="text" required emptyTips="请输入密码" placeholder="请输入验证码"/>
-                    </div>
+                <div class="weui-cell__ft">
+                    <a href="javascript:;" id="recode_lnk"><img class="weui-vcode-img" src="{:captcha_src()}" /></a>
                 </div>
             </div>
-            <div class="weui-btn-area">
+            <div class="weui-cell weui-cell_vcode">
+                <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="code" type="text" required emptyTips="请输入密码" placeholder="请输入验证码"/>
+                </div>
+            </div>
+            <div class="weui-flex aurora-border"></div>
+            <div class="weui-btn-area" style="margin-top: 100px;">
                 <a class="weui-btn weui-btn_primary" href="javascript:" id="save_lnk">登录</a>
             </div>
         </div>
