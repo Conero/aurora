@@ -16,6 +16,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label for="name_ipter" class="weui-label">事务名称</label></div>
                 <div class="weui-cell__bd">
+                    {$pk_form|default=""}
                     <input class="weui-input" id="name_ipter" type="text" value="{$data.name|default=''}" name="name"  emptytips="请设置事务名称"   required>
                 </div>
             </div>
@@ -73,7 +74,15 @@
                     <input class="weui-input" type="text" value="{$data.address|default=''}" id="address_ipter">
                 </div>
             </div>
+            <div class="weui-flex aurora-border"></div>
+            <div class="weui-cells__title">备注</div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea" name="remark" id="remark_ipter" placeholder="输入备注内容" rows="2">{$data.remark|default=""}</textarea>
+                </div>
+            </div>
         </div>
+        <div class="weui-flex aurora-border"></div>
         <div class="weui-cell">
             <div class="weui-cell__bd">
                 <div class="weui-uploader">
