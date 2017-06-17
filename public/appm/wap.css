@@ -227,7 +227,10 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
     /*background-color: #E9E9E0;*/
     min-height: 8px;
 }
-
+/*移动端隐藏模块*/
+.aurora-hidden{
+  display: none;
+}
 /****************************************
   自定义手机端 end
 *****************************************/

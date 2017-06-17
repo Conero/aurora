@@ -81,6 +81,27 @@ class Bootstrap{
         }
         return $selectXhtml;
     }
+
+    /**
+     * 生成 radio 控件
+     * @param $option array|string
+     * @param null $checked
+     * @return string
+     */
+    public static function RadioGrid($option,$checked=null){
+        $attr = is_string($option)? $option:'';
+        if(empty($attr)) {
+            $attrArr = [];
+            foreach ($option as $k => $v) {
+                $attrArr[] = $k . ($v ? '="' . $v . '"' : '');
+            }
+            $attr = ($attrArr? ' '.implode(' ',$attr):'');
+        }
+        if($checked) $attr .= ' checked';
+        if($attr) $attr = ' '.$attr;
+        $xhtml = '<input type="radio"'.$attr.'>';
+        return $xhtml;
+    }
     /**
      * 主键控件自动生成 2017年5月21日 星期日
      * @param null $data 数据 默认获取 param()
