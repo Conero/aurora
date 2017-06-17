@@ -25,9 +25,7 @@
                 <div class="weui-cell weui-cell_select">
                     <div class="weui-cell__bd">
                         <select class="weui-select" name="type" id="type_ipter" required>
-                            <option value="M0" selected>事务甲方</option>
-                            <option value="S0">事务乙方</option>
-                            <option value="00">未区分</option>
+                            {$page.typeSel}
                         </select>
                     </div>
                 </div>
@@ -49,6 +47,11 @@
                 <div class="weui-cell__bd">
                     <input class="weui-input" type="text" name="group_mk" value="{$data.group_mk|default=''}" id="groupmk_ipter">
                 </div>
+                {if condition="isset($page.group_sel_able) && $page.group_sel_able eq 'Y'"}
+                <div class="weui-cell__ft">
+                    <button class="weui-vcode-btn" id="groupMk_sel">选择</button>
+                </div>
+                {/if}
             </div>
         </div>
         <div class="weui-flex aurora-border"></div>
@@ -60,10 +63,10 @@
                 </div>
             </div>
             <div class="weui-cell weui-cell_switch">
-                <div class="weui-cell__bd">启用</div>
+                <div class="weui-cell__bd">禁用</div>
                 <div class="weui-cell__ft">
                     <label for="usemk_ipter" class="weui-switch-cp">
-                        <input id="usemk_ipter" class="weui-switch-cp__input" name="use_mk" value="Y" type="checkbox" checked="checked">
+                        {$page.use_mk}
                         <div class="weui-switch-cp__box"></div>
                     </label>
                 </div>
@@ -71,7 +74,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label for="address_ipter" class="weui-label">详细地址</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="text" value="{$data.address|default=''}" id="address_ipter">
+                    <input class="weui-input" type="text" name="address" value="{$data.address|default=''}" id="address_ipter">
                 </div>
             </div>
             <div class="weui-flex aurora-border"></div>

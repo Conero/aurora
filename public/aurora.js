@@ -149,9 +149,10 @@ function Aurora() {
                 var El,key,i=0;
                 for(i=0; i<ipts.length; i++){
                     El = $(ipts[i]);
-                    if(El.attr('disabled')) continue; // 忽略禁用元素
-                    if(El.attr('type') == 'checkbox' && !El.is(':checked')) continue;// 忽略未被选中的复选框
-                    if(El.attr('type') == 'radio' && !El.is(':checked')) continue;// 忽略未被选中的单选框
+                    if(El.attr('type') == 'file') continue; // 文件控件不获取
+                    else if(El.attr('disabled')) continue; // 忽略禁用元素
+                    else if(El.attr('type') == 'checkbox' && !El.is(':checked')) continue;// 忽略未被选中的复选框
+                    else if(El.attr('type') == 'radio' && !El.is(':checked')) continue;// 忽略未被选中的单选框
                     key = El.attr("name");
                     if(this.empty(key)) continue;
                     saveData[key] = El.val();
@@ -168,10 +169,17 @@ function Aurora() {
                 // wap 表单值获取报错，无此选择器 select option:selected zepto.js
                 var sels = el.find("select");
                 for(i=0; i<sels.length; i++){
-                    El = $(sels[i]);
+                    var tmpSelDoc = sels[i];
+                    El = $(tmpSelDoc);
                     key = El.attr("name");
-                    if(this.empty(key)) continue;
-                    saveData[key] = El.find('[selected]').val();
+                    if(key == "") continue;
+                    // bug 修复 - zepto.js
+                    try{
+                        saveData[key] = El.find('option:selected').val();
+                    }catch(e){
+                        var tmpSelectedIdx = tmpSelDoc.selectedIndex;
+                        saveData[key] = tmpSelDoc.options[tmpSelectedIdx].value;
+                    }
                 }
                 return saveData;
             }

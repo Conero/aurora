@@ -17,4 +17,22 @@ $(function () {
             }
         });
     });
+    // 分组可选
+    $('#groupMk_sel').click(function () {
+        var group = Wap.getJsVar('groups');
+        console.log(group);
+        var pickerOption = [];
+        for(var i=0; i<group.length; i++){
+            if(group[i]){
+                pickerOption.push({
+                    label:group[i]
+                });
+            }
+        }
+        weui.picker(pickerOption, {
+            onConfirm: function (result) {
+                $('#groupmk_ipter').val(result[0].label);
+            }
+        });
+    });
 });
