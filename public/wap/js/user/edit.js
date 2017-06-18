@@ -42,6 +42,7 @@ $(function () {
                 var loading = weui.loading('数据保存中...');
                 Wap.ApiRequest('user/save', Wap.formJson('.js__form'), function (data) {
                     loading.hide();
+                    weui.toast(data.msg);
                 });
             }
         });

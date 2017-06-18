@@ -47,4 +47,20 @@ class User extends Wap
         $this->assign('page',$page);
         return $this->fetch();
     }
+    // 密码修改
+    public function password(){
+        $this->loadScript([
+            'title' => '修改密码 | 个人中心',
+            'js'    => ['user/password']
+        ]);
+        return $this->fetch();
+    }
+    // 头像
+    public function portrait(){
+        $this->loadScript([
+            'title' => '头像 | 个人中心',
+            'js'    => ['user/portrait']
+        ]);
+        return $this->fetch();
+    }
 }

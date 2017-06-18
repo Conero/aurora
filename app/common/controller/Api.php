@@ -45,6 +45,7 @@ class Api extends Controller
                 'code'=>($code? $code: -1),
                 'msg' => $msg
             ];
+            if($data['code'] === -1) $data['mtime'] = time();
         }
         return json($data);
     }
@@ -109,5 +110,15 @@ class Api extends Controller
             ]));
         }
         */
+    }
+    /**
+     * 接口必须为登陆用户
+     * @param null $uid
+     * @return bool|\think\response\Json
+     */
+    protected function needLoginNet(&$uid=null){
+        $uid = getUserInfo('uid');
+        if(empty($uid)) return $this->FeekMsg('您的请求无效，缺少必要参数(API只针对在线用户有效)。');
+        return false;
     }
 }

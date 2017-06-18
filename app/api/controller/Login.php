@@ -7,6 +7,7 @@
  */
 
 namespace app\api\controller;
+use app\common\Aurora;
 use app\common\model\Token;
 use hyang\Net;
 use think\Session;
@@ -24,18 +25,16 @@ class Login extends Api
         $pswd = trim(request()->param('pswd'));
         $code = trim(request()->param('code'));
         $msg = '';
+        $userModel = new User();
         if(!captcha_check($code)) $msg = '验证码无效';
         else{
-            $hasAccount = (new User())->AccountExist($account);
-            if(!$hasAccount) $msg = '账户不存在！';
+            if(!$userModel->AccountExist($account)) $msg = '账户不存在！';
             else{
-                $pswdCd = (new User())->where('account',$account)->value('certificate');
-                if(md5($pswd) != $pswdCd) $msg = '密码不正确！';
+                if(!Aurora::checkUserPassw($pswd,$userModel->getPassword())) $msg = '密码不正确！';
             }
         }
         if(empty($msg)){
-            $userModel = new User();
-            $data = $userModel->field('uid,name,gender,account as user')->where('account',$account)->find()->toArray();
+            $data = $userModel->field('uid,name,gender,account as user')->where('uid',$userModel->uid)->find()->toArray();
             Session::set(Config::get('setting.session_user_key'),$data);
             // 写入登记表
             $count = Db::table('sys_login')->where('uid',$data['uid'])->count();

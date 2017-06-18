@@ -9,6 +9,7 @@
 namespace app\api\controller;
 
 
+use app\common\Aurora;
 use app\common\controller\Api;
 use think\Request;
 use app\common\model\User as UserModel;
@@ -39,7 +40,29 @@ class User extends Api
      * 数据保存
      */
     public function save(){
-        list($data,$mode,$map) = $this->_getSaveData();
-        debugOut([$data,$mode,$map]);
+        $useCheck = $this->needLoginNet($uid);
+        if($useCheck) return $useCheck;
+        $data = request()->param();
+        //debugOut([$data,$uid]);
+        $model = new UserModel();
+        if($model->save($data,['uid'=>$uid])) return $this->FeekMsg('用户信息更新成功！',1);
+        return $this->FeekMsg('用户信息更新失败！');
+    }
+    // 密码修改
+    public function passw(){
+        $uid = getUserInfo('uid');
+        if(empty($uid)) return $this->FeekMsg('非法请求，参数无效!');
+        $oldPassw = request()->param('opassw');
+        $passw = request()->param('npassw');
+        $passw2 = request()->param('npassw_ck');
+        if($passw != $passw2) return $this->FeekMsg('密码前后不一致！');
+        $model = new UserModel();
+        if(!Aurora::checkUserPassw($oldPassw,$model->where('uid',$uid)->value('certificate'))) return $this->FeekMsg('原密码无效，密码更新失败!');
+        else{
+            if($model->save([
+                'certificate' => Aurora::checkUserPassw($passw)
+            ],['uid'=>$uid])) return $this->FeekMsg('密码更新成功!',1);
+            return $this->FeekMsg('密码更新失败!');
+        }
     }
 }

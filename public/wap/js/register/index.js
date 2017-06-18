@@ -3,8 +3,6 @@
  * 2017年5月7日 星期日
  */
 $(function () {
-   //alert(55);
-    //weui.alert(85);
     // 验证码刷新
     function reflushCode() {
         var img = $('#recode_lnk').find('img');
@@ -24,14 +22,14 @@ $(function () {
                 var text = "【"+account+"】无效，账号不符合要求！";
                 accountInvalid = true;
                 Wap.CellWarning(dom);
-                weui.alert(text);
+                weui.topTips(text);
                 return;
             }
             $.post(Wap._baseurl+'api/register/check',{value:account,type:'account'},function (data) {
                 if(data.code == -1){
                     accountInvalid = true;
                     Wap.CellWarning(dom);
-                    weui.alert(data.msg);
+                    weui.topTips(data.msg);
                 }
             });
         }
@@ -42,21 +40,34 @@ $(function () {
     $('#recode_lnk').click(function () {
         reflushCode();
     });
-    // 数据保存
+
+    // 表单保存
+    weui.form.checkIfBlur('.js__form');
     $('#submit_lnk').click(function () {
-        var sel = 'form';
-        var savedate = Wap.formJson(sel);
-        if(!Wap.IsRequired(sel)){
-            $.post(Wap._baseurl+'api/register/save',savedate,function (data) {
-                if(data.code == 1){
-                    alert(data.msg);
-                    location.href = Wap._homeUrl;
-                }
-                else weui.alert(data.msg);
-            });
-            //weui.alert("数据保存失败！");
-            reflushCode();
+        if(accountInvalid){
+            weui.topTips("请更换【"+$('#account_contrl').val()+"】账号，避免直接使用邮箱获取手机号（可在后期绑定）！");
             return false;
         }
+        weui.form.validate('.js__form', function (error) {
+            if (!error) {
+                var savedata = Wap.formJson('.js__form');
+                if(savedata.pswdck != savedata.pswd){
+                    weui.topTips("密码前后不一致");
+                    return false;
+                }
+                var loading = weui.loading('数据保存中...');                
+                $.post(Wap._baseurl+'api/register/save',savedata,function (data) {
+                    loading.hide();
+                    if(data.code == 1){
+                        alert(data.msg);
+                        location.href = Wap._homeUrl;
+                    }
+                    else{
+                        weui.topTips(data.msg);
+                        reflushCode();
+                    }
+                });
+            }
+        });
     });
 });

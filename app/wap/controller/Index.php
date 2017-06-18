@@ -32,7 +32,10 @@ class Index extends Wap
         $page['online_dt'] = $oldt;
 
         $user = $this->getUserInfo('user');
-        if($user) $page['user'] = $user;
+        if($user){
+            $page['user'] = $user;
+            $this->_JsVar('islogin','Y');
+        }
         $page['isLogin'] = $user? 'Y':'N';
         // 系统通知公告
         $prj2 = new Prj1002c();

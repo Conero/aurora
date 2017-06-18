@@ -11,6 +11,7 @@ namespace app\api\controller;
 
 use app\common\controller\Api;
 use app\common\model\Fnc0010c;
+use app\common\model\Fnc0020c;
 
 class Finance extends Api
 {
@@ -48,5 +49,15 @@ class Finance extends Api
             }
         }
         return $this->FeekMsg('请求参数无效!');
+    }
+    public function master_get(){
+        $check = $this->needLoginNet($uid);
+        if($check) return $check;
+        $fncx = new Fnc0020c();
+        $data = $fncx
+            ->where(['type'=>'M0','uid'=>$uid,'use_mk'=>'Y'])
+            ->field('listid as value,name as label')
+            ->select();
+        return $this->FeekMsg($data);
     }
 }

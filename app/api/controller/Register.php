@@ -7,6 +7,7 @@
  */
 
 namespace app\api\controller;
+use app\common\Aurora;
 use app\common\controller\Api;
 use app\common\model\User;
 use hyang\Net;
@@ -16,16 +17,20 @@ class Register extends Api
     // 数据保存
     public function save(){
         $data = request()->post();
-        if($data['pswd'] != $data['pswdck']) return ['code'=>-1,'msg'=>'密码前后不一致！'];
+        if($data['pswd'] != $data['pswdck']) return $this->FeekMsg('密码前后不一致');
         elseif (!captcha_check($data['code'])){
-            return ['code'=>-1,'msg'=>'验证码无效！'];
+            return $this->FeekMsg('验证码无效');
         }else{
-            $data['certificate'] = md5($data['pswd']);
+            $userModel = new User();
+            // 账号检测
+            if(empty($data['account']) || $userModel->AccountExist($data['account']))
+                return $this->FeekMsg('账号【'.$data['account'].'】无效，请重新设置');
+            $data['certificate'] = Aurora::checkUserPassw($data['pswd']);
             $data = Util::dataUnset($data,['pswd','pswdck','code']);
             $data['register_ip'] = Net::getNetIp();
-            if(!(new User($data))->save()) return ['code'=>-1,'msg'=>'数据失败！'];
+            if($userModel->save($data)) return $this->FeekMsg('数据保存成功',1);
+            return $this->FeekMsg('账号【'.$data['account'].'】注册失败了，十分遗憾');
         }
-        return ['code'=>1,'msg'=>'数据保存成功!'];
     }
     // 数据用户检测
     public function check(){

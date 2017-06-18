@@ -3,8 +3,14 @@
  * 首页-js
  */
 $(function () {
+    var isLogin = Wap.getJsVar('islogin');
     // 用户界面
     function UserPageFn($body) {
+        if(isLogin != 'Y'){
+            weui.topTips('您还没有登录系统！');
+            tabPageCreate('home');
+            return;
+        }
         // 已经存在时不再重复生成
         if($body.find('.weui-grids').length > 0) return;
         var xhtml = '';
