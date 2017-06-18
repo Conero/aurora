@@ -76,4 +76,18 @@ class Aurora
         if(!is_array($data)) $data = [];
         return $data;
     }
+    /**
+     * 密码验证方式
+     * @param $code string 明文
+     * @param null $decode 密文， 为空时为加密否则为密码验证
+     * @return boolean|string
+     */
+    public static function checkUserPassw($code,$decode=null){
+        if(empty($decode)){
+            return md5($code);
+        }elseif ($decode){
+            return (md5($code) == $decode);
+        }
+        return false;
+    }
 }

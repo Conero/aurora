@@ -9,25 +9,25 @@
             用户注册
         </h1>
     </div>
-    <form action="" method="post">
+    <div class="js__form">
         <div class="weui-cells__title">基本账号设置</div>
         <div class="weui-cells weui-cells_form">
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">账号</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" name="account" id="account_contrl" type="text" placeholder="包括数字、英文或下划线" required="required"/>
+                    <input class="weui-input" name="account" id="account_contrl" type="text" placeholder="包括数字、英文或下划线" emptytips="请设置【账号】" required="required"/>
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">设置密码</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" name="pswd" type="password" placeholder="设置密码" required="required"/>
+                    <input class="weui-input" name="pswd" type="password" emptytips="请设置【密码】" placeholder="设置密码" required="required"/>
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">确认密码</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" name="pswdck" type="password" placeholder="确认密码" required="required"/>
+                    <input class="weui-input" name="pswdck" type="password" emptytips="请设置【确认密码】" placeholder="确认密码" required="required"/>
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="text" name="name" placeholder="设置姓名" required="required"/>
+                    <input class="weui-input" type="text" name="name" emptytips="请设置【姓名】" placeholder="设置姓名" required="required"/>
                 </div>
             </div>
         </div>
@@ -73,14 +73,15 @@
         <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
             <div class="weui-cell__bd">
-                <input class="weui-input" name="code" type="text" placeholder="请输入验证码" required="required"/>
+                <input class="weui-input" name="code" type="text" emptytips="请设置【验证码】" placeholder="请输入验证码" required="required"/>
             </div>
         </div>
+        <div class="weui-flex aurora-border"></div>
         <div class="weui-btn-area">
             <!--<a class="weui-btn weui-btn_primary" href="javascript:" id="submit_lnk">注册</a>-->
-            <button class="weui-btn weui-btn_primary" href="javascript:" id="submit_lnk" type="submit">注册</button>
+            <a class="weui-btn weui-btn_primary" href="javascript:" id="submit_lnk" type="submit">注册</a>
         </div>
-    </form>
+    </div>
 </div>
 </body>
 </html>
