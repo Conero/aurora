@@ -11,6 +11,8 @@ namespace app\api\controller;
 
 use app\common\Aurora;
 use app\common\controller\Api;
+use app\common\SysFile;
+use think\Db;
 use think\Request;
 use app\common\model\User as UserModel;
 
@@ -64,5 +66,37 @@ class User extends Api
             ],['uid'=>$uid])) return $this->FeekMsg('密码更新成功!',1);
             return $this->FeekMsg('密码更新失败!');
         }
+    }
+
+    /**
+     * 头像上传
+     * @return bool|\think\response\Json
+     */
+    public function portrait(){
+        $useCheck = $this->needLoginNet($uid);
+        if($useCheck) return $useCheck;
+        $userMd = new UserModel();
+        $portrait = $userMd->where('uid',$uid)->value('portrait');
+        if($portrait){
+            $sysfile = Db::table('sys_file')
+                ->where('listid',$portrait)
+                ->find();
+            $pid = $sysfile['pid'];
+        }else $pid = null;
+        Db::startTrans();
+        $filesMd = new SysFile();
+        if($filesMd->save($pid)){
+            if($filesMd->fileId){
+                list($listId) = $filesMd->fileId;
+                if($userMd->save([
+                    'portrait' => $listId
+                ],['uid'=>$uid])){
+                    Db::commit();
+                    return $this->FeekMsg('头像设置成功！',1);
+                }
+            }
+        }
+        Db::rollback();
+        return $this->FeekMsg('头像设置失败！');
     }
 }

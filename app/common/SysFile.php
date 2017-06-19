@@ -23,6 +23,8 @@ class SysFile
     protected $basepath;
     protected $basedir; // 文件目录
     protected $registerEvents = []; // [key => callback   注册事件
+    public $goupId;         // 分组ID
+    public $fileId = [];    // 上传成功的文件id码
     public function __construct($file=null)
     {
         $this->file = $file? $file:$_FILES;
@@ -52,8 +54,9 @@ class SysFile
             // 出错时直接跳过
             if($v['error']) continue;
             $lisid = getPkValue(self::id_mk);
-            $path = $this->basepath.$lisid;
             $name = $v['name'];
+            $pathInfo = pathinfo($name);
+            $path = $this->basepath.$lisid.(isset($pathInfo['extension'])? '.'.$pathInfo['extension']:'');
             $value = [
                 'listid' => $lisid,
                 'name' => $name,
@@ -75,7 +78,10 @@ class SysFile
                 $value = call_user_func($this->registerEvents['beforeInsert'],$value,'SF');
             }
             if(Db::table('sys_file')->insert($value)) {
-                move_uploaded_file($v['tmp_name'], $this->basedir . $name);
+                $this->goupId = $pid;
+                array_push($this->fileId,$lisid);
+                if(!is_dir($this->basedir)) mkdir($this->basedir);
+                move_uploaded_file($v['tmp_name'],str_replace($this->basepath,'',$this->basedir).$path);
                 $success = true;
             }
         }
@@ -216,6 +222,8 @@ class SysFile
                     $data = call_user_func($this->registerEvents['beforeInsert'],$data,'SF');
                 }
                 Db::table('sys_file')->insert($data);
+                $this->goupId = $pid;
+                array_push($this->fileId,$data['listid']);
                 $checked = true;
             }
         }catch(Exception $e){
