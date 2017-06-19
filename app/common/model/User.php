@@ -62,6 +62,9 @@ class User extends Model
             ->order('mtime desc')
             ->find()
         );
+        if($data['portrait']){
+            //$data['portrait'] = '';
+        }
         // 登录统计数
         $data['login_count'] = Db::table('sys_login')
             ->where('uid',$uid)
