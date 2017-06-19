@@ -428,4 +428,19 @@ class Util{
         }
         return $data;
     }
+    /**
+     * 获取速记字符串
+     * @param int $bit
+     * @return string
+     */
+    public static function randStr($bit=6){
+        $rand = '';
+        $i = 1;
+        $ascii = array_merge(range(48,57),range(65,90),range(97,122));
+        while ($i<=$bit){
+            $rand .= chr($ascii[array_rand($ascii)]);
+            $i++;
+        }
+        return $rand;
+    }
 }

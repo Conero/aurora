@@ -30,7 +30,11 @@ class Login extends Api
         else{
             if(!$userModel->AccountExist($account)) $msg = '账户不存在！';
             else{
-                if(!Aurora::checkUserPassw($pswd,$userModel->getPassword())) $msg = '密码不正确！';
+                if(!Aurora::checkUserPassw(
+                    $pswd,
+                    $userModel->getPassword(),
+                    $userModel->where('uid',$userModel->uid)->value('salt')
+                )) $msg = '密码不正确！';
             }
         }
         if(empty($msg)){

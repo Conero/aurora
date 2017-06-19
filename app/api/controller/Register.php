@@ -25,7 +25,8 @@ class Register extends Api
             // 账号检测
             if(empty($data['account']) || $userModel->AccountExist($data['account']))
                 return $this->FeekMsg('账号【'.$data['account'].'】无效，请重新设置');
-            $data['certificate'] = Aurora::checkUserPassw($data['pswd']);
+            $data['salt'] = Util::randStr(10);
+            $data['certificate'] = Aurora::checkUserPassw($data['pswd'],null,$data['salt']);
             $data = Util::dataUnset($data,['pswd','pswdck','code']);
             $data['register_ip'] = Net::getNetIp();
             if($userModel->save($data)) return $this->FeekMsg('数据保存成功',1);
@@ -38,7 +39,7 @@ class Register extends Api
         $value = request()->param('value');
         switch ($type){
             case 'account': // 账号检测
-                if((new User())->AccountExist($value)) return ['code'=>-1,'msg'=>'【'.$value.'】已经存在！'];
+                if((new User())->AccountExist($value)) return $this->FeekMsg('【'.$value.'】已经存在');
                 break;
         }
     }

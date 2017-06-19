@@ -7,6 +7,7 @@
  * Name: 项目系统基本公共函数
  */
 namespace app\common;
+use app\common\model\User;
 use hyang\Location;
 use hyang\Net;
 use think\Config;
@@ -80,13 +81,32 @@ class Aurora
      * 密码验证方式
      * @param $code string 明文
      * @param null $decode 密文， 为空时为加密否则为密码验证
+     * @param null $salt 盐值， 用于crypt算法
      * @return boolean|string
      */
-    public static function checkUserPassw($code,$decode=null){
+    public static function checkUserPassw($code,$decode=null,$salt=null){
+        /*
+        // md5
         if(empty($decode)){
             return md5($code);
         }elseif ($decode){
             return (md5($code) == $decode);
+        }
+        */
+
+        // crypt
+        if(empty($salt)){
+            $uid = getUserInfo('uid');
+            if($uid){
+                $user = new User();
+                $salt = $user->where('uid',$uid)->value('salt');
+            }
+        }
+        $salt = $salt? $salt:'__aurora__';
+        if(empty($decode)){
+            return crypt($code,$salt);
+        }elseif ($decode){
+            return $decode == crypt($code,crypt($code,$salt));
         }
         return false;
     }
