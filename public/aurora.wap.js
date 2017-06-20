@@ -3,8 +3,11 @@
  * 移动端前端函数
  */
 var Wap = Aurora();
-// 首页
-Wap._homeUrl = Wap._baseurl+'wap.html';
+
+Wap._homeUrl = Wap._baseurl+'wap.html';     // 首页
+Wap._wapurl = Wap._baseurl + 'wap/';        //  wap 基础页面
+
+
 // 表单检测标红与清除
 Wap.CellWarning = function (dom,clear) {
     var cell = dom.parent('div.weui-cell');
@@ -56,4 +59,23 @@ Wap.WeuiFromCheck = function (dom,type) {
     } else xhtml = '<i class="fa fa-check text-success"></i>';
     if (cellFt.length > 0) cellFt.html(xhtml);
     else cell.append('<div class="weui-cell__ft">' + xhtml + '</div>');
+};
+/**
+ * 有滑动时返回，需要引入 zepto/touch.js
+ * @param url 调整地址  string/function
+ * @param callback 回调函数 function
+ */
+Wap.SwipeRightBack = function (url,callback) {
+    if(typeof url == 'function'){
+        callback = url;
+        url = null;
+    }
+    url = url? url:'finance.html';
+    // 右滑动时返回
+    $(document).swipeRight(function () {
+        if(typeof callback == 'function'){
+            if(!callback()) return;
+        }
+        location.href = Wap._wapurl + url;
+    });
 };

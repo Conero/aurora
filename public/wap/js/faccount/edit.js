@@ -2,6 +2,9 @@
  * Created by Administrator on 2017/6/13 0013.
  */
 $(function () {
+    // 右滑动时返回
+    Wap.SwipeRightBack();
+    
     var MastOpts = null;
     /**
      * 获取master 可选参数

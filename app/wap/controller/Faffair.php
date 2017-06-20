@@ -17,6 +17,10 @@ class Faffair extends Wap
 {
     public function index(){
         $this->checkAuth();
+        $this->loadScript([
+            'title' => '甲乙事务 | 财务管理',
+            'js'    => ['/lib/zepto/touch','faffair/index']
+        ]);
         $uid = $this->getUserInfo('uid');
         $fnc20 = new Fnc0020c();
         $data = $fnc20->where('uid',$uid)
@@ -43,7 +47,7 @@ class Faffair extends Wap
     public function edit(){
         $this->checkAuth();
         $this->loadScript([
-            'js' => 'faffair/edit'
+            'js' => ['/lib/zepto/touch','faffair/edit']
         ]);
         $listid = request()->param('uid');
         $uid = $this->getUserInfo('uid');

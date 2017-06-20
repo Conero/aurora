@@ -2,6 +2,8 @@
  * Created by Administrator on 2017/6/13 0013.
  */
 $(function () {
+    // 右滑动时返回
+    Wap.SwipeRightBack('faffair.html');
     // 数据保存
     weui.form.checkIfBlur('.js__form');
     $('#submit_lnk').click(function () {
