@@ -16,12 +16,17 @@ class Faccount extends Wap
 {
     // 首页
     public function index(){
+        $this->loadScript([
+            'title' => '财务账单',
+            'js'    => ['/lib/zepto/touch','faccount/index']
+        ]);
         return $this->fetch();
     }
     // 记账
     public function edit(){
         $this->loadScript([
-            'js' => 'faccount/edit'
+            'title' => '记账',
+            'js'    => ['/lib/zepto/touch','faccount/edit']
         ]);
         $data = ['date'=>date('Y-m-d')];
         $city = Aurora::visitSession('city');

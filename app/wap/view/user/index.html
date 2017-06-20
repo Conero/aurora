@@ -1,6 +1,11 @@
 {include file="public/appm/tpl_header.html" /}
 <body xmlns="http://www.w3.org/1999/html">
 <div class="weui-tab container">
+    {if condition="!empty($data.portrait)"}
+    <a href="{:urlBuild('!.');}#user" title="返回">
+        <img src="{$data.portrait}" style="max-width: 95%;padding-left: 10px;">
+    </a>
+    {else}
     <div class="page__hd">
         <h1 class="page__title">
             <a href="{:urlBuild('!.');}#user">
@@ -9,6 +14,7 @@
             个人中心
         </h1>
     </div>
+    {/if}
     <div class="weui-flex aurora-border"></div>
     <div class="weui-panel">
         <div class="weui-form-preview">

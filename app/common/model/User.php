@@ -8,6 +8,7 @@
  */
 namespace app\common\model;
 use hyang\Validate;
+use think\Config;
 use think\Db;
 use think\Model;
 
@@ -63,12 +64,31 @@ class User extends Model
             ->find()
         );
         if($data['portrait']){
-            //$data['portrait'] = '';
+            $data['portrait'] = $this->getPortrait($data['portrait'],true);
         }
         // 登录统计数
         $data['login_count'] = Db::table('sys_login')
             ->where('uid',$uid)
             ->count();
         return $data;
+    }
+
+    /**
+     * 获取头像
+     * @param null $uid
+     * @param bool $isPortraitId true 表示$uid 为获取到的 PortraitId 否则为 $uid
+     * @return string
+     */
+    public function getPortrait($uid=null,$isPortraitId=false){
+        $uid = $uid? $uid: getUserInfo('uid');
+        if(empty($uid)) return '';
+        $PortraitId = $isPortraitId? $uid: $this->db()->where('uid',$uid)->value('portrait');
+        if(empty($PortraitId)) return '';
+        $tmpData = Db::table('sys_file')
+            ->field('path as src')
+            ->where('listid',$PortraitId)
+            ->find()
+        ;
+        return Config::get('setting.url_pref') . 'source/'. $tmpData['src'];
     }
 }

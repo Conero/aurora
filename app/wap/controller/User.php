@@ -12,6 +12,7 @@ namespace app\wap\controller;
 use app\common\Aurora;
 use app\common\controller\Wap;
 use app\common\model\User as UserModel;
+use think\Config;
 
 class User extends Wap
 {
@@ -61,6 +62,11 @@ class User extends Wap
             'title' => '头像 | 个人中心',
             'js'    => ['user/portrait']
         ]);
+        $page = [];
+        $userMd = new UserModel();
+        $page['src'] = $userMd->getPortrait();
+        if(empty($page['src'])) $page['src'] = Config::get('setting.static_pref').'img/user_default.png';
+        $this->assign('page',$page);
         return $this->fetch();
     }
 }

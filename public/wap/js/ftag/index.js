@@ -2,14 +2,24 @@
  * Created by Administrator on 2017/6/17 0017.
  */
 $(function () {
-    // tag 滑动切换
-    $('.weui-tab__panel').swipe(function () {
-        var dom = $(this);
+    // 滑动特效
+    function panelSwipe(dom) {
         var id = dom.attr('id');
         dom.toggleClass('aurora-hidden');
         var targetId = '#' + (id == 'home'? 'edit':'home');
         $(targetId).toggleClass('aurora-hidden');
+    }
+    // 右滑动时返回
+    Wap.SwipeRightBack();
+    
+    var $panel = $('.weui-tab__panel');
+    // tag 滑动切换 -> 查看与新增
+    $panel.swipeLeft(function () {
+        panelSwipe($(this));
     });
+
+
+
     /**
      * 自动适应描点
      * @param hash
