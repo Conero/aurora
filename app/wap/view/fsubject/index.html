@@ -1,0 +1,59 @@
+{include file="public/appm/tpl_header.html" /}
+<body xmlns="http://www.w3.org/1999/html">
+<div class="weui-tab container">
+    <div class="page__hd">
+        <h1 class="page__title">
+            <a href="{:urlBuild('!.finance');}">
+                <img src="/aurora/public/aurora-appm.png" alt="Aurora" height="50px">
+            </a>
+            科目管理
+        </h1>
+    </div>
+    <div class="weui-flex aurora-border"></div>
+    <div class="weui-flex">
+        <div class="weui-flex__item"></div>
+        <div class="weui-flex__item" style="text-align: right;padding-right: 10px;">
+            <a href="#home" class="js__goto">查看</a>
+            <a href="#edit" class="js__goto">新增</a>
+        </div>
+    </div>
+    <div class="weui-tab">
+        <div class="weui-tab__panel" id="home">
+            <div class="weui-cells">
+                {$page.dataList|default=""}
+            </div>
+        </div>
+        <!--编辑页面-->
+        <div class="weui-tab__panel aurora-hidden" id="edit">
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label for="subject_ipter" class="weui-label">科目</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" id="subject_ipter" type="text" name="subject"  emptytips="请设置科目" required>
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_switch">
+                    <div class="weui-cell__bd">贡献给所有人使用</div>
+                    <div class="weui-cell__ft">
+                        <label for="prvtmk_ipter" class="weui-switch-cp">
+                            <input id="prvtmk_ipter" class="weui-switch-cp__input" name="private_mk" value="Y" type="checkbox" checked="checked">
+                            <div class="weui-switch-cp__box"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-flex aurora-border"></div>
+            <div class="weui-btn-area">
+                <a class="weui-btn weui-btn_primary" href="javascript:" id="edit_submit_lnk">保存</a>
+            </div>
+        </div>
+    </div>
+    <div class="weui-flex aurora-border"></div>
+    <div class="weui-footer">
+        <p class="weui-footer__links">
+            <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
+        </p>
+        <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
+    </div>
+</body>
+</html>

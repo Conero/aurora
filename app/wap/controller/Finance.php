@@ -14,6 +14,7 @@ use app\common\controller\Wap;
 class Finance extends Wap
 {
     public function index(){
+        $this->checkAuth();
         $this->loadScript([
             'title' => '财务系统'
         ]);

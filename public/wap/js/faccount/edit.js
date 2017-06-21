@@ -19,7 +19,7 @@ $(function () {
     // 事务设置
     $('#master_setter_btn').click(function () {
         if(!MastOpts) getMasterPickerOption();
-        console.log(MastOpts);
+        if(!MastOpts) return;
         weui.picker(MastOpts,{
             className: 'custom-classname',
             onConfirm: function (result) {
@@ -39,7 +39,7 @@ $(function () {
                         weui.alert(data.msg);
                         return null;
                     }
-                    Wap.msg_success(data.msg,'文章编辑');
+                    Wap.msg_success(data.msg,'财务系统.记账');
                 });
             }
         });

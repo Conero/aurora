@@ -22,7 +22,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label for="master_ipter" class="weui-label">事务甲方</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" id="master_ipter" type="text" value="{$data.master|default=''}" name="master"  readonly emptytips="请设置事务甲方"   required>
+                    <input class="weui-input" id="master_ipter" type="text" value="{$data.master|default=''}" readonly emptytips="请设置事务甲方"   required>
                     <input type="hidden" id="masterid_ipter" name="master_id" value="{$data.master_id|default=''}">
                 </div>
                 <div class="weui-cell__ft">
@@ -40,13 +40,8 @@
         <div class="weui-cells">
             <div class="weui-cell weui-cell_select">
                 <div class="weui-cell__bd">
-                    <select class="weui-select" name="subject" id="subject_ipter" emptytips="请设置科目"  required>
-                        <option selected>买卖</option>
-                        <option>借贷</option>
-                        <option>转账</option>
-                        <option>银行存取</option>
-                        <option>赠收</option>
-                        <option>其他</option>
+                    <select class="weui-select" name="subject_id" id="subject_ipter" emptytips="请设置科目"  required>
+                        {$data.subject_opts}
                     </select>
                 </div>
             </div>
