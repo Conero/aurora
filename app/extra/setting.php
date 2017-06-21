@@ -22,13 +22,18 @@ return [
     // 用于底部版权
     'organization' => 'Conero',    // 机构组织， 用于底部才菜单
     'start'         => '2014',    // 起始时间
-    'version'       => '0.2.6',          // 版本号
-    'build'         => '20170620',       // 更新时间
+    'version'       => '0.2.7',          // 版本号
+    'build'         => '20170621',       // 更新时间
     'online_date'   => '2017-05-05',                  // 上线时间
+    'beian_no'      => '黔ICP备17005631号',            // 备案号
 
     // 发布版相关设置
     'p_wapurl' => 'http://www.conero.cn/aurora/wap.html',
     'p_baseurl'=> 'http://www.conero.cn/aurora/',           // 请求主地址
+
+    // 财务系统设置
+    'fnc_master_init' => 'Y',       // 财务系统是否自动生成事务甲方： 现金
+
     // 插件
     // 手机端文章分享
     'wap_thisjia'=>'<div class="jiathis_style_m"></div><script type="text/javascript" src="http://v3.jiathis.com/code/jiathis_m.js" charset="utf-8"></script>',  // 手机端文章分享

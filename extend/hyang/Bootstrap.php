@@ -67,13 +67,14 @@ class Bootstrap{
 
     /**
      * 生成 select 控件
-     * @param array $config
+     * @param array|callable $config
      * @param null $selected
      * @return string
      */
     public static function SelectGrid($config,$selected=null){
-        $option = isset($config['option'])? $config['option']:$config;
-        if($option instanceof \Closure) $option = call_user_func($option);
+        if($config instanceof \Closure) $option = call_user_func($config);
+        else
+            $option = isset($config['option'])? $config['option']:$config;
         $option = is_array($option)? $option:[];
         $selectXhtml = '';
         foreach ($option as $k=>$v){
