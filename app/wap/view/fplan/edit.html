@@ -1,0 +1,87 @@
+{include file="public/appm/tpl_header.html" /}
+<body xmlns="http://www.w3.org/1999/html">
+<div class="weui-tab container">
+    <div class="weui-flex bg-faded aurora-edit-head">
+        <div class="weui-flex__item">
+            <div class="placeholder">
+                <a href="{:urlBuild('!.fplan')}">
+                    <i class="fa fa-arrow-circle-left"></i>
+                    财务计划
+                </a>
+                /编辑</div>
+        </div>
+    </div>
+    <div class="js__form">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="plan_ipter" class="weui-label">计划</label></div>
+                <div class="weui-cell__bd">
+                    {$f_pk_grid|default=""}
+                    <input class="weui-input" type="text" id="plan_ipter" value="{$data.plan|default=''}" emptytips="请设置计划名称" name="plan" required>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="pref_pid_ipter" class="weui-label">纪事关联</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="pref_pid_ipter" type="text" value="">
+                    <input type="hidden" id="pid_ipter" name="pid" value="">
+                </div>
+                <div class="weui-cell__ft">
+                    <button class="weui-vcode-btn" id="master_setter_btn">设置</button>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="sdate_ipter" class="weui-label">起始日期</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="date" id="sdate_ipter" name="start_date" value="{$data.start_date|default=''}">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="edate_ipter" class="weui-label">截止日期</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="date" id="edate_ipter" name="end_date" value="{$data.end_date|default=''}">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="sdmoney_ipter" class="weui-label">标准金额</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" id="sdmoney_ipter" value="{$data.standard_money|default=''}" name="standard_money">
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_switch">
+                <div class="weui-cell__bd">关闭计划</div>
+                <div class="weui-cell__ft">
+                    <label for="endmk_ipter" class="weui-switch-cp">
+                        <input id="endmk_ipter" class="weui-switch-cp__input" name="end_mk" value="Y" type="checkbox">
+                        <div class="weui-switch-cp__box"></div>
+                    </label>
+                </div>
+            </div>
+            <div class="weui-flex aurora-border"></div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="cycle_ipter" class="weui-label">周期</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" id="cycle_ipter" value="{$data.cycle|default=''}" name="cycle">
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd">
+                    <label for="cycle_unit_ipter" class="weui-label">周期类型</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="cycle_unit" id="cycle_unit_ipter">
+                        <option selected="" value="D">天</option>
+                        <option value="M" selected>月</option>
+                        <option value="Y">年</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="weui-flex aurora-border"></div>
+    <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="submit_lnk">确定</a>
+    </div>
+</div>
+</body>
+</html>

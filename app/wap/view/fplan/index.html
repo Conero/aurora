@@ -1,0 +1,28 @@
+{include file="public/appm/tpl_header.html" /}
+<body xmlns="http://www.w3.org/1999/html">
+<div class="weui-tab container">
+    <div class="page__hd">
+        <h1 class="page__title">
+            <a href="{:urlBuild('!.finance');}">
+                <img src="/aurora/public/aurora-appm.png" alt="Aurora" height="50px">
+            </a>
+            财务计划
+        </h1>
+    </div>
+    <div class="weui-flex aurora-border"></div>
+    <div class="weui-flex">
+        <div class="weui-flex__item"></div>
+        <a href="{:url('fplan/edit')}" style="font-size: 1.23em;margin-right: 20px;"><i class="fa fa-plus"></i></a>
+    </div>
+    <div class="weui-cells" style="min-height: 420px;">
+        {$page.list}
+    </div>
+    <div class="weui-footer">
+        <p class="weui-footer__links">
+            <a href="javascript:void(0);" class="weui-footer__link">版本号: v{$Think.config.setting.version}({$Think.config.setting.build})</a>
+        </p>
+        <p class="weui-footer__text">Copyright &copy; {$Think.config.setting.start}-{:date('Y');} {$Think.config.setting.organization}</p>
+    </div>
+</div>
+</body>
+</html>
